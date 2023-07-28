@@ -1,10 +1,12 @@
+import 'package:apple_music_clone/utils/config.dart';
 import 'dart:developer';
 import 'package:dio/dio.dart';
 
+
 class AuthHelper {
   static const String _tokenUrl = 'https://accounts.spotify.com/api/token';
-  static const String _clientId = '';
-  static const String _clientSecret = '';
+  static const String _clientId = clientId;
+  static const String _clientSecret = clientSecret;
 
   final Dio _dio = Dio();
   String? _accessToken;
