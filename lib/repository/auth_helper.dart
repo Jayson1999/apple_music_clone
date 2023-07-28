@@ -32,7 +32,7 @@ class AuthHelper {
       );
 
       if (response.statusCode != 200) {
-        throw Exception(response);
+        throw Exception('$response');
       }
 
       _accessToken = response.data['access_token'];
