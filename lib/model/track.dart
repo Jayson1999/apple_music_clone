@@ -15,6 +15,9 @@ class Track {
   Track(this.id, this.name, this.type, this.durationInMs, this.popularity, this.trackNumber, this.album, this.artists);
 
   factory Track.fromMap(Map<String, dynamic> respData) {
+    List<Artist> artists = (respData['artists'] as List?)?.map((artistMap) => Artist.fromMap(artistMap)).toList() ?? [];
+    Album album = Album.fromMap(respData['album']);
+
     return Track(
       respData['id'] ?? '',
       respData['name'] ?? '',
@@ -22,8 +25,8 @@ class Track {
       respData['duration_ms'] ?? 0,
       respData['popularity'] ?? 0,
       respData['track_number'] ?? 0,
-      respData['album'].map((albumMap) => Album.fromMap(albumMap)),
-      respData['artists'].map((artistMap) => Artist.fromMap(artistMap)).toList()
+      album,
+      artists,
     );
   }
 }
