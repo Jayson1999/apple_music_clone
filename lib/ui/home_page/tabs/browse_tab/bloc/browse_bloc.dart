@@ -1,5 +1,6 @@
 import 'package:apple_music_clone/model/album.dart';
 import 'package:apple_music_clone/repository/album_service.dart';
+import 'package:apple_music_clone/repository/api_helper.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 part 'browse_event.dart';
@@ -7,36 +8,20 @@ part 'browse_state.dart';
 
 
 class BrowseBloc extends Bloc<BrowseEvent, BrowseState> {
-  final AlbumService albumService; // Your AlbumService
-  // final ArtistService artistService; // Your ArtistService
+  final AlbumService _albumService = AlbumService(APIHelper());
 
-  BrowseBloc({
-    required this.albumService,
-    // required this.artistService
-  })
-      : super(BrowseLoading());
+  BrowseBloc(): super(const BrowseState()) {
+    on<GetLatestAlbums>(_mapGetLatestAlbumsEventToState);
+  }
 
-  @override
-  Stream<BrowseState> mapEventToState(BrowseEvent event) async* {
-    if (event is FetchAlbumsEvent) {
-      yield BrowseLoading();
-      try {
-        final List<Album> albums = await albumService.getAlbumsWithId();
-        yield BrowseLoaded(
-            albums: albums,
-            // artists: []
-        );
+  void _mapGetLatestAlbumsEventToState(GetLatestAlbums event, Emitter<BrowseState> emit) async {
+    emit(state.copyWith(status: BrowseStatus.loading));
+
+    try {
+        final List<Album> albums = await _albumService.getNewReleasesAlbum();
+        emit(state.copyWith(status: BrowseStatus.success, latestAlbums: albums));
       } catch (e) {
-        yield BrowseError('Failed to fetch albums');
+        emit(state.copyWith(status: BrowseStatus.error, errorMsg: '$e'));
       }
-    } else if (event is FetchArtistsEvent) {
-      yield BrowseLoading();
-      // try {
-        // final List<Artist> artists = await artistService.fetchArtists();
-      //   yield BrowseLoaded(albums: [], artists: artists);
-      // } catch (e) {
-      //   yield BrowseError('Failed to fetch artists');
-      // }
-    }
   }
 }

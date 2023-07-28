@@ -1,40 +1,38 @@
 part of 'browse_bloc.dart';
 
 
-abstract class BrowseState extends Equatable {
-  const BrowseState();
+enum BrowseStatus { initial, success, error, loading }
 
-  @override
-  List<Object?> get props => [];
+extension BrowseStatusX on BrowseStatus {
+  bool get isInitial => this == BrowseStatus.initial;
+  bool get isSuccess => this == BrowseStatus.success;
+  bool get isError => this == BrowseStatus.error;
+  bool get isLoading => this == BrowseStatus.loading;
 }
 
-class BrowseLoading extends BrowseState {
-  // State to indicate that data is being loaded
-}
+class BrowseState extends Equatable {
+  const BrowseState({
+    this.status = BrowseStatus.initial,
+    List<Album>? latestAlbums,
+    this.errorMsg = '',
+  }): latestAlbums = latestAlbums ?? const [];
 
-class BrowseLoaded extends BrowseState {
-  // State to indicate that data has been successfully loaded
-  final List<Album> albums; // Your Album model
-  // final List<Artist> artists; // Your Artist model
-
-  BrowseLoaded({
-    required this.albums,
-    // required this.artists
-  });
+  final BrowseStatus status;
+  final List<Album> latestAlbums;
+  final String errorMsg;
 
   @override
-  List<Object?> get props => [
-    albums,
-    // artists
-  ];
-}
+  List<Object?> get props => [status, latestAlbums, errorMsg];
 
-class BrowseError extends BrowseState {
-  // State to indicate that an error occurred while fetching data
-  final String errorMessage;
-
-  BrowseError(this.errorMessage);
-
-  @override
-  List<Object?> get props => [errorMessage];
+  BrowseState copyWith({
+    List<Album>? latestAlbums,
+    BrowseStatus? status,
+    String? errorMsg
+  }) {
+    return BrowseState(
+      latestAlbums: latestAlbums ?? this.latestAlbums,
+      status: status ?? this.status,
+      errorMsg: errorMsg ?? this.errorMsg
+    );
+  }
 }
