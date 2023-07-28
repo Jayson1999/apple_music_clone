@@ -11,6 +11,7 @@ class AlbumService {
 
   Future<List<Album>> getAlbumsWithId() async {
     try {
+      await _apiHelper.updateAuthorizationHeader();
       final response = await _apiHelper.dio.get(_subUrl);
       if (response.statusCode != 200){
         throw Exception('GetAlbumsWithId failed: $response');
