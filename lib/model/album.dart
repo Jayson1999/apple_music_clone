@@ -1,45 +1,36 @@
+import 'package:apple_music_clone/model/artist.dart';
+import 'package:apple_music_clone/model/track.dart';
+
+
 class Album {
-  String id;
-  String type;
-  AlbumAttributes attributes;
+  final String id;
+  final String name;
+  final String type;
+  final List<Track> tracks;
+  final List<Artist> artists;
+  final int totalTracks;
+  final String releaseDate;
+  final List<String> genre;
+  final String label;
+  final List<Map<String, dynamic>> images;
+  final List<Map<String, dynamic>> copyrights;
 
-  Album({
-    required this.id,
-    required this.type,
-    required this.attributes,
-  });
+  Album(this.id, this.name, this.type, this.tracks, this.artists, this.totalTracks, this.releaseDate, this.genre, this.label, this.images, this.copyrights);
 
-  factory Album.fromMap(Map<String, dynamic> map) {
+  factory Album.fromMap(Map<String, dynamic> respData) {
     return Album(
-      id: map['id'] ?? '',
-      type: map['type'] ?? '',
-      attributes: AlbumAttributes.fromMap(map['attributes'] ?? {}),
+      respData['id'] ?? '',
+      respData['name'] ?? '',
+      respData['type'] ?? '',
+      respData['tracks']['items'].map((trackMap) => Track.fromMap(trackMap)).toList(),
+      respData['artists'].map((artistMap) => Artist.fromMap(artistMap)).toList(),
+      respData['total_tracks'] ?? 0,
+      respData['release_date'] ?? '',
+      respData['genres'] ?? [],
+      respData['label'] ?? '',
+      respData['images'] ?? [],
+      respData['copyrights'] ?? [],
     );
   }
-}
 
-class AlbumAttributes {
-  String copyright;
-  List<String> genreNames;
-  String releaseDate;
-  String upc;
-  bool isMasteredForItunes;
-
-  AlbumAttributes({
-    required this.copyright,
-    required this.genreNames,
-    required this.releaseDate,
-    required this.upc,
-    required this.isMasteredForItunes,
-  });
-
-  factory AlbumAttributes.fromMap(Map<String, dynamic> map) {
-    return AlbumAttributes(
-      copyright: map['copyright'] ?? '',
-      genreNames: List<String>.from(map['genreNames'] ?? []),
-      releaseDate: map['releaseDate'] ?? '',
-      upc: map['upc'] ?? '',
-      isMasteredForItunes: map['isMasteredForItunes'] ?? false,
-    );
-  }
 }
