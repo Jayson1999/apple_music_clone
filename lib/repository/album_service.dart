@@ -5,8 +5,6 @@ import 'package:apple_music_clone/repository/api_helper.dart';
 
 class AlbumService {
   final APIHelper _apiHelper;
-  final String _browseSubUrl = '/browse/new-releases';
-  final String _albumSubUrl = '/albums';
 
   AlbumService(this._apiHelper);
 
@@ -15,7 +13,7 @@ class AlbumService {
 
     try {
       await _apiHelper.updateAuthorizationHeader();
-      final response = await _apiHelper.dio.get(_browseSubUrl, queryParameters: queryParams);
+      final response = await _apiHelper.dio.get(_apiHelper.newReleaseSubUrl, queryParameters: queryParams);
 
       if (response.statusCode != 200){
         throw Exception('$response');
@@ -36,13 +34,13 @@ class AlbumService {
 
     try {
       await _apiHelper.updateAuthorizationHeader();
-      final response = await _apiHelper.dio.get(_albumSubUrl, queryParameters: queryParams);
+      final response = await _apiHelper.dio.get(_apiHelper.albumSubUrl, queryParameters: queryParams);
 
       if (response.statusCode != 200){
         throw Exception('$response');
       }
 
-      List<Album> albumsFromResp = (response.data['albums']?['items'] as List?)?.map((albumMap) => Album.fromMap(albumMap)).toList() ?? [];
+      List<Album> albumsFromResp = (response.data['albums'] as List?)?.map((albumMap) => Album.fromMap(albumMap)).toList() ?? [];
       return albumsFromResp;
     }
     catch (error) {
