@@ -1,6 +1,7 @@
 import 'package:apple_music_clone/model/album.dart';
 import 'package:apple_music_clone/repository/album_service.dart';
 import 'package:apple_music_clone/repository/api_helper.dart';
+import 'package:apple_music_clone/utils/config.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 part 'browse_event.dart';
@@ -18,8 +19,9 @@ class BrowseBloc extends Bloc<BrowseEvent, BrowseState> {
     emit(state.copyWith(status: BrowseStatus.loading));
 
     try {
-        final List<Album> albums = await _albumService.getNewReleasesAlbum();
-        emit(state.copyWith(status: BrowseStatus.success, latestAlbums: albums));
+        final List<Album> globalAlbums = await _albumService.getNewReleasesAlbum();
+        final List<Album> localAlbums = await _albumService.getNewReleasesAlbum(region: localRegion);
+        emit(state.copyWith(status: BrowseStatus.success, latestGlobalAlbums: globalAlbums, latestLocalAlbums: localAlbums));
       } catch (e) {
         emit(state.copyWith(status: BrowseStatus.error, errorMsg: '$e'));
       }

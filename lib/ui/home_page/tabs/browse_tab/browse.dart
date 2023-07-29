@@ -2,6 +2,7 @@ import 'package:apple_music_clone/ui/home_page/tabs/browse_tab/bloc/browse_bloc.
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+
 class BrowseTab extends StatefulWidget {
   const BrowseTab({Key? key}) : super(key: key);
 
@@ -19,27 +20,46 @@ class _BrowseTabState extends State<BrowseTab> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocListener<BrowseBloc, BrowseState>(
-        listener: (context, state) {
-          // Add any additional logic here based on state changes
-        },
-        child: BlocBuilder<BrowseBloc, BrowseState>(
+      body: BlocBuilder<BrowseBloc, BrowseState>(
           builder: (context, state) {
             if (state.status.isLoading) {
               return const Center(
                 child: CircularProgressIndicator(),
               );
             } else if (state.status.isSuccess) {
-              // Display your browse content here
-              return ListView.builder(
-                itemCount: state.latestAlbums.length,
-                itemBuilder: (context, index) {
-                  final album = state.latestAlbums[index];
-                  return ListTile(
-                    title: Text(album.name),
-                    subtitle: Text(album.name),
-                  );
-                },
+              return Column(
+                children: [
+                  Text('GLOBAL'),
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.4,
+                    child: ListView.builder(
+                      itemCount: state.latestGlobalAlbums.length,
+                      itemBuilder: (context, index) {
+                        final album = state.latestGlobalAlbums[index];
+                        return ListTile(
+                          title: Text(album.name),
+                          subtitle: Text(album.name),
+                        );
+                      },
+                    ),
+                  ),
+
+                  SizedBox(height: 30,),
+                  Text('LOCAL'),
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.4,
+                    child: ListView.builder(
+                      itemCount: state.latestLocalAlbums.length,
+                      itemBuilder: (context, index) {
+                        final album = state.latestLocalAlbums[index];
+                        return ListTile(
+                          title: Text(album.name),
+                          subtitle: Text(album.name),
+                        );
+                      },
+                    ),
+                  ),
+                ],
               );
             } else if (state.status.isError) {
               return Center(
@@ -49,7 +69,6 @@ class _BrowseTabState extends State<BrowseTab> {
             return Text('$state');
           },
         ),
-      ),
     );
   }
 }

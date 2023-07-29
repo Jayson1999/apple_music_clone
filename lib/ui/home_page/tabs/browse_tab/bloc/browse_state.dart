@@ -13,24 +13,29 @@ extension BrowseStatusX on BrowseStatus {
 class BrowseState extends Equatable {
   const BrowseState({
     this.status = BrowseStatus.initial,
-    List<Album>? latestAlbums,
+    List<Album>? latestGlobalAlbums,
+    List<Album>? latestLocalAlbums,
     this.errorMsg = '',
-  }): latestAlbums = latestAlbums ?? const [];
+  }): latestGlobalAlbums = latestGlobalAlbums ?? const [],
+  latestLocalAlbums = latestLocalAlbums ?? const [];
 
   final BrowseStatus status;
-  final List<Album> latestAlbums;
+  final List<Album> latestGlobalAlbums;
+  final List<Album> latestLocalAlbums;
   final String errorMsg;
 
   @override
-  List<Object?> get props => [status, latestAlbums, errorMsg];
+  List<Object?> get props => [status, latestGlobalAlbums, latestLocalAlbums, errorMsg];
 
   BrowseState copyWith({
-    List<Album>? latestAlbums,
+    List<Album>? latestGlobalAlbums,
+    List<Album>? latestLocalAlbums,
     BrowseStatus? status,
     String? errorMsg
   }) {
     return BrowseState(
-      latestAlbums: latestAlbums ?? this.latestAlbums,
+      latestGlobalAlbums: latestGlobalAlbums ?? this.latestGlobalAlbums,
+      latestLocalAlbums: latestLocalAlbums ?? this.latestLocalAlbums,
       status: status ?? this.status,
       errorMsg: errorMsg ?? this.errorMsg
     );
