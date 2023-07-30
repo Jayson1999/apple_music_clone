@@ -15,29 +15,44 @@ class BrowseState extends Equatable {
     this.status = BrowseStatus.initial,
     List<Album>? latestGlobalAlbums,
     List<Album>? latestLocalAlbums,
+    List<Playlist>? featuredGlobalPlaylists,
+    List<Playlist>? featuredLocalPlaylists,
     this.errorMsg = '',
-  }): latestGlobalAlbums = latestGlobalAlbums ?? const [],
-  latestLocalAlbums = latestLocalAlbums ?? const [];
+  })  : latestGlobalAlbums = latestGlobalAlbums ?? const [],
+        latestLocalAlbums = latestLocalAlbums ?? const [],
+        featuredGlobalPlaylists = featuredGlobalPlaylists ?? const [],
+        featuredLocalPlaylists = featuredLocalPlaylists ?? const [];
 
   final BrowseStatus status;
   final List<Album> latestGlobalAlbums;
   final List<Album> latestLocalAlbums;
+  final List<Playlist> featuredGlobalPlaylists;
+  final List<Playlist> featuredLocalPlaylists;
   final String errorMsg;
 
   @override
-  List<Object?> get props => [status, latestGlobalAlbums, latestLocalAlbums, errorMsg];
+  List<Object?> get props => [
+        status,
+        latestGlobalAlbums,
+        latestLocalAlbums,
+        featuredGlobalPlaylists,
+        featuredLocalPlaylists,
+        errorMsg
+      ];
 
-  BrowseState copyWith({
-    List<Album>? latestGlobalAlbums,
-    List<Album>? latestLocalAlbums,
-    BrowseStatus? status,
-    String? errorMsg
-  }) {
+  BrowseState copyWith(
+      {List<Album>? latestGlobalAlbums,
+      List<Album>? latestLocalAlbums,
+      List<Playlist>? featuredGlobalPlaylists,
+      List<Playlist>? featuredLocalPlaylists,
+      BrowseStatus? status,
+      String? errorMsg}) {
     return BrowseState(
-      latestGlobalAlbums: latestGlobalAlbums ?? this.latestGlobalAlbums,
-      latestLocalAlbums: latestLocalAlbums ?? this.latestLocalAlbums,
-      status: status ?? this.status,
-      errorMsg: errorMsg ?? this.errorMsg
-    );
+        latestGlobalAlbums: latestGlobalAlbums ?? this.latestGlobalAlbums,
+        latestLocalAlbums: latestLocalAlbums ?? this.latestLocalAlbums,
+        featuredGlobalPlaylists: featuredGlobalPlaylists ?? this.featuredGlobalPlaylists,
+        featuredLocalPlaylists: featuredLocalPlaylists ?? this.featuredLocalPlaylists,
+        status: status ?? this.status,
+        errorMsg: errorMsg ?? this.errorMsg);
   }
 }
