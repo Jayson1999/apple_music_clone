@@ -11,13 +11,14 @@ class Artist {
 
   factory Artist.fromMap(Map<String, dynamic> respData) {
     List<ImageInfo> images = (respData['images'] as List?)?.map<ImageInfo>((imageMap) => ImageInfo.fromMap(imageMap)).toList() ?? [];
+    List<String> genres = (respData['genres'] as List?)?.cast<String>() ?? [];
 
     return Artist(
       respData['id'] ?? '',
       respData['name'] ?? '',
       respData['type'] ?? '',
       images,
-      respData['genres'] ?? [],
+      genres
     );
   }
 }
