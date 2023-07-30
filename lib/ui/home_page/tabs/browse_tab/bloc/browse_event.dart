@@ -7,3 +7,4 @@ class BrowseEvent extends Equatable {
 }
 
 class GetLatestAlbums extends BrowseEvent {}
+class GetFeaturedPlaylists extends BrowseEvent {}
