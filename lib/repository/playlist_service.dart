@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:apple_music_clone/model/category.dart';
 import 'package:apple_music_clone/model/playlist.dart';
 import 'package:apple_music_clone/repository/api_helper.dart';
 
@@ -63,6 +64,21 @@ class PlaylistService {
     catch (error, stack) {
       final String errorMsg = 'GetFeaturedPlaylistsWithMsg failed: $error\n$stack';
       log(errorMsg, error: 'ERROR', name: 'GetFeaturedPlaylistsWithMsg');
+      throw Exception(errorMsg);
+    }
+  }
+
+  Future<List<List<Playlist>>> getPlaylistsFromCategories(List<Category> categories) async {
+    try {
+      final List<String> categoriesIds = [for (Category category in categories) category.id];
+      final List<Future<List<Playlist>>> playlistsFuture = [for (String id in categoriesIds) getCategoryPlaylists(id)];
+      final List<List<Playlist>> playlists = await Future.wait(playlistsFuture);
+
+      return playlists;
+
+    } catch (error, stack) {
+      final String errorMsg = 'GetPlaylistsFromCategories failed: $error\n$stack';
+      log(errorMsg, error: 'ERROR', name: 'GetPlaylistsFromCategories');
       throw Exception(errorMsg);
     }
   }

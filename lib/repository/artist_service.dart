@@ -93,4 +93,18 @@ class ArtistService {
     }
   }
 
+  Future<List<Artist>> getArtistsFromAlbums(List<Album> albums) async {
+    try {
+      final List<String> artistsIds = [for (Album album in albums) for (Artist artist in album.artists) artist.id];
+      final List<Artist> artists = await getArtistsByIds(artistsIds);
+
+      return artists;
+
+    } catch (error, stack) {
+      final String errorMsg = 'GetArtistsFromAlbums failed: $error\n$stack';
+      log(errorMsg, error: 'ERROR', name: 'GetArtistsFromAlbums');
+      throw Exception(errorMsg);
+    }
+  }
+
 }
