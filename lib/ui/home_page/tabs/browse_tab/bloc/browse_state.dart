@@ -13,15 +13,12 @@ extension BrowseStatusX on BrowseStatus {
 class BrowseState extends Equatable {
   const BrowseState({
     this.status = BrowseStatus.initial,
-    List<Album>? latestGlobalAlbums,
-    List<Album>? latestLocalAlbums,
-    List<Playlist>? featuredGlobalPlaylists,
-    List<Playlist>? featuredLocalPlaylists,
+    this.latestGlobalAlbums = const [],
+    this.latestLocalAlbums = const [],
+    this.featuredGlobalPlaylists = const [],
+    this.featuredLocalPlaylists = const [],
     this.errorMsg = '',
-  })  : latestGlobalAlbums = latestGlobalAlbums ?? const [],
-        latestLocalAlbums = latestLocalAlbums ?? const [],
-        featuredGlobalPlaylists = featuredGlobalPlaylists ?? const [],
-        featuredLocalPlaylists = featuredLocalPlaylists ?? const [];
+  });
 
   final BrowseStatus status;
   final List<Album> latestGlobalAlbums;
