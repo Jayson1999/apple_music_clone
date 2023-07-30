@@ -10,6 +10,7 @@ import 'package:apple_music_clone/repository/playlist_service.dart';
 import 'package:apple_music_clone/utils/config.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 part 'browse_event.dart';
 part 'browse_state.dart';
 
@@ -30,6 +31,7 @@ class BrowseBloc extends Bloc<BrowseEvent, BrowseState> {
     on<GetLatestAlbumsArtists>(_mapGetLatestAlbumsArtistsEventToState);
     on<GetFeaturedPlaylists>(_mapGetFeaturedPlaylistsEventToState);
     on<GetCategoriesPlaylists>(_mapGetCategoriesPlaylistsEventToState);
+    on<GetUserSubscription>(_mapGetUserSubscriptionEventToState);
   }
 
   void _mapGetLatestAlbumsArtistsEventToState(GetLatestAlbumsArtists event, Emitter<BrowseState> emit) async {
@@ -90,6 +92,12 @@ class BrowseBloc extends Bloc<BrowseEvent, BrowseState> {
     } catch (e) {
       emit(state.copyWith(status: BrowseStatus.error, errorMsg: '$e'));
     }
+  }
+
+  void _mapGetUserSubscriptionEventToState(GetUserSubscription evet, Emitter<BrowseState> emit) async {
+    final SharedPreferences preferences = await SharedPreferences.getInstance();
+    int userSubscription = preferences.getInt('userSubscription') ?? 0;
+    emit(state.copyWith(status: BrowseStatus.success, userSubscription: userSubscription));
   }
 
 }
