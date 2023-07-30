@@ -9,10 +9,15 @@ class PlaylistService {
 
   PlaylistService(this._apiHelper);
 
-  Future<Playlist> getPlaylistById(String playlistId) async {
+  Future<Playlist> getPlaylistById(String playlistId, {String country = ''}) async {
+    Map<String, dynamic>? queryParams = country.isNotEmpty ? {'country': country} : null;
+
     try {
       await _apiHelper.updateAuthorizationHeader();
-      final response = await _apiHelper.dio.get('${_apiHelper.playlistsSubUrl}/$playlistId');
+      final response = await _apiHelper.dio.get(
+          '${_apiHelper.playlistsSubUrl}/$playlistId',
+          queryParameters: queryParams
+      );
 
       if (response.statusCode != 200){
         throw Exception('$response');
@@ -22,26 +27,32 @@ class PlaylistService {
       return playlistFromResp;
     }
     catch (error, stack) {
-      final String errorMsg = 'GetPlaylistById failed: $error\n$stack';
+      final String errorMsg = 'GetPlaylistById failed for playlist $playlistId: $error\n$stack';
       log(errorMsg, error: 'ERROR', name: 'GetPlaylistById');
       throw Exception(errorMsg);
     }
   }
 
-  Future<List<Playlist>> getCategoryPlaylists(String categoryId) async {
+  Future<List<Playlist>> getCategoryPlaylists(String categoryId, {String country = ''}) async {
+    Map<String, dynamic>? queryParams = country.isNotEmpty ? {'country': country} : null;
+
     try {
       await _apiHelper.updateAuthorizationHeader();
-      final response = await _apiHelper.dio.get('${_apiHelper.categoriesSubUrl}/$categoryId/playlists');
+      final response = await _apiHelper.dio.get(
+          '${_apiHelper.categoriesSubUrl}/$categoryId/playlists',
+          queryParameters: queryParams
+      );
 
       if (response.statusCode != 200){
         throw Exception('$response');
       }
 
-      List<Playlist> playlistsFromResp = (response.data['playlists']?['items'] as List?)?.map((playlistMap) => Playlist.fromMap(playlistMap)).toList() ?? [];
+      List<dynamic>? playlistData = response.data['playlists']?['items'] as List<dynamic>?;
+      List<Playlist> playlistsFromResp = (playlistData ?? []).whereType<Map<String, dynamic>>().map((playlistMap) => Playlist.fromMap(playlistMap)).toList();
       return playlistsFromResp;
     }
     catch (error, stack) {
-      final String errorMsg = 'GetCategoryPlaylists failed: $error\n$stack';
+      final String errorMsg = 'GetCategoryPlaylists failed for category $categoryId: $error\n$stack';
       log(errorMsg, error: 'ERROR', name: 'GetCategoryPlaylists');
       throw Exception(errorMsg);
     }
@@ -62,16 +73,16 @@ class PlaylistService {
       return playlistsFromResp;
     }
     catch (error, stack) {
-      final String errorMsg = 'GetFeaturedPlaylistsWithMsg failed: $error\n$stack';
-      log(errorMsg, error: 'ERROR', name: 'GetFeaturedPlaylistsWithMsg');
+      final String errorMsg = 'GetFeaturedPlaylists failed for country $country: $error\n$stack';
+      log(errorMsg, error: 'ERROR', name: 'GetFeaturedPlaylists');
       throw Exception(errorMsg);
     }
   }
 
-  Future<List<List<Playlist>>> getPlaylistsFromCategories(List<Category> categories) async {
+  Future<List<List<Playlist>>> getPlaylistsFromCategories(List<Category> categories, {String country = ''}) async {
     try {
       final List<String> categoriesIds = [for (Category category in categories) category.id];
-      final List<Future<List<Playlist>>> playlistsFuture = [for (String id in categoriesIds) getCategoryPlaylists(id)];
+      final List<Future<List<Playlist>>> playlistsFuture = [for (String id in categoriesIds) getCategoryPlaylists(id, country: country)];
       final List<List<Playlist>> playlists = await Future.wait(playlistsFuture);
 
       return playlists;
