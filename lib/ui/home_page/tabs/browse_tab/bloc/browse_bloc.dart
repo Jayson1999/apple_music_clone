@@ -78,7 +78,7 @@ class BrowseBloc extends Bloc<BrowseEvent, BrowseState> {
       final List<List<Playlist>> globalPlaylists = await _playlistService.getPlaylistsFromCategories(globalCategories);
 
       final List<Category> localCategories = await _categoryService.getBrowseCategories(country: localRegion);
-      final List<List<Playlist>> localPlaylists = await _playlistService.getPlaylistsFromCategories(localCategories);
+      final List<List<Playlist>> localPlaylists = await _playlistService.getPlaylistsFromCategories(localCategories, country: localRegion);
 
       emit(state.copyWith(
           status: BrowseStatus.success,

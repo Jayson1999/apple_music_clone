@@ -49,6 +49,7 @@ class PlaylistService {
 
       List<dynamic>? playlistData = response.data['playlists']?['items'] as List<dynamic>?;
       List<Playlist> playlistsFromResp = (playlistData ?? []).whereType<Map<String, dynamic>>().map((playlistMap) => Playlist.fromMap(playlistMap)).toList();
+
       return playlistsFromResp;
     }
     catch (error, stack) {
