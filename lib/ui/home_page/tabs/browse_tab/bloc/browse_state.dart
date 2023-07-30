@@ -21,6 +21,8 @@ class BrowseState extends Equatable {
     this.categoriesLocalPlaylists = const [],
     this.categoriesGlobal = const [],
     this.categoriesLocal = const [],
+    this.artistsGlobal = const [],
+    this.artistsLocal = const [],
     this.errorMsg = '',
   });
 
@@ -33,6 +35,8 @@ class BrowseState extends Equatable {
   final List<List<Playlist>> categoriesLocalPlaylists;
   final List<Category> categoriesGlobal;
   final List<Category> categoriesLocal;
+  final List<Artist> artistsGlobal;
+  final List<Artist> artistsLocal;
   final String errorMsg;
 
   @override
@@ -46,6 +50,8 @@ class BrowseState extends Equatable {
         categoriesLocalPlaylists,
         categoriesGlobal,
         categoriesLocal,
+        artistsGlobal,
+        artistsLocal,
         errorMsg
       ];
 
@@ -58,6 +64,8 @@ class BrowseState extends Equatable {
       List<List<Playlist>>? categoriesLocalPlaylists,
       List<Category>? categoriesGlobal,
       List<Category>? categoriesLocal,
+      List<Artist>? artistsGlobal,
+      List<Artist>? artistsLocal,
       BrowseStatus? status,
       String? errorMsg}) {
     return BrowseState(
@@ -69,6 +77,8 @@ class BrowseState extends Equatable {
         categoriesLocalPlaylists: categoriesLocalPlaylists ?? this.categoriesLocalPlaylists,
         categoriesGlobal: categoriesGlobal ?? this.categoriesGlobal,
         categoriesLocal: categoriesLocal ?? this.categoriesLocal,
+        artistsGlobal: artistsGlobal ?? this.artistsGlobal,
+        artistsLocal: artistsLocal ?? this.artistsLocal,
         status: status ?? this.status,
         errorMsg: errorMsg ?? this.errorMsg);
   }
