@@ -59,6 +59,18 @@ class _BrowseTabState extends State<BrowseTab> {
                         );
                       },
                     ),
+                    actions: [
+                      PopupMenuButton<String>(
+                        icon: Icon(Icons.more_vert, color: Theme.of(context).primaryColor,),
+                        onSelected: (value) => Navigator.pushNamed(context, '/$value'),
+                        itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+                          const PopupMenuItem<String>(
+                            value: 'settings',
+                            child: Text('Settings'),
+                          ),
+                        ]
+                      )
+                    ],
                   ),
                   SliverList(
                     delegate: SliverChildListDelegate(
