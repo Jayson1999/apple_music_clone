@@ -38,6 +38,7 @@ class _MyAppState extends State<MyApp> {
   ThemeData _getAppTheme() =>
       ThemeData(
         primaryColor: Colors.red,
+        scaffoldBackgroundColor: Colors.white,
         bottomNavigationBarTheme: const BottomNavigationBarThemeData(
           backgroundColor: Colors.white,
           selectedItemColor: Colors.red,
