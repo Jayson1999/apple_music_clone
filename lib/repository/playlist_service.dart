@@ -46,7 +46,7 @@ class PlaylistService {
     }
   }
 
-  Future<Map<String, List<Playlist>>> getFeaturedPlaylistsWithMsg({String country = ''}) async {
+  Future<List<Playlist>> getFeaturedPlaylists({String country = ''}) async {
     Map<String, dynamic>? queryParams = country.isNotEmpty ? {'country': country} : null;
 
     try {
@@ -58,9 +58,7 @@ class PlaylistService {
       }
 
       List<Playlist> playlistsFromResp = (response.data['playlists']?['items'] as List?)?.map((playlistMap) => Playlist.fromMap(playlistMap)).toList() ?? [];
-      return {
-        response.data['message']?? '': playlistsFromResp
-      };
+      return playlistsFromResp;
     }
     catch (error, stack) {
       final String errorMsg = 'GetFeaturedPlaylistsWithMsg failed: $error\n$stack';
