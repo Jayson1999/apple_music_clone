@@ -6,6 +6,6 @@ class BrowseEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class GetLatestAlbums extends BrowseEvent {}
+class GetLatestAlbumsArtists extends BrowseEvent {}
 class GetFeaturedPlaylists extends BrowseEvent {}
 class GetCategoriesPlaylists extends BrowseEvent {}
