@@ -75,7 +75,9 @@ class BrowseBloc extends Bloc<BrowseEvent, BrowseState> {
       emit(state.copyWith(
           status: BrowseStatus.success,
           categoriesGlobalPlaylists: globalPlaylists,
-          categoriesLocalPlaylists: localPlaylists
+          categoriesLocalPlaylists: localPlaylists,
+          categoriesGlobal: globalCategories,
+          categoriesLocal: localCategories
       ));
     } catch (e) {
       emit(state.copyWith(status: BrowseStatus.error, errorMsg: '$e'));
