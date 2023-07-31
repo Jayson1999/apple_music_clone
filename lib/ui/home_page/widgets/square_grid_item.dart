@@ -37,6 +37,7 @@ Widget squareGridItem(BuildContext context, String headerButtonTitle, List<Strin
                       ),
                       child: InkWell(
                         child: CachedNetworkImage(
+                          fit: BoxFit.cover,
                           height: MediaQuery.of(context).size.height * 0.51,
                           width: double.infinity,
                           imageUrl: imgUrlList[index],
