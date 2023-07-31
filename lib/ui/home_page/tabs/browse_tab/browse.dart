@@ -88,12 +88,12 @@ class _BrowseTabState extends State<BrowseTab> {
                           padding: const EdgeInsets.all(10.0),
                           child: _browseHeader(),
                         ),
-                        _globalLatestReleasesSection(state.latestGlobalAlbums),
                         _globalFeaturedPlaylistsSection(state.featuredGlobalPlaylists),
-                        _localFeaturedPlaylistsSection(state.featuredLocalPlaylists),
+                        _globalLatestReleasesSection(state.latestGlobalAlbums),
                         _localLatestReleasesSection(state.latestLocalAlbums),
-                        _globalCategoriesPlaylistsSection(state.categoriesGlobalPlaylists),
-                        _localCategoriesPlaylistsSection(state.categoriesLocalPlaylists),
+                        _localFeaturedPlaylistsSection(state.featuredLocalPlaylists),
+                        ..._globalCategoriesPlaylistsSection(state.categoriesGlobal, state.categoriesGlobalPlaylists),
+                        ..._localCategoriesPlaylistsSection(state.categoriesLocal, state.categoriesLocalPlaylists),
                         _featuredCategoriesSection([...state.categoriesGlobal, ...state.categoriesLocal]),
                         _featuredArtistsSection([...state.artistsGlobal, ...state.artistsLocal])
                       ]
@@ -115,48 +115,77 @@ class _BrowseTabState extends State<BrowseTab> {
     );
   }
 
-  Widget _globalLatestReleasesSection(List<Album> latestReleaseAlbums) {
+  Widget _globalFeaturedPlaylistsSection(List<Playlist> featuredPlaylists) {
     return wideGridItem(
         context,
-        [for (Album album in latestReleaseAlbums) album.name],
-        [for (Album album in latestReleaseAlbums) [for (Artist artist in album.artists) artist.name].join(', ')],
-        [for (Album album in latestReleaseAlbums) album.releaseDate],
-        [for (Album album in latestReleaseAlbums) album.images[0].url],
-        [for (Album album in latestReleaseAlbums) album.label.isNotEmpty ? album.label: 'Released on ${album.releaseDate}. Number of tracks: ${album.totalTracks}']
+        [for (Playlist playlist in featuredPlaylists) playlist.name],
+        [for (Playlist playlist in featuredPlaylists) playlist.description.split(' ').first],
+        [for (Playlist playlist in featuredPlaylists) playlist.type],
+        [for (Playlist playlist in featuredPlaylists) playlist.images[0].url],
+        [for (Playlist playlist in featuredPlaylists) playlist.description]
     );
   }
 
-  Widget _globalFeaturedPlaylistsSection(List<Playlist> featuredPlaylists) {
+  Widget _globalLatestReleasesSection(List<Album> latestReleaseAlbums) {
     return commonGridItem(
+        context,
+        'Latest Hits',
+        2,
+        [for (Album album in latestReleaseAlbums) album.name],
+        [for (Album album in latestReleaseAlbums) [for (Artist artist in album.artists) artist.name].join(', ')],
+        [for (Album album in latestReleaseAlbums) album.images[0].url]
+    );
+  }
+
+  Widget _localLatestReleasesSection(List<Album> latestReleaseAlbums) {
+    return commonGridItem(
+        context,
+        'Latest Local Hits',
+        1,
+        [for (Album album in latestReleaseAlbums) album.name],
+        [for (Album album in latestReleaseAlbums) [for (Artist artist in album.artists) artist.name].join(', ')],
+        [for (Album album in latestReleaseAlbums) album.images[0].url]
+    );
+  }
+
+  Widget _localFeaturedPlaylistsSection(List<Playlist> featuredPlaylists) {
+    return squareGridItem(
       context,
       'Featured Playlists',
-      2,
       [for (Playlist playlist in featuredPlaylists) playlist.name],
       [for (Playlist playlist in featuredPlaylists) playlist.description],
       [for (Playlist playlist in featuredPlaylists) playlist.images[0].url],
     );
   }
 
-  Widget _localFeaturedPlaylistsSection(List<Playlist> featuredPlaylists) {
-    return Container(height: 50,);
+  List<Widget> _globalCategoriesPlaylistsSection(List<Category> categories, List<List<Playlist>> categoriesPlaylists) {
+    List<Widget> playlistsWidgets = [
+      for (int i=0; i<categoriesPlaylists.length; i++)
+        commonGridItem(
+          context,
+          categories[i].name,
+          2,
+          [for (Playlist playlist in categoriesPlaylists[i]) playlist.name],
+          [for (Playlist playlist in categoriesPlaylists[i]) playlist.description],
+          [for (Playlist playlist in categoriesPlaylists[i]) playlist.images[0].url],
+        )
+    ];
+    return playlistsWidgets;
   }
 
-  Widget _localLatestReleasesSection(List<Album> latestReleaseAlbums) {
-    return squareGridItem(
-        context,
-        'Latest Local Releases',
-        [for (Album album in latestReleaseAlbums) album.name],
-        [for (Album album in latestReleaseAlbums) [for (Artist artist in album.artists) artist.name].join(', ')],
-        [for (Album album in latestReleaseAlbums) album.images[0].url],
-    );
-  }
-
-  Widget _globalCategoriesPlaylistsSection(List<List<Playlist>> categoriesPlaylists) {
-    return Container(height: 500,);
-  }
-
-  Widget _localCategoriesPlaylistsSection(List<List<Playlist>> categoriesPlaylists) {
-    return Container(height: 500,);
+  List<Widget> _localCategoriesPlaylistsSection(List<Category> categories, List<List<Playlist>> categoriesPlaylists) {
+    List<Widget> playlistsWidgets = [
+      for (int i=0; i<categoriesPlaylists.length; i++)
+        commonGridItem(
+          context,
+          categories[i].name,
+          1,
+          [for (Playlist playlist in categoriesPlaylists[i]) playlist.name],
+          [for (Playlist playlist in categoriesPlaylists[i]) playlist.description],
+          [for (Playlist playlist in categoriesPlaylists[i]) playlist.images[0].url],
+        )
+    ];
+    return playlistsWidgets;
   }
 
   Widget _featuredCategoriesSection(List<Category> categories){
@@ -187,7 +216,7 @@ class _BrowseTabState extends State<BrowseTab> {
   Widget _subscribeButton() {
     return Container(
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(4),
+          borderRadius: BorderRadius.circular(8),
           gradient: const LinearGradient(
               colors: [Colors.deepPurpleAccent, Colors.blueAccent])),
       child: ElevatedButton(
