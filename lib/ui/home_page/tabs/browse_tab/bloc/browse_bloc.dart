@@ -2,6 +2,7 @@ import 'package:apple_music_clone/model/album.dart';
 import 'package:apple_music_clone/model/artist.dart';
 import 'package:apple_music_clone/model/category.dart';
 import 'package:apple_music_clone/model/playlist.dart';
+import 'package:apple_music_clone/model/track.dart';
 import 'package:apple_music_clone/repository/album_service.dart';
 import 'package:apple_music_clone/repository/api_helper.dart';
 import 'package:apple_music_clone/repository/artist_service.dart';
@@ -40,16 +41,23 @@ class BrowseBloc extends Bloc<BrowseEvent, BrowseState> {
     try {
         final List<Album> globalAlbums = await _albumService.getNewReleasesAlbum();
         final List<Artist> globalArtists = await _artistService.getArtistsFromAlbums(globalAlbums);
+        final List<String> globalAlbumIds = [for (Album album in globalAlbums) album.id];
+        final List<Album> globalDetailedAlbums = await _albumService.getAlbumsByIds(globalAlbumIds);
+        final List<Track> globalTracks = [for(Album album in globalDetailedAlbums) ...album.tracks];
         
         final List<Album> localAlbums = await _albumService.getNewReleasesAlbum(region: localRegion);
         final List<Artist> localArtists = await _artistService.getArtistsFromAlbums(localAlbums);
+        final List<String> localAlbumIds = [for (Album album in localAlbums) album.id];
+        final List<Album> localDetailedAlbums = await _albumService.getAlbumsByIds(localAlbumIds, country: localRegion);
+        final List<Track> localTracks = [for(Album album in localDetailedAlbums) ...album.tracks];
         
         emit(state.copyWith(
             status: BrowseStatus.success,
             latestGlobalAlbums: globalAlbums,
             latestLocalAlbums: localAlbums,
             artistsGlobal: globalArtists,
-            artistsLocal: localArtists
+            artistsLocal: localArtists,
+            recommendedTracks: [...globalTracks, ...localTracks]
         ));
       } catch (e) {
         emit(state.copyWith(status: BrowseStatus.error, errorMsg: '$e'));

@@ -23,6 +23,7 @@ class BrowseState extends Equatable {
     this.categoriesLocal = const [],
     this.artistsGlobal = const [],
     this.artistsLocal = const [],
+    this.recommendedTracks = const[],
     this.userSubscription = 0,
     this.errorMsg = '',
   });
@@ -38,6 +39,7 @@ class BrowseState extends Equatable {
   final List<Category> categoriesLocal;
   final List<Artist> artistsGlobal;
   final List<Artist> artistsLocal;
+  final List<Track> recommendedTracks;
   final int userSubscription;
   final String errorMsg;
 
@@ -54,6 +56,7 @@ class BrowseState extends Equatable {
         categoriesLocal,
         artistsGlobal,
         artistsLocal,
+        recommendedTracks,
         userSubscription,
         errorMsg
       ];
@@ -69,6 +72,7 @@ class BrowseState extends Equatable {
       List<Category>? categoriesLocal,
       List<Artist>? artistsGlobal,
       List<Artist>? artistsLocal,
+      List<Track>? recommendedTracks,
       BrowseStatus? status,
       int? userSubscription,
       String? errorMsg}) {
@@ -83,6 +87,7 @@ class BrowseState extends Equatable {
         categoriesLocal: categoriesLocal ?? this.categoriesLocal,
         artistsGlobal: artistsGlobal ?? this.artistsGlobal,
         artistsLocal: artistsLocal ?? this.artistsLocal,
+        recommendedTracks: recommendedTracks ?? this.recommendedTracks,
         status: status ?? this.status,
         userSubscription: userSubscription ?? this.userSubscription,
         errorMsg: errorMsg ?? this.errorMsg);
