@@ -29,8 +29,10 @@ class AlbumService {
     }
   }
 
-  Future<List<Album>> getAlbumsByIds(List<String> ids) async {
-    Map<String, dynamic>? queryParams = {'ids': ids.join(',')};
+  Future<List<Album>> getAlbumsByIds(List<String> ids, {String country = ''}) async {
+    Map<String, dynamic>? queryParams = country.isNotEmpty
+        ? {'ids': ids.join(','), 'market': country}
+        : {'ids': ids};
 
     try {
       await _apiHelper.updateAuthorizationHeader();
@@ -43,8 +45,8 @@ class AlbumService {
       List<Album> albumsFromResp = (response.data['albums'] as List?)?.map((albumMap) => Album.fromMap(albumMap)).toList() ?? [];
       return albumsFromResp;
     }
-    catch (error) {
-      final String errorMsg = 'GetAlbumsByIds failed: $error';
+    catch (error, stack) {
+      final String errorMsg = 'GetAlbumsByIds failed: $error\n$stack';
       log(errorMsg, error: 'ERROR', name: 'GetAlbumsByIds');
       throw Exception(errorMsg);
     }
