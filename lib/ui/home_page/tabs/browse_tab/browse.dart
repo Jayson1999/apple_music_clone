@@ -4,6 +4,7 @@ import 'package:apple_music_clone/model/category.dart';
 import 'package:apple_music_clone/model/playlist.dart';
 import 'package:apple_music_clone/ui/home_page/tabs/browse_tab/bloc/browse_bloc.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/common_grid_item.dart';
+import 'package:apple_music_clone/ui/home_page/widgets/narrow_grid_item.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/square_grid_item.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/wide_grid_item.dart';
 import 'package:apple_music_clone/utils/config.dart';
@@ -93,9 +94,9 @@ class _BrowseTabState extends State<BrowseTab> {
                         _localLatestReleasesSection(state.latestLocalAlbums),
                         _localFeaturedPlaylistsSection(state.featuredLocalPlaylists),
                         ..._globalCategoriesPlaylistsSection(state.categoriesGlobal, state.categoriesGlobalPlaylists),
-                        ..._localCategoriesPlaylistsSection(state.categoriesLocal, state.categoriesLocalPlaylists),
                         _featuredCategoriesSection([...state.categoriesGlobal, ...state.categoriesLocal]),
-                        _featuredArtistsSection([...state.artistsGlobal, ...state.artistsLocal])
+                        ..._localCategoriesPlaylistsSection(state.categoriesLocal, state.categoriesLocalPlaylists),
+                        _featuredArtistsSection([...state.artistsGlobal, ...state.artistsLocal]),
                       ]
                     )
                   ),
@@ -189,7 +190,12 @@ class _BrowseTabState extends State<BrowseTab> {
   }
 
   Widget _featuredCategoriesSection(List<Category> categories){
-    return Container(height: 500,);
+    return narrowGridItem(
+        context,
+        'Browse by Category',
+        [for (Category category in categories) category.name],
+        [for (Category category in categories) category.categoryIconsInfo[0].url],
+    );
   }
 
   Widget _featuredArtistsSection(List <Artist> artists) {
