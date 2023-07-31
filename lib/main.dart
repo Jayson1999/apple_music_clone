@@ -37,6 +37,9 @@ class _MyAppState extends State<MyApp> {
 
   ThemeData _getAppTheme() =>
       ThemeData(
+        buttonTheme: const ButtonThemeData(
+          buttonColor: Colors.red,
+        ),
         primaryColor: Colors.red,
         scaffoldBackgroundColor: Colors.white,
         bottomNavigationBarTheme: const BottomNavigationBarThemeData(
