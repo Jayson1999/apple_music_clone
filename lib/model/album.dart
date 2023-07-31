@@ -24,6 +24,7 @@ class Album {
     List<Artist> artists = (respData['artists'] as List?)?.map((artistMap) => Artist.fromMap(artistMap)).toList() ?? [];
     List<ImageInfo> images = (respData['images'] as List?)?.map<ImageInfo>((imageMap) => ImageInfo.fromMap(imageMap)).toList() ?? [];
     List<CopyrightInfo> copyrights = (respData['copyrights'] as List?)?.map<CopyrightInfo>((copyrightMap) => CopyrightInfo.fromMap(copyrightMap)).toList() ?? [];
+    List<String> genres = (respData['genres'] as List?)?.cast<String>() ?? [];
 
     return Album(
       respData['id'] ?? '',
@@ -33,7 +34,7 @@ class Album {
       artists,
       respData['total_tracks'] ?? 0,
       respData['release_date'] ?? '',
-      respData['genres'] ?? [],
+      genres,
       respData['label'] ?? '',
       images,
       copyrights,
