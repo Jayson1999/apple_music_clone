@@ -3,6 +3,7 @@ import 'package:apple_music_clone/model/artist.dart';
 import 'package:apple_music_clone/model/category.dart';
 import 'package:apple_music_clone/model/playlist.dart';
 import 'package:apple_music_clone/ui/home_page/tabs/browse_tab/bloc/browse_bloc.dart';
+import 'package:apple_music_clone/ui/home_page/widgets/circular_item.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/common_grid_item.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/narrow_grid_item.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/square_grid_item.dart';
@@ -93,9 +94,9 @@ class _BrowseTabState extends State<BrowseTab> {
                         _globalLatestReleasesSection(state.latestGlobalAlbums),
                         _localLatestReleasesSection(state.latestLocalAlbums),
                         _localFeaturedPlaylistsSection(state.featuredLocalPlaylists),
-                        ..._globalCategoriesPlaylistsSection(state.categoriesGlobal, state.categoriesGlobalPlaylists),
+                        ..._globalCategoriesPlaylistsSection(state.categoriesGlobal.sublist(0, 3), state.categoriesGlobalPlaylists.sublist(0, 3)),
                         _featuredCategoriesSection([...state.categoriesGlobal, ...state.categoriesLocal]),
-                        ..._localCategoriesPlaylistsSection(state.categoriesLocal, state.categoriesLocalPlaylists),
+                        ..._localCategoriesPlaylistsSection(state.categoriesLocal.sublist(0, 3), state.categoriesLocalPlaylists.sublist(0, 3)),
                         _featuredArtistsSection([...state.artistsGlobal, ...state.artistsLocal]),
                       ]
                     )
@@ -199,7 +200,12 @@ class _BrowseTabState extends State<BrowseTab> {
   }
 
   Widget _featuredArtistsSection(List <Artist> artists) {
-    return Container(height: 500,);
+    return circularItem(
+        context,
+        'Artists We Love',
+        [for (Artist artist in artists) artist.name],
+        [for (Artist artist in artists) artist.images[0].url]
+    );
   }
 
   Widget _browseAppBar() {
