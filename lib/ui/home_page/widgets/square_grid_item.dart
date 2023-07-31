@@ -51,7 +51,10 @@ Widget squareGridItem(BuildContext context, String headerButtonTitle, List<Strin
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 8.0),
-                    child: Text(subtitleList[index], style: const TextStyle(fontSize: TextSizes.medium, color: Colors.grey),),
+                    child: Text(
+                      subtitleList[index],
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(fontSize: TextSizes.medium, color: Colors.grey),),
                   ),
                 ],
               );

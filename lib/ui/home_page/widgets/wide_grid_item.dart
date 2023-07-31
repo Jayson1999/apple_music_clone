@@ -23,7 +23,10 @@ Widget wideGridItem(BuildContext context, List<String> titleList, List<String> s
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 8.0),
-                child: Text(subtitleList[index], style: const TextStyle(fontSize: TextSizes.medium, color: Colors.grey),),
+                child: Text(
+                  subtitleList[index],
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(fontSize: TextSizes.medium, color: Colors.grey),),
               ),
               Card(
                   clipBehavior: Clip.hardEdge,
