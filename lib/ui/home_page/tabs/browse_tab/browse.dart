@@ -2,10 +2,12 @@ import 'package:apple_music_clone/model/album.dart';
 import 'package:apple_music_clone/model/artist.dart';
 import 'package:apple_music_clone/model/category.dart';
 import 'package:apple_music_clone/model/playlist.dart';
+import 'package:apple_music_clone/model/track.dart';
 import 'package:apple_music_clone/ui/home_page/tabs/browse_tab/bloc/browse_bloc.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/circular_item.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/common_grid_item.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/narrow_grid_item.dart';
+import 'package:apple_music_clone/ui/home_page/widgets/narrow_list_item.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/square_grid_item.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/wide_grid_item.dart';
 import 'package:apple_music_clone/utils/config.dart';
@@ -94,9 +96,10 @@ class _BrowseTabState extends State<BrowseTab> {
                         _globalLatestReleasesSection(state.latestGlobalAlbums),
                         _localLatestReleasesSection(state.latestLocalAlbums),
                         _localFeaturedPlaylistsSection(state.featuredLocalPlaylists),
-                        ..._globalCategoriesPlaylistsSection(state.categoriesGlobal.sublist(0, 3), state.categoriesGlobalPlaylists.sublist(0, 3)),
+                        ..._globalCategoriesPlaylistsSection(state.categoriesGlobal, state.categoriesGlobalPlaylists),
                         _featuredCategoriesSection([...state.categoriesGlobal, ...state.categoriesLocal]),
-                        ..._localCategoriesPlaylistsSection(state.categoriesLocal.sublist(0, 3), state.categoriesLocalPlaylists.sublist(0, 3)),
+                        _recommendedTracks(state.recommendedTracks),
+                        ..._localCategoriesPlaylistsSection(state.categoriesLocal, state.categoriesLocalPlaylists),
                         _featuredArtistsSection([...state.artistsGlobal, ...state.artistsLocal]),
                       ]
                     )
@@ -196,6 +199,17 @@ class _BrowseTabState extends State<BrowseTab> {
         'Browse by Category',
         [for (Category category in categories) category.name],
         [for (Category category in categories) category.categoryIconsInfo[0].url],
+    );
+  }
+
+  Widget _recommendedTracks(List<Track> tracks){
+    return narrowListCardItem(
+      context,
+      'Best New Songs',
+      [for (Track track in tracks) track.name],
+      [for (Track track in tracks) '${track.album?.name}'],
+      [for (Track track in tracks) '${track.album?.images[0].url}'
+      ],
     );
   }
 
