@@ -3,6 +3,7 @@ import 'package:apple_music_clone/model/artist.dart';
 import 'package:apple_music_clone/model/category.dart';
 import 'package:apple_music_clone/model/playlist.dart';
 import 'package:apple_music_clone/ui/home_page/tabs/browse_tab/bloc/browse_bloc.dart';
+import 'package:apple_music_clone/ui/home_page/widgets/common_grid_item.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/square_grid_item.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/wide_grid_item.dart';
 import 'package:apple_music_clone/utils/config.dart';
@@ -88,9 +89,9 @@ class _BrowseTabState extends State<BrowseTab> {
                           child: _browseHeader(),
                         ),
                         _globalLatestReleasesSection(state.latestGlobalAlbums),
-                        _localLatestReleasesSection(state.latestLocalAlbums),
                         _globalFeaturedPlaylistsSection(state.featuredGlobalPlaylists),
                         _localFeaturedPlaylistsSection(state.featuredLocalPlaylists),
+                        _localLatestReleasesSection(state.latestLocalAlbums),
                         _globalCategoriesPlaylistsSection(state.categoriesGlobalPlaylists),
                         _localCategoriesPlaylistsSection(state.categoriesLocalPlaylists),
                         _featuredCategoriesSection([...state.categoriesGlobal, ...state.categoriesLocal]),
@@ -125,6 +126,21 @@ class _BrowseTabState extends State<BrowseTab> {
     );
   }
 
+  Widget _globalFeaturedPlaylistsSection(List<Playlist> featuredPlaylists) {
+    return commonGridItem(
+      context,
+      'Featured Playlists',
+      2,
+      [for (Playlist playlist in featuredPlaylists) playlist.name],
+      [for (Playlist playlist in featuredPlaylists) playlist.description],
+      [for (Playlist playlist in featuredPlaylists) playlist.images[0].url],
+    );
+  }
+
+  Widget _localFeaturedPlaylistsSection(List<Playlist> featuredPlaylists) {
+    return Container(height: 50,);
+  }
+
   Widget _localLatestReleasesSection(List<Album> latestReleaseAlbums) {
     return squareGridItem(
         context,
@@ -133,14 +149,6 @@ class _BrowseTabState extends State<BrowseTab> {
         [for (Album album in latestReleaseAlbums) [for (Artist artist in album.artists) artist.name].join(', ')],
         [for (Album album in latestReleaseAlbums) album.images[0].url],
     );
-  }
-
-  Widget _globalFeaturedPlaylistsSection(List<Playlist> featuredPlaylists) {
-    return Container(height: 50,);
-  }
-
-  Widget _localFeaturedPlaylistsSection(List<Playlist> featuredPlaylists) {
-    return Container(height: 50,);
   }
 
   Widget _globalCategoriesPlaylistsSection(List<List<Playlist>> categoriesPlaylists) {
