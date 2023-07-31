@@ -3,6 +3,7 @@ import 'package:apple_music_clone/model/artist.dart';
 import 'package:apple_music_clone/model/category.dart';
 import 'package:apple_music_clone/model/playlist.dart';
 import 'package:apple_music_clone/ui/home_page/tabs/browse_tab/bloc/browse_bloc.dart';
+import 'package:apple_music_clone/ui/home_page/widgets/square_grid_item.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/wide_grid_item.dart';
 import 'package:apple_music_clone/utils/config.dart';
 import 'package:flutter/material.dart';
@@ -125,7 +126,13 @@ class _BrowseTabState extends State<BrowseTab> {
   }
 
   Widget _localLatestReleasesSection(List<Album> latestReleaseAlbums) {
-    return Container(height: 50,);
+    return squareGridItem(
+        context,
+        'Latest Local Releases',
+        [for (Album album in latestReleaseAlbums) album.name],
+        [for (Album album in latestReleaseAlbums) [for (Artist artist in album.artists) artist.name].join(', ')],
+        [for (Album album in latestReleaseAlbums) album.images[0].url],
+    );
   }
 
   Widget _globalFeaturedPlaylistsSection(List<Playlist> featuredPlaylists) {
