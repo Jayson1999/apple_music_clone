@@ -2,6 +2,7 @@ import 'package:apple_music_clone/ui/home_page/tabs/browse_tab/bloc/browse_bloc.
 import 'package:apple_music_clone/ui/home_page/tabs/browse_tab/browse.dart';
 import 'package:apple_music_clone/ui/home_page/tabs/library_tab/library.dart';
 import 'package:apple_music_clone/ui/home_page/tabs/listennow_tab/listennow.dart';
+import 'package:apple_music_clone/ui/home_page/tabs/radio_tab/bloc/radio_bloc.dart';
 import 'package:apple_music_clone/ui/home_page/tabs/radio_tab/radio.dart';
 import 'package:apple_music_clone/ui/home_page/tabs/search_tab/search.dart';
 import 'package:flutter/material.dart';
@@ -52,7 +53,7 @@ class _HomePageState extends State<HomePage> {
     return MultiBlocProvider(
       providers: [
         BlocProvider<BrowseBloc>(create: (context) => BrowseBloc()),
-        // BlocProvider<RadioBloc>(create: (context) => RadioBloc()),
+        BlocProvider<RadioBloc>(create: (context) => RadioBloc()),
         // BlocProvider<SearchBloc>(create: (context) => SearchBloc()),
       ],
       child: Scaffold(
