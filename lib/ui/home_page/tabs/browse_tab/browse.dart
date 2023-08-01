@@ -101,6 +101,7 @@ class _BrowseTabState extends State<BrowseTab> {
                         _recommendedTracks(state.recommendedTracks),
                         ..._localCategoriesPlaylistsSection(state.categoriesLocal, state.categoriesLocalPlaylists),
                         _featuredArtistsSection([...state.artistsGlobal, ...state.artistsLocal]),
+                        _browseCategoriesSection([...state.categoriesGlobal, ...state.categoriesLocal])
                       ]
                     )
                   ),
@@ -165,7 +166,7 @@ class _BrowseTabState extends State<BrowseTab> {
 
   List<Widget> _globalCategoriesPlaylistsSection(List<Category> categories, List<List<Playlist>> categoriesPlaylists) {
     List<Widget> playlistsWidgets = [
-      for (int i=0; i<categoriesPlaylists.length; i++)
+      for (int i=0; i<3; i++)
         commonGridItem(
           context,
           categories[i].name,
@@ -180,7 +181,7 @@ class _BrowseTabState extends State<BrowseTab> {
 
   List<Widget> _localCategoriesPlaylistsSection(List<Category> categories, List<List<Playlist>> categoriesPlaylists) {
     List<Widget> playlistsWidgets = [
-      for (int i=0; i<categoriesPlaylists.length; i++)
+      for (int i=0; i<3; i++)
         commonGridItem(
           context,
           categories[i].name,
@@ -207,7 +208,7 @@ class _BrowseTabState extends State<BrowseTab> {
       context,
       'Best New Songs',
       [for (Track track in tracks) track.name],
-      [for (Track track in tracks) '${track.album?.name}'],
+      [for (Track track in tracks) [for (Artist artist in track.artists) artist.name].join(', ')],
       [for (Track track in tracks) '${track.album?.images[0].url}'
       ],
     );
@@ -219,6 +220,36 @@ class _BrowseTabState extends State<BrowseTab> {
         'Artists We Love',
         [for (Artist artist in artists) artist.name],
         [for (Artist artist in artists) artist.images[0].url]
+    );
+  }
+
+  Widget _browseCategoriesSection (List <Category> categories){
+    Widget listItem(String title) {
+      return Container(
+          width: double.infinity,
+          decoration: const BoxDecoration(
+              border: Border(
+                top: BorderSide(color: Colors.grey, width: 0.5),
+              )),
+          child: TextButton(
+              style: TextButton.styleFrom(
+                alignment: Alignment.centerLeft
+              ),
+              onPressed: () => print('hello'),
+              child: Text(title, style: const TextStyle(color: Colors.red, fontSize: TextSizes.medium))
+          )
+      );
+    }
+
+    List <Category> top5Categories = categories.sublist(0, 5);
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * 0.45,
+      child: Column(
+        children: [
+          listItem('Browse by Category'),
+          ...[for (Category category in top5Categories) listItem(category.name)]
+        ],
+      ),
     );
   }
 
