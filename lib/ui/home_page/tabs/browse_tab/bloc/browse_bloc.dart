@@ -29,10 +29,16 @@ class BrowseBloc extends Bloc<BrowseEvent, BrowseState> {
      _categoryService = CategoryService(_apiHelper);
      _artistService = ArtistService(_apiHelper);
 
+    on<GetUserSubscription>(_mapGetUserSubscriptionEventToState);
     on<GetLatestAlbumsArtists>(_mapGetLatestAlbumsArtistsEventToState);
     on<GetFeaturedPlaylists>(_mapGetFeaturedPlaylistsEventToState);
     on<GetCategoriesPlaylists>(_mapGetCategoriesPlaylistsEventToState);
-    on<GetUserSubscription>(_mapGetUserSubscriptionEventToState);
+  }
+
+  void _mapGetUserSubscriptionEventToState(GetUserSubscription event, Emitter<BrowseState> emit) async {
+    final SharedPreferences preferences = await SharedPreferences.getInstance();
+    int userSubscription = preferences.getInt('userSubscription') ?? 0;
+    emit(state.copyWith(userSubscription: userSubscription));
   }
 
   void _mapGetLatestAlbumsArtistsEventToState(GetLatestAlbumsArtists event, Emitter<BrowseState> emit) async {
@@ -52,7 +58,6 @@ class BrowseBloc extends Bloc<BrowseEvent, BrowseState> {
         final List<Track> localTracks = [for(Album album in localDetailedAlbums) ...album.tracks];
         
         emit(state.copyWith(
-            status: BrowseStatus.success,
             latestGlobalAlbums: globalAlbums,
             latestLocalAlbums: localAlbums,
             artistsGlobal: globalArtists,
@@ -71,7 +76,6 @@ class BrowseBloc extends Bloc<BrowseEvent, BrowseState> {
       final List<Playlist> globalPlaylists = await _playlistService.getFeaturedPlaylists();
       final List<Playlist> localPlaylists = await _playlistService.getFeaturedPlaylists(country: localRegion);
       emit(state.copyWith(
-          status: BrowseStatus.success,
           featuredGlobalPlaylists: globalPlaylists,
           featuredLocalPlaylists: localPlaylists
       ));
@@ -100,12 +104,6 @@ class BrowseBloc extends Bloc<BrowseEvent, BrowseState> {
     } catch (e) {
       emit(state.copyWith(status: BrowseStatus.error, errorMsg: '$e'));
     }
-  }
-
-  void _mapGetUserSubscriptionEventToState(GetUserSubscription evet, Emitter<BrowseState> emit) async {
-    final SharedPreferences preferences = await SharedPreferences.getInstance();
-    int userSubscription = preferences.getInt('userSubscription') ?? 0;
-    emit(state.copyWith(status: BrowseStatus.success, userSubscription: userSubscription));
   }
 
 }

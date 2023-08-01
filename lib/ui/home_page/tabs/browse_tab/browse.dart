@@ -45,15 +45,13 @@ class _BrowseTabState extends State<BrowseTab> {
 
             else if (state.status.isSuccess) {
               ScrollController scrollController = ScrollController();
-              const double expandedHeight = 80.0;
               double threshold = state.userSubscription != 0? 30.0: 40.0;
-
               return CustomScrollView(
                 controller: scrollController,
                 slivers: <Widget>[
                   SliverAppBar(
                     backgroundColor: Colors.white,
-                    expandedHeight: expandedHeight,
+                    expandedHeight: 60.0,
                     elevation: 0,
                     floating: false,
                     pinned: true,
