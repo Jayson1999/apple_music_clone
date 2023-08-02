@@ -147,9 +147,13 @@ class _ListenNowTabState extends State<ListenNowTab> {
                 padding: const EdgeInsets.all(28.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Icon(Icons.apple, color: Colors.white),
-                    Text(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 18.0),
+                      child: Transform.scale(scale: 4.0, child: const Icon(Icons.apple, color: Colors.white)),
+                    ),
+                    const SizedBox(width: 30,),
+                    const Text(
                       'Music',
                       style: TextStyle(
                           color: Colors.white,
