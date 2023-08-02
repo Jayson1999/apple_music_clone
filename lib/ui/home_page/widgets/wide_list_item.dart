@@ -36,6 +36,8 @@ Widget wideListCardItem(BuildContext context, String headerButtonTitle, List<Str
                       height: MediaQuery.of(context).size.height * 0.15,
                       child: ListTile(
                         leading: CachedNetworkImage(
+                          height: 100,
+                          width: 100,
                           fit: BoxFit.cover,
                           imageUrl: splitImgUrlLists[rowIndex][pageIndex],
                           placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
