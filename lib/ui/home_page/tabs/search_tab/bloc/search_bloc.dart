@@ -1,11 +1,9 @@
-import 'package:apple_music_clone/model/album.dart';
-import 'package:apple_music_clone/model/artist.dart';
 import 'package:apple_music_clone/model/category.dart';
 import 'package:apple_music_clone/model/playlist.dart';
-import 'package:apple_music_clone/model/track.dart';
 import 'package:apple_music_clone/repository/api_helper.dart';
 import 'package:apple_music_clone/repository/category_service.dart';
 import 'package:apple_music_clone/repository/playlist_service.dart';
+import 'package:apple_music_clone/repository/search_service.dart';
 import 'package:apple_music_clone/utils/config.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,13 +16,16 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   final APIHelper _apiHelper = APIHelper();
   late PlaylistService _playlistService;
   late CategoryService _categoryService;
+  late SearchService _searchService;
 
   SearchBloc(): super(const SearchState()) {
     _playlistService = PlaylistService(_apiHelper);
     _categoryService = CategoryService(_apiHelper);
+    _searchService = SearchService(_apiHelper);
 
     on<GetUserSubscription>(_mapGetUserSubscriptionEventToState);
     on<GetCategoriesPlaylists>(_mapGetCategoriesPlaylistsEventToState);
+    on<SearchTextChanged>(_mapSearchTextChangedEventToState);
   }
 
   void _mapGetUserSubscriptionEventToState(GetUserSubscription event, Emitter<SearchState> emit) async {
@@ -34,7 +35,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   }
 
   void _mapGetCategoriesPlaylistsEventToState(GetCategoriesPlaylists event, Emitter<SearchState> emit) async {
-    emit(state.copyWith(status: SearchStatus.loading));
+    emit(state.copyWith(pageLoadStatus: SearchStatus.loading));
 
     try {
       final List<Category> globalCategories = await _categoryService.getBrowseCategories();
@@ -44,14 +45,30 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       final List<List<Playlist>> localPlaylists = await _playlistService.getPlaylistsFromCategories(localCategories, country: localRegion);
 
       emit(state.copyWith(
-          status: SearchStatus.success,
+          pageLoadStatus: SearchStatus.success,
           categoriesGlobalPlaylists: globalPlaylists,
           categoriesLocalPlaylists: localPlaylists,
           categoriesGlobal: globalCategories,
           categoriesLocal: localCategories
       ));
     } catch (e) {
-      emit(state.copyWith(status: SearchStatus.error, errorMsg: '$e'));
+      emit(state.copyWith(pageLoadStatus: SearchStatus.error, errorMsg: '$e'));
+    }
+  }
+
+  void _mapSearchTextChangedEventToState(SearchTextChanged event, Emitter<SearchState> emit) async {
+    final queryStr = event.searchedText;
+    emit(state.copyWith(searchStatus: SearchStatus.loading, searchedResults: []));
+
+    try {
+      final List searchResults = await _searchService.getSearchResults(queryStr);
+
+      emit(state.copyWith(
+          searchStatus: SearchStatus.success,
+          searchedResults: searchResults
+      ));
+    } catch (e, stack) {
+      emit(state.copyWith(searchStatus: SearchStatus.error, errorMsg: '$e\n$stack'));
     }
   }
 

@@ -8,3 +8,11 @@ class SearchEvent extends Equatable {
 
 class GetUserSubscription extends SearchEvent {}
 class GetCategoriesPlaylists extends SearchEvent {}
+class SearchTextChanged extends SearchEvent {
+  final String searchedText;
+
+  SearchTextChanged(this.searchedText);
+
+  @override
+  List<Object?> get props => [searchedText];
+}

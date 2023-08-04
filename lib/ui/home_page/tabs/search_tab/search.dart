@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:apple_music_clone/model/category.dart';
 import 'package:apple_music_clone/ui/home_page/tabs/search_tab/bloc/search_bloc.dart';
+import 'package:apple_music_clone/ui/home_page/tabs/search_tab/search_delegate.dart';
 import 'package:apple_music_clone/utils/config.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -29,31 +30,33 @@ class _SearchTabState extends State<SearchTab> {
     return Scaffold(
       body: BlocBuilder<SearchBloc, SearchState>(
         builder: (context, state) {
-          if (state.status.isLoading) {
+          if (state.pageLoadStatus.isLoading) {
             return const Center(
               child: CircularProgressIndicator(),
             );
           }
 
-          else if (state.status.isSuccess) {
+          else if (state.pageLoadStatus.isSuccess) {
             ScrollController scrollController = ScrollController();
-            double threshold = state.userSubscription != 0? 30.0: 40.0;
             return CustomScrollView(
               controller: scrollController,
               slivers: <Widget>[
                 SliverAppBar(
                   backgroundColor: Colors.white,
-                  expandedHeight: 60.0,
+                  expandedHeight: 100.0,
                   elevation: 0,
-                  floating: false,
+                  floating: true,
                   pinned: true,
-                  flexibleSpace: LayoutBuilder(
-                    builder: (BuildContext context, BoxConstraints constraints) {
-                      return Visibility(
-                          visible: scrollController.position.pixels > threshold,
-                          child: _searchAppBar()
-                      );
-                    },
+                  title: const Text(
+                    'Search',
+                    style: TextStyle(fontSize: TextSizes.big, color: Colors.black),
+                  ),
+                  bottom: AppBar(
+                    backgroundColor: Colors.white,
+                    title: SizedBox(
+                        width:double.infinity,
+                        child: _searchAppBar()
+                    ),
                   ),
                   actions: [
                     PopupMenuButton<String>(
@@ -71,10 +74,6 @@ class _SearchTabState extends State<SearchTab> {
                 SliverList(
                     delegate: SliverChildListDelegate(
                         [
-                          Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: _searchHeader(),
-                          ),
                           state.userSubscription == 0?
                           Padding(
                               padding: const EdgeInsets.all(10.0),
@@ -90,7 +89,7 @@ class _SearchTabState extends State<SearchTab> {
             );
           }
 
-          else if (state.status.isError) {
+          else if (state.pageLoadStatus.isError) {
             return Center(
               child: Text('Failed to fetch data: ${state.errorMsg}'),
             );
@@ -103,86 +102,88 @@ class _SearchTabState extends State<SearchTab> {
   }
 
   Widget _featuredCategoriesSection(List<Category> categories){
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text('Browse Categories', style: TextStyle(fontSize: TextSizes.big, fontWeight: FontWeight.bold),),
-        GridView.builder(
-          clipBehavior: Clip.hardEdge,
-          physics: const ClampingScrollPhysics(),
-          shrinkWrap: true,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            crossAxisSpacing: 10,
-            mainAxisSpacing: 10,
+    return Container(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text('Browse Categories', style: TextStyle(fontSize: TextSizes.big, fontWeight: FontWeight.bold),),
+          GridView.builder(
+            clipBehavior: Clip.hardEdge,
+            physics: const ClampingScrollPhysics(),
+            shrinkWrap: true,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 10,
+              mainAxisSpacing: 10,
+              mainAxisExtent: 100
+            ),
+            itemCount: categories.length,
+            itemBuilder: (context, index) {
+              return Stack(
+                children: [
+                  Card(
+                    clipBehavior: Clip.hardEdge,
+                    elevation: 0,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(12)),
+                    ),
+                    child: CachedNetworkImage(
+                        fit: BoxFit.cover,
+                        width: double.infinity,
+                        imageUrl: categories[index].categoryIconsInfo[0].url,
+                        placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
+                        errorWidget: (context, url, error) => const Center(child: Icon(Icons.error)),
+                      ),
+                    ),
+                  InkWell(
+                    onTap: ()=> print('hello'),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          gradient: _createRandomGradient(),
+                          borderRadius: BorderRadius.circular(12)
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 18.0,
+                    left: 18.0,
+                    child: Text(
+                      categories[index].name,
+                      style: const TextStyle(
+                          fontSize: TextSizes.medium,
+                          color: Colors.white
+                      ),
+                    ),
+                  )
+                ],
+              );
+            },
           ),
-          itemCount: categories.length,
-          itemBuilder: (context, index) {
-            return Stack(
-              children: [
-                Card(
-                  clipBehavior: Clip.hardEdge,
-                  elevation: 0,
-                  shape: const RoundedRectangleBorder(
-                    side: BorderSide(
-                      width: 0.3,
-                      color: Colors.grey,
-                    ),
-                    borderRadius: BorderRadius.all(Radius.circular(12)),
-                  ),
-                  child: CachedNetworkImage(
-                      width: double.infinity,
-                      imageUrl: categories[index].categoryIconsInfo[0].url,
-                      placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
-                      errorWidget: (context, url, error) => const Center(child: Icon(Icons.error)),
-                    ),
-                  ),
-                InkWell(
-                  onTap: ()=> print('hello'),
-                  child: Container(
-                    decoration: BoxDecoration(
-                        gradient: _createRandomGradient(),
-                        borderRadius: BorderRadius.circular(12), // Adjust the radius value as needed
-                        border: Border.all(
-                          width: 0.3,
-                          color: Colors.grey,
-                        ),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  bottom: 18.0,
-                  left: 18.0,
-                  child: Text(
-                    categories[index].name,
-                    style: const TextStyle(
-                        fontSize: TextSizes.medium,
-                        color: Colors.white
-                    ),
-                  ),
-                )
-              ],
-            );
-          },
-        ),
-      ],
+        ],
+      ),
     );
   }
 
   Widget _searchAppBar() {
-    return Container(
-      decoration: const BoxDecoration(
-          border: Border(
-            bottom: BorderSide(color: Colors.grey, width: 1.0),
-          )
-      ),
-      child: const FlexibleSpaceBar(
-          titlePadding: EdgeInsets.all(8.0),
-          title: Text(
-            'Search',
-            style: TextStyle(fontSize: TextSizes.medium, color: Colors.black),
-          )
-      ),
+    return ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8)
+          ),
+            backgroundColor: Colors.white70,
+        ),
+        onPressed: (){
+          final  SearchBloc searchBloc = context.read<SearchBloc>();
+          showSearch(
+              context: context,
+              delegate: SearchBarDelegate(searchBloc)
+          );
+        },
+        child: const Text(
+          'Artists, Songs, Lyrics and more',
+          style: TextStyle(color: Colors.grey),
+        )
     );
   }
 
@@ -258,13 +259,6 @@ class _SearchTabState extends State<SearchTab> {
           ),
         ),
       ],
-    );
-  }
-
-  Widget _searchHeader() {
-    return Container(
-      padding: const EdgeInsets.only(bottom: 10.0),
-      child: const Text('Search', style: TextStyle(fontSize: TextSizes.big, fontWeight: FontWeight.bold)),
     );
   }
 

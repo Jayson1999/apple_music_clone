@@ -10,6 +10,7 @@ class APIHelper {
   final String featuredPlaylistsSubUrl = '/browse/featured-playlists';
   final String playlistsSubUrl = '/playlists';
   final String artistsSubUrl = '/artists';
+  final String searchSubUrl = '/search';
 
   late Dio _dio;
   late Map<String, dynamic> _header;
