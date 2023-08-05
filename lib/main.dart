@@ -2,10 +2,15 @@ import 'package:apple_music_clone/ui/first_page/first_page.dart';
 import 'package:apple_music_clone/ui/home_page/home.dart';
 import 'package:apple_music_clone/ui/settings_page/settings_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future <void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
 
   final SharedPreferences preferences = await SharedPreferences.getInstance();
   bool agreedTerms = preferences.getBool('agreedTerms') ?? false;
