@@ -1,3 +1,4 @@
+import 'package:apple_music_clone/ui/home_page/details_page/playlist_details/bloc/playlist_bloc.dart';
 import 'package:apple_music_clone/ui/home_page/tabs/browse_tab/bloc/browse_bloc.dart';
 import 'package:apple_music_clone/ui/home_page/tabs/browse_tab/browse.dart';
 import 'package:apple_music_clone/ui/home_page/tabs/library_tab/bloc/library_bloc.dart';
@@ -59,7 +60,8 @@ class _HomePageState extends State<HomePage> {
         BlocProvider<BrowseBloc>(create: (context) => BrowseBloc()),
         BlocProvider<RadioBloc>(create: (context) => RadioBloc()),
         BlocProvider<LibraryBloc>(create: (context) => LibraryBloc()),
-        BlocProvider<SearchBloc>(create: (context) => SearchBloc())
+        BlocProvider<SearchBloc>(create: (context) => SearchBloc()),
+        BlocProvider<PlaylistBloc>(create: (context) => PlaylistBloc())
       ],
       child: Scaffold(
         body: IndexedStack(
