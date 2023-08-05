@@ -1,8 +1,8 @@
 import 'package:apple_music_clone/model/album.dart';
 import 'package:apple_music_clone/model/artist.dart';
 import 'package:apple_music_clone/model/playlist.dart';
-import 'package:apple_music_clone/model/track.dart';
 import 'package:apple_music_clone/ui/home_page/tabs/search_tab/bloc/search_bloc.dart';
+import 'package:apple_music_clone/ui/home_page/widgets/singleTrackListTile.dart';
 import 'package:apple_music_clone/utils/config.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -10,14 +10,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SearchBarDelegate extends SearchDelegate<String> {
   final SearchBloc searchBloc;
+  final String searchHint;
 
-  SearchBarDelegate(this.searchBloc);
+  SearchBarDelegate(this.searchBloc, this.searchHint): super(
+    searchFieldLabel: searchHint,
+    searchFieldStyle: const TextStyle(color: Colors.grey)
+  );
 
   @override
   List<Widget> buildActions(BuildContext context) {
     return [
       IconButton(
-        icon: const Icon(Icons.clear),
+        icon: Icon(Icons.clear, color: Theme.of(context).primaryColor,),
         onPressed: () {
           query = '';
         },
@@ -28,7 +32,7 @@ class SearchBarDelegate extends SearchDelegate<String> {
   @override
   Widget buildLeading(BuildContext context) {
     return IconButton(
-      icon: const Icon(Icons.arrow_back),
+      icon: Icon(Icons.arrow_back, color: Theme.of(context).primaryColor),
       onPressed: () {
         close(context, '');
       },
@@ -37,7 +41,6 @@ class SearchBarDelegate extends SearchDelegate<String> {
 
   @override
   Widget buildResults(BuildContext context) {
-    // searchBloc.add(SearchTextChanged(query));
     return const Center(
       child: CircularProgressIndicator(),
     );
@@ -71,7 +74,7 @@ class SearchBarDelegate extends SearchDelegate<String> {
                     case 'playlist':
                       return _singlePlaylist(currentItem);
                     case 'track':
-                      return _singleTrack(currentItem, context);
+                      return singleTrack(currentItem, context);
                   }
                 });
           }
@@ -86,39 +89,6 @@ class SearchBarDelegate extends SearchDelegate<String> {
         },
       );
     }
-  }
-
-
-  Widget _singleTrack(Track trackData, BuildContext context){
-    return ListTile(
-      leading: CachedNetworkImage(
-        imageUrl: trackData.album?.images[0].url ?? '',
-        width: 30,
-        errorWidget: (context, url, error) =>
-        const Center(child: Icon(Icons.error)),
-      ),
-      title: Text(
-        trackData.name,
-        overflow: TextOverflow.ellipsis,
-        style: const TextStyle(fontSize: TextSizes.medium),
-      ),
-      subtitle: Text(
-        '${trackData.type} . ${[for (Artist a in trackData.artists) a.name].join(',')}',
-        overflow: TextOverflow.ellipsis,
-        style: const TextStyle(fontSize: TextSizes.small, color: Colors.grey),
-      ),
-      trailing: PopupMenuButton<String>(
-          icon: Icon(Icons.more_vert, color: Theme.of(context).primaryColor,),
-          onSelected: (value) => print('hello'),
-          itemBuilder: (BuildContext context) =>
-          <PopupMenuEntry<String>>[
-            const PopupMenuItem<String>(
-              value: 'settings',
-              child: Text('Settings'),
-            ),
-          ]
-      ),
-    );
   }
 
   Widget _singleArtist(Artist artistData){

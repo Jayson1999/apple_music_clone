@@ -166,6 +166,7 @@ class _SearchTabState extends State<SearchTab> {
   }
 
   Widget _searchAppBar() {
+    const String searchHint = 'Artists, Songs, Lyrics and more';
     return ElevatedButton(
         style: ElevatedButton.styleFrom(
           shape: RoundedRectangleBorder(
@@ -177,11 +178,11 @@ class _SearchTabState extends State<SearchTab> {
           final  SearchBloc searchBloc = context.read<SearchBloc>();
           showSearch(
               context: context,
-              delegate: SearchBarDelegate(searchBloc)
+              delegate: SearchBarDelegate(searchBloc, searchHint)
           );
         },
         child: const Text(
-          'Artists, Songs, Lyrics and more',
+          searchHint,
           style: TextStyle(color: Colors.grey),
         )
     );
