@@ -1,13 +1,13 @@
+import 'package:apple_music_clone/model/artist.dart';
+import 'package:apple_music_clone/ui/home_page/details_page/playlist_details/playlist_details_page.dart';
 import 'package:apple_music_clone/utils/config.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 
-Widget commonGridItem(BuildContext context, String headerButtonTitle, int noOfRows, List<String> titleList, List<String> subtitleList, List<String> imgUrlList) {
-  final int noOfItemsPerRow = titleList.length~/noOfRows;
-  List<List<String>> splitTitleLists = _splitList(titleList, noOfItemsPerRow);
-  List<List<String>> splitSubtitleLists = _splitList(subtitleList, noOfItemsPerRow);
-  List<List<String>> splitImgUrlLists = _splitList(imgUrlList, noOfItemsPerRow);
+Widget commonGridItem(BuildContext context, String headerButtonTitle, int noOfRows, List dataList) {
+  final int noOfItemsPerRow = dataList.length~/noOfRows;
+  List<List> splitDataLists = _splitList(dataList, noOfItemsPerRow);
 
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -33,9 +33,7 @@ Widget commonGridItem(BuildContext context, String headerButtonTitle, int noOfRo
                 for (int rowIndex=0; rowIndex<noOfRows; rowIndex++)
                   _singleCardItem(
                       context,
-                      splitTitleLists[rowIndex][pageIndex],
-                      splitSubtitleLists[rowIndex][pageIndex],
-                      splitImgUrlLists[rowIndex][pageIndex]
+                      splitDataLists[rowIndex][pageIndex]
                   )
               ];
               return Column(children: currentPageCards);
@@ -45,7 +43,30 @@ Widget commonGridItem(BuildContext context, String headerButtonTitle, int noOfRo
   );
 }
 
-Widget _singleCardItem(BuildContext context, String title, String subtitle, String imgUrl) {
+Widget _singleCardItem(BuildContext context, dynamic dataItem) {
+  String title = '';
+  String subtitle = '';
+  String imgUrl = '';
+  String id = '';
+  dynamic nextPage;
+  
+  switch (dataItem.type){
+    case 'playlist':
+      title = dataItem.name;
+      subtitle = dataItem.description;
+      imgUrl = dataItem.images[0].url;
+      id = dataItem.id;
+      nextPage = PlaylistDetails(playlistId: id);
+      break;
+    case 'album':
+      title = dataItem.name;
+      subtitle = [for (Artist artist in dataItem.artists) artist.name].join(', ');
+      imgUrl = dataItem.images[0].url;
+      id = dataItem.id;
+      // nextPage = AlbumDetails;
+      break;
+  }
+
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
@@ -60,6 +81,10 @@ Widget _singleCardItem(BuildContext context, String title, String subtitle, Stri
             borderRadius: BorderRadius.all(Radius.circular(12)),
           ),
           child: InkWell(
+            onTap: ()=> Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => nextPage),
+            ),
             child: CachedNetworkImage(
               height: MediaQuery.of(context).size.height * 0.2,
               width: double.infinity,
