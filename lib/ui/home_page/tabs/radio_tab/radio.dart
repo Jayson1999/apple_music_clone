@@ -148,9 +148,7 @@ class _RadioTabState extends State<RadioTab> {
         context,
         'Loved Locally',
         1,
-        [for (Playlist playlist in featuredPlaylists) playlist.name],
-        [for (Playlist playlist in featuredPlaylists) playlist.description],
-        [for (Playlist playlist in featuredPlaylists) playlist.images[0].url],
+        featuredPlaylists
     );
   }
 

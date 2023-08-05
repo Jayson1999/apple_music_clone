@@ -45,7 +45,7 @@ class _BrowseTabState extends State<BrowseTab> {
 
             else if (state.status.isSuccess) {
               ScrollController scrollController = ScrollController();
-              double threshold = state.userSubscription != 0? 30.0: 40.0;
+              double threshold = state.userSubscription != 0? 25.0: 30.0;
               return CustomScrollView(
                 controller: scrollController,
                 slivers: <Widget>[
@@ -135,9 +135,7 @@ class _BrowseTabState extends State<BrowseTab> {
         context,
         'Latest Hits',
         2,
-        [for (Album album in latestReleaseAlbums) album.name],
-        [for (Album album in latestReleaseAlbums) [for (Artist artist in album.artists) artist.name].join(', ')],
-        [for (Album album in latestReleaseAlbums) album.images[0].url]
+        latestReleaseAlbums
     );
   }
 
@@ -146,9 +144,7 @@ class _BrowseTabState extends State<BrowseTab> {
         context,
         'Latest Local Hits',
         1,
-        [for (Album album in latestReleaseAlbums) album.name],
-        [for (Album album in latestReleaseAlbums) [for (Artist artist in album.artists) artist.name].join(', ')],
-        [for (Album album in latestReleaseAlbums) album.images[0].url]
+        latestReleaseAlbums
     );
   }
 
@@ -169,9 +165,7 @@ class _BrowseTabState extends State<BrowseTab> {
           context,
           categories[i].name,
           2,
-          [for (Playlist playlist in categoriesPlaylists[i]) playlist.name],
-          [for (Playlist playlist in categoriesPlaylists[i]) playlist.description],
-          [for (Playlist playlist in categoriesPlaylists[i]) playlist.images[0].url],
+          categoriesPlaylists[i],
         )
     ];
     return playlistsWidgets;
@@ -184,9 +178,7 @@ class _BrowseTabState extends State<BrowseTab> {
           context,
           categories[i].name,
           1,
-          [for (Playlist playlist in categoriesPlaylists[i]) playlist.name],
-          [for (Playlist playlist in categoriesPlaylists[i]) playlist.description],
-          [for (Playlist playlist in categoriesPlaylists[i]) playlist.images[0].url],
+          categoriesPlaylists[i],
         )
     ];
     return playlistsWidgets;
