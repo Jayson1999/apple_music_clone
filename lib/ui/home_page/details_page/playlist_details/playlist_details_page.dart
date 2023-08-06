@@ -57,7 +57,7 @@ class _PlaylistDetailsState extends State<PlaylistDetails> {
                           visible: showAppBarTitleOnly,
                           child: Text(
                             state.playlistDetails?.name ?? 'playlistDetails is null',
-                            style: const TextStyle(fontSize: TextSizes.big, color: Colors.black),
+                            style: const TextStyle(fontSize: AppConfig.bigText, color: Colors.black),
                           ),
                         ),
                       );
@@ -116,9 +116,9 @@ class _PlaylistDetailsState extends State<PlaylistDetails> {
                   Text(
                     playlistDetails?.name ?? 'playlistDetails is null',
                     textAlign: TextAlign.center,
-                    style: const TextStyle(fontSize: TextSizes.big, color: Colors.white),
+                    style: const TextStyle(fontSize: AppConfig.bigText, color: Colors.white),
                   ),
-                  Text(playlistDetails?.type?? '', style: const TextStyle(fontSize: TextSizes.small, color: Colors.white),),
+                  Text(playlistDetails?.type?? '', style: const TextStyle(fontSize: AppConfig.smallText, color: Colors.white),),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -150,7 +150,7 @@ class _PlaylistDetailsState extends State<PlaylistDetails> {
                     playlistDetails?.description ?? '',
                     textAlign: TextAlign.justify,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(fontSize: TextSizes.medium, color: Colors.white),
+                    style: const TextStyle(fontSize: AppConfig.mediumText, color: Colors.white),
                   )
                 ],
               ),

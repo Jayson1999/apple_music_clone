@@ -43,14 +43,14 @@ Widget wideListCardItem(BuildContext context, String headerButtonTitle, List<Str
                           placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
                           errorWidget: (context, url, error) => const Center(child: Icon(Icons.error)),
                         ),
-                        title: Text(splitTitleLists[rowIndex][pageIndex], style: const TextStyle(color: Colors.black, fontSize: TextSizes.medium)),
+                        title: Text(splitTitleLists[rowIndex][pageIndex], style: const TextStyle(color: Colors.black, fontSize: AppConfig.mediumText)),
                         subtitle: Container(
                             decoration: BoxDecoration(
                                 border: Border(
                                   bottom: BorderSide(color: rowIndex!=2? Colors.grey: Colors.white, width: 0.5),
                                 )
                             ),
-                            child: Text(splitSubtitleLists[rowIndex][pageIndex], style: const TextStyle(color: Colors.grey, fontSize: TextSizes.small))
+                            child: Text(splitSubtitleLists[rowIndex][pageIndex], style: const TextStyle(color: Colors.grey, fontSize: AppConfig.smallText))
                         ),
                       ),
                     ),

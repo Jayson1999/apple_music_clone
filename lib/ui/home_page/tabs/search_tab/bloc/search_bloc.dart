@@ -41,8 +41,8 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       final List<Category> globalCategories = await _categoryService.getBrowseCategories();
       final List<List<Playlist>> globalPlaylists = await _playlistService.getPlaylistsFromCategories(globalCategories);
 
-      final List<Category> localCategories = await _categoryService.getBrowseCategories(country: localRegion);
-      final List<List<Playlist>> localPlaylists = await _playlistService.getPlaylistsFromCategories(localCategories, country: localRegion);
+      final List<Category> localCategories = await _categoryService.getBrowseCategories(country: AppConfig.localRegion);
+      final List<List<Playlist>> localPlaylists = await _playlistService.getPlaylistsFromCategories(localCategories, country: AppConfig.localRegion);
 
       emit(state.copyWith(
           pageLoadStatus: SearchStatus.success,

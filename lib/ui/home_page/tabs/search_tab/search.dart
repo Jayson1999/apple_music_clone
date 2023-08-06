@@ -27,76 +27,79 @@ class _SearchTabState extends State<SearchTab> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: BlocBuilder<SearchBloc, SearchState>(
-        builder: (context, state) {
-          if (state.pageLoadStatus.isLoading) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
+    return MaterialApp(
+      theme: AppConfig.getAppTheme(),
+      home: Scaffold(
+        body: BlocBuilder<SearchBloc, SearchState>(
+          builder: (context, state) {
+            if (state.pageLoadStatus.isLoading) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
 
-          else if (state.pageLoadStatus.isSuccess) {
-            ScrollController scrollController = ScrollController();
-            return CustomScrollView(
-              controller: scrollController,
-              slivers: <Widget>[
-                SliverAppBar(
-                  backgroundColor: Colors.white,
-                  expandedHeight: 100.0,
-                  elevation: 0,
-                  floating: true,
-                  pinned: true,
-                  title: const Text(
-                    'Search',
-                    style: TextStyle(fontSize: TextSizes.big, color: Colors.black),
-                  ),
-                  bottom: AppBar(
+            else if (state.pageLoadStatus.isSuccess) {
+              ScrollController scrollController = ScrollController();
+              return CustomScrollView(
+                controller: scrollController,
+                slivers: <Widget>[
+                  SliverAppBar(
                     backgroundColor: Colors.white,
-                    title: SizedBox(
-                        width:double.infinity,
-                        child: _searchAppBar()
+                    expandedHeight: 100.0,
+                    elevation: 0,
+                    floating: true,
+                    pinned: true,
+                    title: const Text(
+                      'Search',
+                      style: TextStyle(fontSize: AppConfig.bigText, color: Colors.black),
                     ),
+                    bottom: AppBar(
+                      backgroundColor: Colors.white,
+                      title: SizedBox(
+                          width:double.infinity,
+                          child: _searchAppBar()
+                      ),
+                    ),
+                    actions: [
+                      PopupMenuButton<String>(
+                          icon: Icon(Icons.more_vert, color: Theme.of(context).primaryColor,),
+                          onSelected: (value) => Navigator.pushNamed(context, '/$value'),
+                          itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+                            const PopupMenuItem<String>(
+                              value: 'settings',
+                              child: Text('Settings'),
+                            ),
+                          ]
+                      )
+                    ],
                   ),
-                  actions: [
-                    PopupMenuButton<String>(
-                        icon: Icon(Icons.more_vert, color: Theme.of(context).primaryColor,),
-                        onSelected: (value) => Navigator.pushNamed(context, '/$value'),
-                        itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-                          const PopupMenuItem<String>(
-                            value: 'settings',
-                            child: Text('Settings'),
-                          ),
-                        ]
-                    )
-                  ],
-                ),
-                SliverList(
-                    delegate: SliverChildListDelegate(
-                        [
-                          state.userSubscription == 0?
-                          Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: _subscribeCard(showCard)
-                          )
-                              :
-                          Container(),
-                          _featuredCategoriesSection([...state.categoriesGlobal, ...state.categoriesLocal]),
-                        ]
-                    )
-                ),
-              ],
-            );
-          }
+                  SliverList(
+                      delegate: SliverChildListDelegate(
+                          [
+                            state.userSubscription == 0?
+                            Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: _subscribeCard(showCard)
+                            )
+                                :
+                            Container(),
+                            _featuredCategoriesSection([...state.categoriesGlobal, ...state.categoriesLocal]),
+                          ]
+                      )
+                  ),
+                ],
+              );
+            }
 
-          else if (state.pageLoadStatus.isError) {
-            return Center(
-              child: Text('Failed to fetch data: ${state.errorMsg}'),
-            );
-          }
+            else if (state.pageLoadStatus.isError) {
+              return Center(
+                child: Text('Failed to fetch data: ${state.errorMsg}'),
+              );
+            }
 
-          return Text('$state');
-        },
+            return Text('$state');
+          },
+        ),
       ),
     );
   }
@@ -107,7 +110,7 @@ class _SearchTabState extends State<SearchTab> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('Browse Categories', style: TextStyle(fontSize: TextSizes.big, fontWeight: FontWeight.bold),),
+          const Text('Browse Categories', style: TextStyle(fontSize: AppConfig.bigText, fontWeight: FontWeight.bold),),
           GridView.builder(
             clipBehavior: Clip.hardEdge,
             physics: const ClampingScrollPhysics(),
@@ -151,7 +154,7 @@ class _SearchTabState extends State<SearchTab> {
                     child: Text(
                       categories[index].name,
                       style: const TextStyle(
-                          fontSize: TextSizes.medium,
+                          fontSize: AppConfig.mediumText,
                           color: Colors.white
                       ),
                     ),
@@ -215,7 +218,7 @@ class _SearchTabState extends State<SearchTab> {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              fontSize: TextSizes.big
+                              fontSize: AppConfig.bigText
                           ),
                         ),
                       ),
@@ -225,7 +228,7 @@ class _SearchTabState extends State<SearchTab> {
                           'Plus your entire music library on all your devices. Plan auto-renews for RM 16.90/month.',
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              fontSize: TextSizes.medium
+                              fontSize: AppConfig.mediumText
                           ),
                         ),
                       ),

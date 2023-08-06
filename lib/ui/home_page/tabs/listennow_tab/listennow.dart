@@ -19,74 +19,77 @@ class _ListenNowTabState extends State<ListenNowTab> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: BlocBuilder<ListenNowBloc, ListenNowState>(
-        builder: (context, state) {
-          if (state.status.isLoading) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
+    return MaterialApp(
+      theme: AppConfig.getAppTheme(),
+      home: Scaffold(
+        body: BlocBuilder<ListenNowBloc, ListenNowState>(
+          builder: (context, state) {
+            if (state.status.isLoading) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
 
-          else if (state.status.isSuccess) {
-            ScrollController scrollController = ScrollController();
-            double threshold = state.userSubscription != 0? 30.0: 40.0;
-            return CustomScrollView(
-              controller: scrollController,
-              slivers: <Widget>[
-                SliverAppBar(
-                  backgroundColor: Colors.white,
-                  expandedHeight: 60.0,
-                  elevation: 0,
-                  floating: false,
-                  pinned: true,
-                  flexibleSpace: LayoutBuilder(
-                    builder: (BuildContext context, BoxConstraints constraints) {
-                      return Visibility(
-                          visible: scrollController.position.pixels > threshold,
-                          child: _listennowAppBar()
-                      );
-                    },
+            else if (state.status.isSuccess) {
+              ScrollController scrollController = ScrollController();
+              double threshold = state.userSubscription != 0? 30.0: 40.0;
+              return CustomScrollView(
+                controller: scrollController,
+                slivers: <Widget>[
+                  SliverAppBar(
+                    backgroundColor: Colors.white,
+                    expandedHeight: 60.0,
+                    elevation: 0,
+                    floating: false,
+                    pinned: true,
+                    flexibleSpace: LayoutBuilder(
+                      builder: (BuildContext context, BoxConstraints constraints) {
+                        return Visibility(
+                            visible: scrollController.position.pixels > threshold,
+                            child: _listennowAppBar()
+                        );
+                      },
+                    ),
+                    actions: [
+                      PopupMenuButton<String>(
+                          icon: Icon(Icons.more_vert, color: Theme.of(context).primaryColor,),
+                          onSelected: (value) => Navigator.pushNamed(context, '/$value'),
+                          itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+                            const PopupMenuItem<String>(
+                              value: 'settings',
+                              child: Text('Settings'),
+                            ),
+                          ]
+                      )
+                    ],
                   ),
-                  actions: [
-                    PopupMenuButton<String>(
-                        icon: Icon(Icons.more_vert, color: Theme.of(context).primaryColor,),
-                        onSelected: (value) => Navigator.pushNamed(context, '/$value'),
-                        itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-                          const PopupMenuItem<String>(
-                            value: 'settings',
-                            child: Text('Settings'),
-                          ),
-                        ]
-                    )
-                  ],
-                ),
-                SliverList(
-                    delegate: SliverChildListDelegate(
-                        [
-                          Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: _listennowHeader(),
-                          ),
-                          state.userSubscription != 0 ?
-                          _subscribedLayout()
-                              :
-                          _unsubscribedLayout()
-                        ]
-                    )
-                ),
-              ],
-            );
-          }
+                  SliverList(
+                      delegate: SliverChildListDelegate(
+                          [
+                            Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: _listennowHeader(),
+                            ),
+                            state.userSubscription != 0 ?
+                            _subscribedLayout()
+                                :
+                            _unsubscribedLayout()
+                          ]
+                      )
+                  ),
+                ],
+              );
+            }
 
-          else if (state.status.isError) {
-            return Center(
-              child: Text('Failed to fetch data: ${state.errorMsg}'),
-            );
-          }
+            else if (state.status.isError) {
+              return Center(
+                child: Text('Failed to fetch data: ${state.errorMsg}'),
+              );
+            }
 
-          return Text('$state');
-        },
+            return Text('$state');
+          },
+        ),
       ),
     );
   }
@@ -102,7 +105,7 @@ class _ListenNowTabState extends State<ListenNowTab> {
           titlePadding: EdgeInsets.all(8.0),
           title: Text(
             'ListenNow',
-            style: TextStyle(fontSize: TextSizes.medium, color: Colors.black),
+            style: TextStyle(fontSize: AppConfig.mediumText, color: Colors.black),
           )
       ),
     );
@@ -111,7 +114,7 @@ class _ListenNowTabState extends State<ListenNowTab> {
   Widget _listennowHeader() {
     return Container(
       padding: const EdgeInsets.only(bottom: 10.0),
-      child: const Text('Listen Now', style: TextStyle(fontSize: TextSizes.big, fontWeight: FontWeight.bold)),
+      child: const Text('Listen Now', style: TextStyle(fontSize: AppConfig.bigText, fontWeight: FontWeight.bold)),
     );
   }
 
@@ -139,7 +142,7 @@ class _ListenNowTabState extends State<ListenNowTab> {
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
-                    fontSize: TextSizes.big
+                    fontSize: AppConfig.bigText
                   ),
                 ),
               ),
@@ -173,7 +176,7 @@ class _ListenNowTabState extends State<ListenNowTab> {
                       'Try It Now',
                       style: TextStyle(
                           color: Colors.white,
-                          fontSize: TextSizes.small
+                          fontSize: AppConfig.smallText
                       ),
                     ),
                     Icon(Icons.arrow_circle_right_rounded, color: Colors.white,)
@@ -186,7 +189,7 @@ class _ListenNowTabState extends State<ListenNowTab> {
                   'Plan auto-renews for RM 16.90/month.',
                   style: TextStyle(
                       color: Colors.white,
-                      fontSize: TextSizes.small
+                      fontSize: AppConfig.smallText
                   ),
                 ),
               ),

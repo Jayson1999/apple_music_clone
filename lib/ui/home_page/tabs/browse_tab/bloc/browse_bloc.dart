@@ -51,10 +51,10 @@ class BrowseBloc extends Bloc<BrowseEvent, BrowseState> {
         final List<Album> globalDetailedAlbums = await _albumService.getAlbumsByIds(globalAlbumIds);
         final List<Track> globalTracks = [for(Album album in globalDetailedAlbums) ...album.tracks];
         
-        final List<Album> localAlbums = await _albumService.getNewReleasesAlbum(region: localRegion);
+        final List<Album> localAlbums = await _albumService.getNewReleasesAlbum(region: AppConfig.localRegion);
         final List<Artist> localArtists = await _artistService.getArtistsFromAlbums(localAlbums);
         final List<String> localAlbumIds = [for (Album album in localAlbums) album.id];
-        final List<Album> localDetailedAlbums = await _albumService.getAlbumsByIds(localAlbumIds, country: localRegion);
+        final List<Album> localDetailedAlbums = await _albumService.getAlbumsByIds(localAlbumIds, country: AppConfig.localRegion);
         final List<Track> localTracks = [for(Album album in localDetailedAlbums) ...album.tracks];
         
         emit(state.copyWith(
@@ -74,7 +74,7 @@ class BrowseBloc extends Bloc<BrowseEvent, BrowseState> {
 
     try {
       final List<Playlist> globalPlaylists = await _playlistService.getFeaturedPlaylists();
-      final List<Playlist> localPlaylists = await _playlistService.getFeaturedPlaylists(country: localRegion);
+      final List<Playlist> localPlaylists = await _playlistService.getFeaturedPlaylists(country: AppConfig.localRegion);
       emit(state.copyWith(
           featuredGlobalPlaylists: globalPlaylists,
           featuredLocalPlaylists: localPlaylists
@@ -91,8 +91,8 @@ class BrowseBloc extends Bloc<BrowseEvent, BrowseState> {
       final List<Category> globalCategories = await _categoryService.getBrowseCategories();
       final List<List<Playlist>> globalPlaylists = await _playlistService.getPlaylistsFromCategories(globalCategories);
 
-      final List<Category> localCategories = await _categoryService.getBrowseCategories(country: localRegion);
-      final List<List<Playlist>> localPlaylists = await _playlistService.getPlaylistsFromCategories(localCategories, country: localRegion);
+      final List<Category> localCategories = await _categoryService.getBrowseCategories(country: AppConfig.localRegion);
+      final List<List<Playlist>> localPlaylists = await _playlistService.getPlaylistsFromCategories(localCategories, country: AppConfig.localRegion);
 
       emit(state.copyWith(
           status: BrowseStatus.success,

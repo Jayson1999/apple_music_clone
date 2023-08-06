@@ -34,88 +34,91 @@ class _BrowseTabState extends State<BrowseTab> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: BlocBuilder<BrowseBloc, BrowseState>(
-          builder: (context, state) {
-            if (state.status.isLoading) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
+    return MaterialApp(
+      theme: AppConfig.getAppTheme(),
+      home: Scaffold(
+        body: BlocBuilder<BrowseBloc, BrowseState>(
+            builder: (context, state) {
+              if (state.status.isLoading) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
 
-            else if (state.status.isSuccess) {
-              ScrollController scrollController = ScrollController();
-              double threshold = state.userSubscription != 0? 25.0: 30.0;
-              return CustomScrollView(
-                controller: scrollController,
-                slivers: <Widget>[
-                  SliverAppBar(
-                    backgroundColor: Colors.white,
-                    expandedHeight: 60.0,
-                    elevation: 0,
-                    floating: false,
-                    pinned: true,
-                    flexibleSpace: LayoutBuilder(
-                      builder: (BuildContext context, BoxConstraints constraints) {
-                        return Visibility(
-                          visible: scrollController.position.pixels > threshold,
-                          child: _browseAppBar()
-                        );
-                      },
+              else if (state.status.isSuccess) {
+                ScrollController scrollController = ScrollController();
+                double threshold = state.userSubscription != 0? 25.0: 30.0;
+                return CustomScrollView(
+                  controller: scrollController,
+                  slivers: <Widget>[
+                    SliverAppBar(
+                      backgroundColor: Colors.white,
+                      expandedHeight: 60.0,
+                      elevation: 0,
+                      floating: false,
+                      pinned: true,
+                      flexibleSpace: LayoutBuilder(
+                        builder: (BuildContext context, BoxConstraints constraints) {
+                          return Visibility(
+                            visible: scrollController.position.pixels > threshold,
+                            child: _browseAppBar()
+                          );
+                        },
+                      ),
+                      actions: [
+                        PopupMenuButton<String>(
+                          icon: Icon(Icons.more_vert, color: Theme.of(context).primaryColor,),
+                          onSelected: (value) => Navigator.pushNamed(context, '/$value'),
+                          itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+                            const PopupMenuItem<String>(
+                              value: 'settings',
+                              child: Text('Settings'),
+                            ),
+                          ]
+                        )
+                      ],
                     ),
-                    actions: [
-                      PopupMenuButton<String>(
-                        icon: Icon(Icons.more_vert, color: Theme.of(context).primaryColor,),
-                        onSelected: (value) => Navigator.pushNamed(context, '/$value'),
-                        itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-                          const PopupMenuItem<String>(
-                            value: 'settings',
-                            child: Text('Settings'),
+                    SliverList(
+                      delegate: SliverChildListDelegate(
+                        [
+                          state.userSubscription == 0?
+                              Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: _subscribeButton()
+                              )
+                          :
+                              Container(),
+                          Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: _browseHeader(),
                           ),
+                          _globalFeaturedPlaylistsSection(state.featuredGlobalPlaylists),
+                          _globalLatestReleasesSection(state.latestGlobalAlbums),
+                          _localLatestReleasesSection(state.latestLocalAlbums),
+                          _localFeaturedPlaylistsSection(state.featuredLocalPlaylists),
+                          ..._globalCategoriesPlaylistsSection(state.categoriesGlobal, state.categoriesGlobalPlaylists),
+                          _featuredCategoriesSection([...state.categoriesGlobal, ...state.categoriesLocal]),
+                          _recommendedTracks(state.recommendedTracks),
+                          ..._localCategoriesPlaylistsSection(state.categoriesLocal, state.categoriesLocalPlaylists),
+                          _featuredArtistsSection([...state.artistsGlobal, ...state.artistsLocal]),
+                          _browseCategoriesSection([...state.categoriesGlobal, ...state.categoriesLocal])
                         ]
                       )
-                    ],
-                  ),
-                  SliverList(
-                    delegate: SliverChildListDelegate(
-                      [
-                        state.userSubscription == 0?
-                            Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: _subscribeButton()
-                            )
-                        :
-                            Container(),
-                        Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: _browseHeader(),
-                        ),
-                        _globalFeaturedPlaylistsSection(state.featuredGlobalPlaylists),
-                        _globalLatestReleasesSection(state.latestGlobalAlbums),
-                        _localLatestReleasesSection(state.latestLocalAlbums),
-                        _localFeaturedPlaylistsSection(state.featuredLocalPlaylists),
-                        ..._globalCategoriesPlaylistsSection(state.categoriesGlobal, state.categoriesGlobalPlaylists),
-                        _featuredCategoriesSection([...state.categoriesGlobal, ...state.categoriesLocal]),
-                        _recommendedTracks(state.recommendedTracks),
-                        ..._localCategoriesPlaylistsSection(state.categoriesLocal, state.categoriesLocalPlaylists),
-                        _featuredArtistsSection([...state.artistsGlobal, ...state.artistsLocal]),
-                        _browseCategoriesSection([...state.categoriesGlobal, ...state.categoriesLocal])
-                      ]
-                    )
-                  ),
-                ],
-              );
-            }
+                    ),
+                  ],
+                );
+              }
 
-            else if (state.status.isError) {
-              return Center(
-                child: Text('Failed to fetch data: ${state.errorMsg}'),
-              );
-            }
+              else if (state.status.isError) {
+                return Center(
+                  child: Text('Failed to fetch data: ${state.errorMsg}'),
+                );
+              }
 
-            return Text('$state');
-          },
-        ),
+              return Text('$state');
+            },
+          ),
+      ),
     );
   }
 
@@ -226,7 +229,7 @@ class _BrowseTabState extends State<BrowseTab> {
                 alignment: Alignment.centerLeft
               ),
               onPressed: () => print('hello'),
-              child: Text(title, style: const TextStyle(color: Colors.red, fontSize: TextSizes.medium))
+              child: Text(title, style: const TextStyle(color: Colors.red, fontSize: AppConfig.mediumText))
           )
       );
     }
@@ -254,7 +257,7 @@ class _BrowseTabState extends State<BrowseTab> {
           titlePadding: EdgeInsets.all(8.0),
           title: Text(
             'Browse',
-            style: TextStyle(fontSize: TextSizes.medium, color: Colors.black),
+            style: TextStyle(fontSize: AppConfig.mediumText, color: Colors.black),
           )
       ),
     );
@@ -289,7 +292,7 @@ class _BrowseTabState extends State<BrowseTab> {
     return Container(
       padding: const EdgeInsets.only(bottom: 10.0),
       decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey, width: 1.0))),
-      child: const Text('Browse', style: TextStyle(fontSize: TextSizes.big, fontWeight: FontWeight.bold)),
+      child: const Text('Browse', style: TextStyle(fontSize: AppConfig.bigText, fontWeight: FontWeight.bold)),
     );
   }
 
