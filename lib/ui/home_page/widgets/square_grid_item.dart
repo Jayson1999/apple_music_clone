@@ -1,8 +1,13 @@
+import 'package:apple_music_clone/ui/home_page/details_pages/album_details/album_details_page.dart';
+import 'package:apple_music_clone/ui/home_page/details_pages/album_details/bloc/album_bloc.dart';
+import 'package:apple_music_clone/ui/home_page/details_pages/playlist_details/bloc/playlist_bloc.dart';
+import 'package:apple_music_clone/ui/home_page/details_pages/playlist_details/playlist_details_page.dart';
 import 'package:apple_music_clone/utils/config.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-Widget squareGridItem(BuildContext context, String headerButtonTitle, List<String> titleList, List<String> subtitleList, List<String> imgUrlList, {List<String> overlayTextList=const []}) {
+Widget squareGridItem(BuildContext context, String headerButtonTitle, List dataList) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
@@ -20,8 +25,36 @@ Widget squareGridItem(BuildContext context, String headerButtonTitle, List<Strin
         child: PageView.builder(
             controller: PageController(viewportFraction: 0.9),
             scrollDirection: Axis.horizontal,
-            itemCount: titleList.length,
+            itemCount: dataList.length,
             itemBuilder: (context, index) {
+              String title = '';
+              String subtitle = '';
+              String imgUrl = '';
+              String overlayText = '';
+              dynamic detailsPage;
+
+              switch (dataList[index].type){
+                case 'album':
+                  title = dataList[index].name;
+                  subtitle = dataList[index].genre.join(',');
+                  imgUrl = dataList[index].images.first.url;
+                  overlayText = '${dataList[index].releaseDate}, ${dataList[index].totalTracks}';
+                  detailsPage = BlocProvider<AlbumBloc>(
+                      create: (context) => AlbumBloc(),
+                      child: AlbumDetails(albumId: dataList[index].id,)
+                  );
+                  break;
+                case 'playlist':
+                  title = dataList[index].name;
+                  subtitle = dataList[index].description;
+                  imgUrl = dataList[index].images.first.url;
+                  detailsPage = BlocProvider<PlaylistBloc>(
+                      create: (context) => PlaylistBloc(),
+                      child: PlaylistDetails(playlistId: dataList[index].id,)
+                  );
+                  break;
+              }
+
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -36,17 +69,21 @@ Widget squareGridItem(BuildContext context, String headerButtonTitle, List<Strin
                         borderRadius: BorderRadius.all(Radius.circular(12)),
                       ),
                       child: InkWell(
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => detailsPage),
+                        ),
                         child: Stack(
                           children: [
                             CachedNetworkImage(
                               fit: BoxFit.cover,
                               height: MediaQuery.of(context).size.height * 0.51,
                               width: double.infinity,
-                              imageUrl: imgUrlList[index],
+                              imageUrl: imgUrl,
                               placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
                               errorWidget: (context, url, error) => const Center(child: Icon(Icons.error)),
                             ),
-                            overlayTextList.isNotEmpty ?
+                            overlayText.isNotEmpty ?
                             Positioned(
                               bottom: 0,
                               left: 0,
@@ -58,7 +95,7 @@ Widget squareGridItem(BuildContext context, String headerButtonTitle, List<Strin
                                 ),
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  overlayTextList[index],
+                                  overlayText,
                                   style: const TextStyle(
                                       fontSize: AppConfig.smallText,
                                       color: Colors.white
@@ -73,12 +110,12 @@ Widget squareGridItem(BuildContext context, String headerButtonTitle, List<Strin
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 8.0),
-                    child: Text(titleList[index], style: const TextStyle(fontSize: AppConfig.mediumText, color: Colors.black),),
+                    child: Text(title, style: const TextStyle(fontSize: AppConfig.mediumText, color: Colors.black),),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 8.0),
                     child: Text(
-                      subtitleList[index],
+                      subtitle,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(fontSize: AppConfig.mediumText, color: Colors.grey),),
                   ),

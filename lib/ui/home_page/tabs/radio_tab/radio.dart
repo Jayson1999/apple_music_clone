@@ -117,10 +117,7 @@ class _RadioTabState extends State<RadioTab> {
     return squareGridItem(
       context,
       'Featured Radio',
-      [for (Playlist playlist in featuredPlaylists) playlist.name],
-      [for (Playlist playlist in featuredPlaylists) playlist.description],
-      [for (Playlist playlist in featuredPlaylists) playlist.images[0].url],
-      overlayTextList: [for (Playlist playlist in featuredPlaylists) playlist.description]
+      featuredPlaylists
     );
   }
 
@@ -128,10 +125,7 @@ class _RadioTabState extends State<RadioTab> {
     return squareGridItem(
       context,
       'Loved Everywhere',
-      [for (Album album in latestReleaseAlbums) album.name],
-      [for (Album album in latestReleaseAlbums) [for (Artist artist in album.artists) artist.name].join(', ')],
-      [for (Album album in latestReleaseAlbums) album.images[0].url],
-      overlayTextList: [for (Album album in latestReleaseAlbums) 'Started broadcasting on: ${album.releaseDate}. Every day & night']
+      latestReleaseAlbums
     );
   }
 
@@ -139,10 +133,7 @@ class _RadioTabState extends State<RadioTab> {
     return squareGridItem(
       context,
       'Local Broadcasters',
-      [for (Album album in latestReleaseAlbums) album.name],
-      [for (Album album in latestReleaseAlbums) [for (Artist artist in album.artists) artist.name].join(', ')],
-      [for (Album album in latestReleaseAlbums) album.images[0].url],
-      overlayTextList: [for (Album album in latestReleaseAlbums) 'Started broadcasting on: ${album.releaseDate}. Every day & night']
+      latestReleaseAlbums
     );
   }
 

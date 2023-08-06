@@ -154,9 +154,7 @@ class _BrowseTabState extends State<BrowseTab> {
     return squareGridItem(
       context,
       'Featured Playlists',
-      [for (Playlist playlist in featuredPlaylists) playlist.name],
-      [for (Playlist playlist in featuredPlaylists) playlist.description],
-      [for (Playlist playlist in featuredPlaylists) playlist.images[0].url],
+      featuredPlaylists
     );
   }
 

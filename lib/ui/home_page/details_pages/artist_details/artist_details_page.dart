@@ -137,9 +137,7 @@ class _ArtistDetailsPageState extends State<ArtistDetailsPage> {
     return squareGridItem(
       context,
       'Essential Albums',
-      [for (Album album in albums) album.name],
-      [for (Album album in albums) album.genre.join(',')],
-      [for (Album album in albums) album.images.first.url],
+      albums
     );
   }
 
