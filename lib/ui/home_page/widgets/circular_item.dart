@@ -1,14 +1,20 @@
+import 'package:apple_music_clone/ui/home_page/details_pages/expanded_artists_page.dart';
 import 'package:apple_music_clone/utils/config.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 
-Widget circularItem(BuildContext context, String headerButtonTitle, List<String> titleList, List<String> imgUrlList) {
+Widget circularItem(BuildContext context, String headerButtonTitle, List dataList) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       TextButton(
-        onPressed: ()=>print('hello'),
+        onPressed: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ArtistsExpandedPage(dataList: dataList, title: headerButtonTitle),
+          ),
+        ),
         child: Row(
           children: [
             Text(headerButtonTitle, style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.black),),
@@ -22,12 +28,12 @@ Widget circularItem(BuildContext context, String headerButtonTitle, List<String>
             padEnds: false,
             controller: PageController(viewportFraction: 0.32),
             scrollDirection: Axis.horizontal,
-            itemCount: titleList.length,
+            itemCount: dataList.length,
             itemBuilder: (context, pageIndex) {
               return _circularItem(
                   context,
-                  titleList[pageIndex],
-                  imgUrlList[pageIndex]
+                  dataList[pageIndex].name,
+                  dataList[pageIndex].images.first.url
               );
             }),
       )
