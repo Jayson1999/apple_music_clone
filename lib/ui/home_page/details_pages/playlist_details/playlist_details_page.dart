@@ -1,5 +1,5 @@
 import 'package:apple_music_clone/model/playlist.dart';
-import 'package:apple_music_clone/ui/home_page/details_page/playlist_details/bloc/playlist_bloc.dart';
+import 'package:apple_music_clone/ui/home_page/details_pages/playlist_details/bloc/playlist_bloc.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/singleTrackListTile.dart';
 import 'package:apple_music_clone/utils/config.dart';
 import 'package:cached_network_image/cached_network_image.dart';
