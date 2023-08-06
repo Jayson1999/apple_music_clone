@@ -200,10 +200,7 @@ class _BrowseTabState extends State<BrowseTab> {
     return narrowListCardItem(
       context,
       'Best New Songs',
-      [for (Track track in tracks) track.name],
-      [for (Track track in tracks) [for (Artist artist in track.artists) artist.name].join(', ')],
-      [for (Track track in tracks) '${track.album?.images[0].url}'
-      ],
+      tracks
     );
   }
 
