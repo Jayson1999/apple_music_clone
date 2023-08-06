@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 class AppConfig{
   static const String clientId = '941e3aa6d6e6469a911d295923431c73';
+  // Usually secrets are stored in Secret Manager/Key Vault, not in repo
   static const String clientSecret = 'c2eb8de6ad4849fca4875797a26f75c4';
   static final String localRegion = window.locale.countryCode ?? '';
   static const double bigText = 24.0;
