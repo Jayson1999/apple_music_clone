@@ -211,8 +211,7 @@ class _BrowseTabState extends State<BrowseTab> {
     return circularItem(
         context,
         'Artists We Love',
-        [for (Artist artist in artists) artist.name],
-        [for (Artist artist in artists) artist.images[0].url]
+        artists
     );
   }
 
