@@ -15,18 +15,18 @@ Widget wideGridItem(BuildContext context, List<String> titleList, List<String> s
             children: [
               Padding(
                 padding: const EdgeInsets.only(left: 8.0),
-                child: Text(descriptionList[index], style: const TextStyle(fontSize: TextSizes.small, color: Colors.grey),),
+                child: Text(descriptionList[index], style: const TextStyle(fontSize: AppConfig.smallText, color: Colors.grey),),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 8.0),
-                child: Text(titleList[index], style: const TextStyle(fontSize: TextSizes.medium, color: Colors.black),),
+                child: Text(titleList[index], style: const TextStyle(fontSize: AppConfig.mediumText, color: Colors.black),),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 8.0),
                 child: Text(
                   subtitleList[index],
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(fontSize: TextSizes.medium, color: Colors.grey),),
+                  style: const TextStyle(fontSize: AppConfig.mediumText, color: Colors.grey),),
               ),
               Card(
                   clipBehavior: Clip.hardEdge,
@@ -61,7 +61,7 @@ Widget wideGridItem(BuildContext context, List<String> titleList, List<String> s
                             child: Text(
                               overlayTextList[index],
                               style: const TextStyle(
-                                  fontSize: TextSizes.small,
+                                  fontSize: AppConfig.smallText,
                                   color: Colors.white
                               ),
                             ),

@@ -56,7 +56,7 @@ Widget _circularItem(BuildContext context, String title, String imgUrl) {
         child: Text(
           title,
           overflow: TextOverflow.ellipsis,
-          style: const TextStyle(fontSize: TextSizes.medium, color: Colors.black),
+          style: const TextStyle(fontSize: AppConfig.mediumText, color: Colors.black),
         ),
       ),
     ],

@@ -106,12 +106,12 @@ class SearchBarDelegate extends SearchDelegate<String> {
       title: Text(
         artistData.name,
         overflow: TextOverflow.ellipsis,
-        style: const TextStyle(fontSize: TextSizes.medium),
+        style: const TextStyle(fontSize: AppConfig.mediumText),
       ),
       subtitle: Text(
        artistData.type,
         overflow: TextOverflow.ellipsis,
-        style: const TextStyle(fontSize: TextSizes.small, color: Colors.grey),
+        style: const TextStyle(fontSize: AppConfig.smallText, color: Colors.grey),
       )
     );
   }
@@ -127,12 +127,12 @@ class SearchBarDelegate extends SearchDelegate<String> {
       title: Text(
         playlistData.name,
         overflow: TextOverflow.ellipsis,
-        style: const TextStyle(fontSize: TextSizes.medium),
+        style: const TextStyle(fontSize: AppConfig.mediumText),
       ),
       subtitle: Text(
         '${playlistData.type} . ${playlistData.tracks.length} tracks',
         overflow: TextOverflow.ellipsis,
-        style: const TextStyle(fontSize: TextSizes.small, color: Colors.grey),
+        style: const TextStyle(fontSize: AppConfig.smallText, color: Colors.grey),
       )
     );
   }
@@ -147,12 +147,12 @@ class SearchBarDelegate extends SearchDelegate<String> {
         title: Text(
           albumData.name,
           overflow: TextOverflow.ellipsis,
-          style: const TextStyle(fontSize: TextSizes.medium),
+          style: const TextStyle(fontSize: AppConfig.mediumText),
         ),
         subtitle: Text(
           '${albumData.type} . ${[for (Artist a in albumData.artists) a.name].join(',')}',
           overflow: TextOverflow.ellipsis,
-          style: const TextStyle(fontSize: TextSizes.small, color: Colors.grey),
+          style: const TextStyle(fontSize: AppConfig.smallText, color: Colors.grey),
         )
     );
   }

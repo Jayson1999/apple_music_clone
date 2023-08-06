@@ -46,10 +46,10 @@ class RadioBloc extends Bloc<RadioEvent, RadioState> {
       final List<Album> globalDetailedAlbums = await _albumService.getAlbumsByIds(globalAlbumIds);
       final List<Track> globalTracks = [for(Album album in globalDetailedAlbums) ...album.tracks];
 
-      final List<Album> localAlbums = await _albumService.getNewReleasesAlbum(region: localRegion);
+      final List<Album> localAlbums = await _albumService.getNewReleasesAlbum(region: AppConfig.localRegion);
       final List<Artist> localArtists = await _artistService.getArtistsFromAlbums(localAlbums);
       final List<String> localAlbumIds = [for (Album album in localAlbums) album.id];
-      final List<Album> localDetailedAlbums = await _albumService.getAlbumsByIds(localAlbumIds, country: localRegion);
+      final List<Album> localDetailedAlbums = await _albumService.getAlbumsByIds(localAlbumIds, country: AppConfig.localRegion);
       final List<Track> localTracks = [for(Album album in localDetailedAlbums) ...album.tracks];
 
       emit(state.copyWith(
@@ -70,7 +70,7 @@ class RadioBloc extends Bloc<RadioEvent, RadioState> {
 
     try {
       final List<Playlist> globalPlaylists = await _playlistService.getFeaturedPlaylists();
-      final List<Playlist> localPlaylists = await _playlistService.getFeaturedPlaylists(country: localRegion);
+      final List<Playlist> localPlaylists = await _playlistService.getFeaturedPlaylists(country: AppConfig.localRegion);
       emit(state.copyWith(
           status: RadioStatus.success,
           featuredGlobalPlaylists: globalPlaylists,

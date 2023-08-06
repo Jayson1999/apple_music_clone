@@ -29,83 +29,86 @@ class _RadioTabState extends State<RadioTab> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: BlocBuilder<RadioBloc, RadioState>(
-        builder: (context, state) {
-          if (state.status.isLoading) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
+    return MaterialApp(
+      theme: AppConfig.getAppTheme(),
+      home: Scaffold(
+        body: BlocBuilder<RadioBloc, RadioState>(
+          builder: (context, state) {
+            if (state.status.isLoading) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
 
-          else if (state.status.isSuccess) {
-            ScrollController scrollController = ScrollController();
-            double threshold = state.userSubscription != 0? 30.0: 40.0;
+            else if (state.status.isSuccess) {
+              ScrollController scrollController = ScrollController();
+              double threshold = state.userSubscription != 0? 30.0: 40.0;
 
-            return CustomScrollView(
-              controller: scrollController,
-              slivers: <Widget>[
-                SliverAppBar(
-                  backgroundColor: Colors.white,
-                  expandedHeight: 60.0,
-                  elevation: 0,
-                  floating: false,
-                  pinned: true,
-                  flexibleSpace: LayoutBuilder(
-                    builder: (BuildContext context, BoxConstraints constraints) {
-                      return Visibility(
-                          visible: scrollController.position.pixels > threshold,
-                          child: _radioAppBar()
-                      );
-                    },
+              return CustomScrollView(
+                controller: scrollController,
+                slivers: <Widget>[
+                  SliverAppBar(
+                    backgroundColor: Colors.white,
+                    expandedHeight: 60.0,
+                    elevation: 0,
+                    floating: false,
+                    pinned: true,
+                    flexibleSpace: LayoutBuilder(
+                      builder: (BuildContext context, BoxConstraints constraints) {
+                        return Visibility(
+                            visible: scrollController.position.pixels > threshold,
+                            child: _radioAppBar()
+                        );
+                      },
+                    ),
+                    actions: [
+                      PopupMenuButton<String>(
+                          icon: Icon(Icons.more_vert, color: Theme.of(context).primaryColor,),
+                          onSelected: (value) => Navigator.pushNamed(context, '/$value'),
+                          itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+                            const PopupMenuItem<String>(
+                              value: 'settings',
+                              child: Text('Settings'),
+                            ),
+                          ]
+                      )
+                    ],
                   ),
-                  actions: [
-                    PopupMenuButton<String>(
-                        icon: Icon(Icons.more_vert, color: Theme.of(context).primaryColor,),
-                        onSelected: (value) => Navigator.pushNamed(context, '/$value'),
-                        itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-                          const PopupMenuItem<String>(
-                            value: 'settings',
-                            child: Text('Settings'),
-                          ),
-                        ]
-                    )
-                  ],
-                ),
-                SliverList(
-                    delegate: SliverChildListDelegate(
-                        [
-                          state.userSubscription == 0?
-                          Padding(
+                  SliverList(
+                      delegate: SliverChildListDelegate(
+                          [
+                            state.userSubscription == 0?
+                            Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: _subscribeButton()
+                            )
+                                :
+                            Container(),
+                            Padding(
                               padding: const EdgeInsets.all(10.0),
-                              child: _subscribeButton()
-                          )
-                              :
-                          Container(),
-                          Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: _radioHeader(),
-                          ),
-                          _globalFeaturedRadioSection(state.featuredGlobalPlaylists),
-                          _globalLatestReleasesSection(state.latestGlobalAlbums),
-                          _localBroadcastersSection(state.latestLocalAlbums),
-                          _localLatestReleasesSection(state.featuredLocalPlaylists),
-                          _globalBroadcastersSection(state.recommendedTracks)
-                        ]
-                    )
-                ),
-              ],
-            );
-          }
+                              child: _radioHeader(),
+                            ),
+                            _globalFeaturedRadioSection(state.featuredGlobalPlaylists),
+                            _globalLatestReleasesSection(state.latestGlobalAlbums),
+                            _localBroadcastersSection(state.latestLocalAlbums),
+                            _localLatestReleasesSection(state.featuredLocalPlaylists),
+                            _globalBroadcastersSection(state.recommendedTracks)
+                          ]
+                      )
+                  ),
+                ],
+              );
+            }
 
-          else if (state.status.isError) {
-            return Center(
-              child: Text('Failed to fetch data: ${state.errorMsg}'),
-            );
-          }
+            else if (state.status.isError) {
+              return Center(
+                child: Text('Failed to fetch data: ${state.errorMsg}'),
+              );
+            }
 
-          return Text('$state');
-        },
+            return Text('$state');
+          },
+        ),
       ),
     );
   }
@@ -174,7 +177,7 @@ class _RadioTabState extends State<RadioTab> {
           titlePadding: EdgeInsets.all(8.0),
           title: Text(
             'Browse',
-            style: TextStyle(fontSize: TextSizes.medium, color: Colors.black),
+            style: TextStyle(fontSize: AppConfig.mediumText, color: Colors.black),
           )
       ),
     );
@@ -209,7 +212,7 @@ class _RadioTabState extends State<RadioTab> {
     return Container(
       padding: const EdgeInsets.only(bottom: 10.0),
       decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey, width: 1.0))),
-      child: const Text('Browse', style: TextStyle(fontSize: TextSizes.big, fontWeight: FontWeight.bold)),
+      child: const Text('Browse', style: TextStyle(fontSize: AppConfig.bigText, fontWeight: FontWeight.bold)),
     );
   }
 

@@ -1,6 +1,7 @@
 import 'package:apple_music_clone/ui/first_page/first_page.dart';
 import 'package:apple_music_clone/ui/home_page/home.dart';
 import 'package:apple_music_clone/ui/settings_page/settings_page.dart';
+import 'package:apple_music_clone/utils/config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -30,7 +31,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Apple Music Clone',
-      theme: _getAppTheme(),
+      theme: AppConfig.getAppTheme(),
       initialRoute: widget.agreedTerms? '/home': '/first',
       routes: {
         '/first': (context) => const FirstPage(),
@@ -40,20 +41,4 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
-  ThemeData _getAppTheme() =>
-      ThemeData(
-        buttonTheme: const ButtonThemeData(
-          buttonColor: Colors.red,
-        ),
-        primaryColor: Colors.red,
-        scaffoldBackgroundColor: Colors.white,
-        bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-          backgroundColor: Colors.white,
-          selectedItemColor: Colors.red,
-          selectedLabelStyle: TextStyle(fontSize: 12),
-          type: BottomNavigationBarType.fixed,
-          unselectedItemColor: Colors.grey,
-          unselectedLabelStyle: TextStyle(fontSize: 12),
-        ),
-      );
 }

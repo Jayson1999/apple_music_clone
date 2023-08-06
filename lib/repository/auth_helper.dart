@@ -5,8 +5,8 @@ import 'package:dio/dio.dart';
 
 class AuthHelper {
   static const String _tokenUrl = 'https://accounts.spotify.com/api/token';
-  static const String _clientId = clientId;
-  static const String _clientSecret = clientSecret;
+  static const String _clientId = AppConfig.clientId;
+  static const String _clientSecret = AppConfig.clientSecret;
 
   final Dio _dio = Dio();
   String? _accessToken;

@@ -19,74 +19,77 @@ class _LibraryTabState extends State<LibraryTab> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: BlocBuilder<LibraryBloc, LibraryState>(
-        builder: (context, state) {
-          if (state.status.isLoading) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
+    return MaterialApp(
+      theme: AppConfig.getAppTheme(),
+      home: Scaffold(
+        body: BlocBuilder<LibraryBloc, LibraryState>(
+          builder: (context, state) {
+            if (state.status.isLoading) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
 
-          else if (state.status.isSuccess) {
-            ScrollController scrollController = ScrollController();
-            double threshold = state.userSubscription != 0? 30.0: 40.0;
-            return CustomScrollView(
-              controller: scrollController,
-              slivers: <Widget>[
-                SliverAppBar(
-                  backgroundColor: Colors.white,
-                  expandedHeight: 60.0,
-                  elevation: 0,
-                  floating: false,
-                  pinned: true,
-                  flexibleSpace: LayoutBuilder(
-                    builder: (BuildContext context, BoxConstraints constraints) {
-                      return Visibility(
-                          visible: scrollController.position.pixels > threshold,
-                          child: _libraryAppBar()
-                      );
-                    },
+            else if (state.status.isSuccess) {
+              ScrollController scrollController = ScrollController();
+              double threshold = state.userSubscription != 0? 30.0: 40.0;
+              return CustomScrollView(
+                controller: scrollController,
+                slivers: <Widget>[
+                  SliverAppBar(
+                    backgroundColor: Colors.white,
+                    expandedHeight: 60.0,
+                    elevation: 0,
+                    floating: false,
+                    pinned: true,
+                    flexibleSpace: LayoutBuilder(
+                      builder: (BuildContext context, BoxConstraints constraints) {
+                        return Visibility(
+                            visible: scrollController.position.pixels > threshold,
+                            child: _libraryAppBar()
+                        );
+                      },
+                    ),
+                    actions: [
+                      PopupMenuButton<String>(
+                          icon: Icon(Icons.more_vert, color: Theme.of(context).primaryColor,),
+                          onSelected: (value) => Navigator.pushNamed(context, '/$value'),
+                          itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+                            const PopupMenuItem<String>(
+                              value: 'settings',
+                              child: Text('Settings'),
+                            ),
+                          ]
+                      )
+                    ],
                   ),
-                  actions: [
-                    PopupMenuButton<String>(
-                        icon: Icon(Icons.more_vert, color: Theme.of(context).primaryColor,),
-                        onSelected: (value) => Navigator.pushNamed(context, '/$value'),
-                        itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-                          const PopupMenuItem<String>(
-                            value: 'settings',
-                            child: Text('Settings'),
-                          ),
-                        ]
-                    )
-                  ],
-                ),
-                SliverList(
-                    delegate: SliverChildListDelegate(
-                        [
-                          Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: _libraryHeader(),
-                          ),
-                          state.userSubscription != 0 ?
-                              _subscribedLayout()
-                              :
-                              _unsubscribedLayout()
-                        ]
-                    )
-                ),
-              ],
-            );
-          }
+                  SliverList(
+                      delegate: SliverChildListDelegate(
+                          [
+                            Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: _libraryHeader(),
+                            ),
+                            state.userSubscription != 0 ?
+                                _subscribedLayout()
+                                :
+                                _unsubscribedLayout()
+                          ]
+                      )
+                  ),
+                ],
+              );
+            }
 
-          else if (state.status.isError) {
-            return Center(
-              child: Text('Failed to fetch data: ${state.errorMsg}'),
-            );
-          }
+            else if (state.status.isError) {
+              return Center(
+                child: Text('Failed to fetch data: ${state.errorMsg}'),
+              );
+            }
 
-          return Text('$state');
-        },
+            return Text('$state');
+          },
+        ),
       ),
     );
   }
@@ -102,7 +105,7 @@ class _LibraryTabState extends State<LibraryTab> {
           titlePadding: EdgeInsets.all(8.0),
           title: Text(
             'Library',
-            style: TextStyle(fontSize: TextSizes.medium, color: Colors.black),
+            style: TextStyle(fontSize: AppConfig.mediumText, color: Colors.black),
           )
       ),
     );
@@ -111,7 +114,7 @@ class _LibraryTabState extends State<LibraryTab> {
   Widget _libraryHeader() {
     return Container(
       padding: const EdgeInsets.only(bottom: 10.0),
-      child: const Text('Library', style: TextStyle(fontSize: TextSizes.big, fontWeight: FontWeight.bold)),
+      child: const Text('Library', style: TextStyle(fontSize: AppConfig.bigText, fontWeight: FontWeight.bold)),
     );
   }
 
@@ -127,7 +130,7 @@ class _LibraryTabState extends State<LibraryTab> {
         const Padding(
           padding: EdgeInsets.all(8.0),
           child: Text('Your music everywhere.', textAlign: TextAlign.start,
-              style: TextStyle(fontSize: TextSizes.medium, fontWeight: FontWeight.bold)),
+              style: TextStyle(fontSize: AppConfig.mediumText, fontWeight: FontWeight.bold)),
         ),
         const Padding(
           padding: EdgeInsets.all(8.0),

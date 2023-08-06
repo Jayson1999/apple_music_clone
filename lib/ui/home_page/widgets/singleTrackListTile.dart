@@ -15,12 +15,12 @@ Widget singleTrack(Track trackData, BuildContext context){
     title: Text(
       trackData.name,
       overflow: TextOverflow.ellipsis,
-      style: const TextStyle(fontSize: TextSizes.medium),
+      style: const TextStyle(fontSize: AppConfig.mediumText),
     ),
     subtitle: Text(
       '${trackData.type} . ${[for (Artist a in trackData.artists) a.name].join(',')}',
       overflow: TextOverflow.ellipsis,
-      style: const TextStyle(fontSize: TextSizes.small, color: Colors.grey),
+      style: const TextStyle(fontSize: AppConfig.smallText, color: Colors.grey),
     ),
     trailing: PopupMenuButton<String>(
         icon: Icon(Icons.more_vert, color: Theme.of(context).primaryColor,),
