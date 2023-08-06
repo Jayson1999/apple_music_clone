@@ -91,11 +91,7 @@ class _CategoryDetailsPageState extends State<CategoryDetailsPage> {
   Widget _globalFeaturedPlaylistsSection(BuildContext context, List<Playlist> playlists) {
     return wideGridItem(
         context,
-        [for (Playlist playlist in playlists) playlist.name],
-        [for (Playlist playlist in playlists) playlist.description.split(' ').first],
-        [for (Playlist playlist in playlists) playlist.type],
-        [for (Playlist playlist in playlists) playlist.images.first.url],
-        [for (Playlist playlist in playlists) playlist.description]
+        playlists
     );
   }
 
