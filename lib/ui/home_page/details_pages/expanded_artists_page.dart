@@ -1,6 +1,9 @@
+import 'package:apple_music_clone/ui/home_page/details_pages/artist_details/artist_details_page.dart';
+import 'package:apple_music_clone/ui/home_page/details_pages/artist_details/bloc/artist_bloc.dart';
 import 'package:apple_music_clone/utils/config.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 
 class ArtistsExpandedPage extends StatelessWidget {
@@ -38,14 +41,16 @@ class ArtistsExpandedPage extends StatelessWidget {
       itemBuilder: (context, index) {
         String title = dataList[index].name;
         String url = dataList[index].images.first.url;
-        // ArtistsDetails detailsPage =
+        var detailsPage = BlocProvider<ArtistBloc>(
+            create: (context) => ArtistBloc(),
+            child: ArtistDetailsPage(artist: dataList[index])
+        );
 
         return InkWell(
-          onTap: ()=> print('hello'),
-          //     Navigator.push(
-          //   context,
-          //   MaterialPageRoute(builder: (context) => detailsPage),
-          // ),
+          onTap: ()=> Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => detailsPage),
+          ),
           child: ListTile(
             leading: CircleAvatar(
               radius: 20,
