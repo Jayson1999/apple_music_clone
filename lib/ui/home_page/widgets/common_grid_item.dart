@@ -1,8 +1,10 @@
 import 'package:apple_music_clone/model/artist.dart';
+import 'package:apple_music_clone/ui/home_page/details_page/playlist_details/bloc/playlist_bloc.dart';
 import 'package:apple_music_clone/ui/home_page/details_page/playlist_details/playlist_details_page.dart';
 import 'package:apple_music_clone/utils/config.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 
 Widget commonGridItem(BuildContext context, String headerButtonTitle, int noOfRows, List dataList) {
@@ -56,7 +58,10 @@ Widget _singleCardItem(BuildContext context, dynamic dataItem) {
       subtitle = dataItem.description;
       imgUrl = dataItem.images[0].url;
       id = dataItem.id;
-      nextPage = PlaylistDetails(playlistId: id);
+      nextPage = BlocProvider<PlaylistBloc>(
+          create: (context) => PlaylistBloc(),
+          child: PlaylistDetails(playlistId: id)
+      );
       break;
     case 'album':
       title = dataItem.name;
