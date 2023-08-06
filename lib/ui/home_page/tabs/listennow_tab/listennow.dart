@@ -24,7 +24,7 @@ class _ListenNowTabState extends State<ListenNowTab> {
       home: Scaffold(
         body: BlocBuilder<ListenNowBloc, ListenNowState>(
           builder: (context, state) {
-            if (state.status.isLoading) {
+            if (state.status.isLoading || state.status.isInitial) {
               return const Center(
                 child: CircularProgressIndicator(),
               );

@@ -35,7 +35,7 @@ class _ArtistDetailsPageState extends State<ArtistDetailsPage> {
     return Scaffold(
       body: BlocBuilder<ArtistBloc, ArtistState>(
           builder: (context, state) {
-            if (state.artistStatus.isLoading) {
+            if (state.artistStatus.isLoading || state.artistStatus.isInitial) {
               return const Center(
                 child: CircularProgressIndicator(),
               );

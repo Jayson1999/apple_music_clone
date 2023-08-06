@@ -28,7 +28,7 @@ class _PlaylistDetailsState extends State<PlaylistDetails> {
     return Scaffold(
       body: BlocBuilder<PlaylistBloc, PlaylistState>(
         builder: (context, state){
-          if (state.playlistStatus.isLoading) {
+          if (state.playlistStatus.isLoading || state.playlistStatus.isInitial) {
             return const Center(
               child: CircularProgressIndicator(),
             );

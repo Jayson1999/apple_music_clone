@@ -55,7 +55,7 @@ class SearchBarDelegate extends SearchDelegate<String> {
       return BlocBuilder<SearchBloc, SearchState>(
         bloc: searchBloc,
         builder: (context, state) {
-          if (state.searchStatus.isLoading) {
+          if (state.searchStatus.isLoading || state.searchStatus.isInitial) {
             return const Center(
               child: CircularProgressIndicator(),
             );

@@ -28,7 +28,7 @@ class _AlbumDetailsState extends State<AlbumDetails> {
     return Scaffold(
         body: BlocBuilder<AlbumBloc, AlbumState>(
           builder: (context, state){
-            if (state.albumStatus.isLoading) {
+            if (state.albumStatus.isLoading || state.albumStatus.isInitial) {
               return const Center(
                 child: CircularProgressIndicator(),
               );

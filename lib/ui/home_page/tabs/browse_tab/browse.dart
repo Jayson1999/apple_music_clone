@@ -42,7 +42,7 @@ class _BrowseTabState extends State<BrowseTab> {
       home: Scaffold(
         body: BlocBuilder<BrowseBloc, BrowseState>(
             builder: (context, state) {
-              if (state.status.isLoading) {
+              if (state.status.isLoading || state.status.isInitial) {
                 return const Center(
                   child: CircularProgressIndicator(),
                 );

@@ -9,7 +9,6 @@ Widget narrowListCardItem(BuildContext context, String headerButtonTitle, List d
   const int noOfRowsPerPage = 4;
   final int noOfPages = dataList.length~/noOfRowsPerPage;
   List<List> splitDataLists = _splitList(dataList, noOfRowsPerPage);
-  print("HERE!! splitDataLists length: ${splitDataLists.length}\ndataList length: ${dataList.length}\nbatchSize: ${noOfPages}\n\n");
 
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
