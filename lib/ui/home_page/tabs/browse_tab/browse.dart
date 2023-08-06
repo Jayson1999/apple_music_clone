@@ -92,16 +92,16 @@ class _BrowseTabState extends State<BrowseTab> {
                             padding: const EdgeInsets.all(10.0),
                             child: _browseHeader(),
                           ),
-                          _globalFeaturedPlaylistsSection(state.featuredGlobalPlaylists),
-                          _globalLatestReleasesSection(state.latestGlobalAlbums),
-                          _localLatestReleasesSection(state.latestLocalAlbums),
-                          _localFeaturedPlaylistsSection(state.featuredLocalPlaylists),
-                          ..._globalCategoriesPlaylistsSection(state.categoriesGlobal, state.categoriesGlobalPlaylists),
-                          _featuredCategoriesSection([...state.categoriesGlobal, ...state.categoriesLocal]),
-                          _recommendedTracks(state.recommendedTracks),
-                          ..._localCategoriesPlaylistsSection(state.categoriesLocal, state.categoriesLocalPlaylists),
-                          _featuredArtistsSection([...state.artistsGlobal, ...state.artistsLocal]),
-                          _browseCategoriesSection([...state.categoriesGlobal, ...state.categoriesLocal])
+                          _globalFeaturedPlaylistsSection(context, state.featuredGlobalPlaylists),
+                          _globalLatestReleasesSection(context, state.latestGlobalAlbums),
+                          _localLatestReleasesSection(context, state.latestLocalAlbums),
+                          _localFeaturedPlaylistsSection(context, state.featuredLocalPlaylists),
+                          ..._globalCategoriesPlaylistsSection(context, state.categoriesGlobal, state.categoriesGlobalPlaylists),
+                          _featuredCategoriesSection(context, [...state.categoriesGlobal, ...state.categoriesLocal]),
+                          _recommendedTracks(context, state.recommendedTracks),
+                          ..._localCategoriesPlaylistsSection(context, state.categoriesLocal, state.categoriesLocalPlaylists),
+                          _featuredArtistsSection(context, [...state.artistsGlobal, ...state.artistsLocal]),
+                          _browseCategoriesSection(context, [...state.categoriesGlobal, ...state.categoriesLocal])
                         ]
                       )
                     ),
@@ -122,7 +122,7 @@ class _BrowseTabState extends State<BrowseTab> {
     );
   }
 
-  Widget _globalFeaturedPlaylistsSection(List<Playlist> featuredPlaylists) {
+  Widget _globalFeaturedPlaylistsSection(BuildContext context, List<Playlist> featuredPlaylists) {
     return wideGridItem(
         context,
         [for (Playlist playlist in featuredPlaylists) playlist.name],
@@ -133,7 +133,7 @@ class _BrowseTabState extends State<BrowseTab> {
     );
   }
 
-  Widget _globalLatestReleasesSection(List<Album> latestReleaseAlbums) {
+  Widget _globalLatestReleasesSection(BuildContext context, List<Album> latestReleaseAlbums) {
     return commonGridItem(
         context,
         'Latest Hits',
@@ -142,7 +142,7 @@ class _BrowseTabState extends State<BrowseTab> {
     );
   }
 
-  Widget _localLatestReleasesSection(List<Album> latestReleaseAlbums) {
+  Widget _localLatestReleasesSection(BuildContext context, List<Album> latestReleaseAlbums) {
     return commonGridItem(
         context,
         'Latest Local Hits',
@@ -151,7 +151,7 @@ class _BrowseTabState extends State<BrowseTab> {
     );
   }
 
-  Widget _localFeaturedPlaylistsSection(List<Playlist> featuredPlaylists) {
+  Widget _localFeaturedPlaylistsSection(BuildContext context, List<Playlist> featuredPlaylists) {
     return squareGridItem(
       context,
       'Featured Playlists',
@@ -161,7 +161,7 @@ class _BrowseTabState extends State<BrowseTab> {
     );
   }
 
-  List<Widget> _globalCategoriesPlaylistsSection(List<Category> categories, List<List<Playlist>> categoriesPlaylists) {
+  List<Widget> _globalCategoriesPlaylistsSection(BuildContext context, List<Category> categories, List<List<Playlist>> categoriesPlaylists) {
     List<Widget> playlistsWidgets = [
       for (int i=0; i<3; i++)
         commonGridItem(
@@ -174,7 +174,7 @@ class _BrowseTabState extends State<BrowseTab> {
     return playlistsWidgets;
   }
 
-  List<Widget> _localCategoriesPlaylistsSection(List<Category> categories, List<List<Playlist>> categoriesPlaylists) {
+  List<Widget> _localCategoriesPlaylistsSection(BuildContext context, List<Category> categories, List<List<Playlist>> categoriesPlaylists) {
     List<Widget> playlistsWidgets = [
       for (int i=0; i<3; i++)
         commonGridItem(
@@ -187,7 +187,7 @@ class _BrowseTabState extends State<BrowseTab> {
     return playlistsWidgets;
   }
 
-  Widget _featuredCategoriesSection(List<Category> categories){
+  Widget _featuredCategoriesSection(BuildContext context, List<Category> categories){
     return narrowGridItem(
         context,
         'Browse by Category',
@@ -196,7 +196,7 @@ class _BrowseTabState extends State<BrowseTab> {
     );
   }
 
-  Widget _recommendedTracks(List<Track> tracks){
+  Widget _recommendedTracks(BuildContext context, List<Track> tracks){
     return narrowListCardItem(
       context,
       'Best New Songs',
@@ -207,7 +207,7 @@ class _BrowseTabState extends State<BrowseTab> {
     );
   }
 
-  Widget _featuredArtistsSection(List <Artist> artists) {
+  Widget _featuredArtistsSection(BuildContext context, List <Artist> artists) {
     return circularItem(
         context,
         'Artists We Love',
@@ -216,7 +216,7 @@ class _BrowseTabState extends State<BrowseTab> {
     );
   }
 
-  Widget _browseCategoriesSection (List <Category> categories){
+  Widget _browseCategoriesSection (BuildContext context, List <Category> categories){
     Widget listItem(String title) {
       return Container(
           width: double.infinity,
