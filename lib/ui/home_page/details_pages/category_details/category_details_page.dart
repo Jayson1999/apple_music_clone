@@ -35,7 +35,7 @@ class _CategoryDetailsPageState extends State<CategoryDetailsPage> {
     return Scaffold(
         body: BlocBuilder<CategoryBloc, CategoryState>(
           builder: (context, state) {
-            if (state.categoryStatus.isLoading) {
+            if (state.categoryStatus.isLoading || state.categoryStatus.isInitial) {
               return const Center(
                 child: CircularProgressIndicator(),
               );

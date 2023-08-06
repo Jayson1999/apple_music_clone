@@ -24,7 +24,7 @@ class _LibraryTabState extends State<LibraryTab> {
       home: Scaffold(
         body: BlocBuilder<LibraryBloc, LibraryState>(
           builder: (context, state) {
-            if (state.status.isLoading) {
+            if (state.status.isLoading || state.status.isInitial) {
               return const Center(
                 child: CircularProgressIndicator(),
               );

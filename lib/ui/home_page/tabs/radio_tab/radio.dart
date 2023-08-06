@@ -34,7 +34,7 @@ class _RadioTabState extends State<RadioTab> {
       home: Scaffold(
         body: BlocBuilder<RadioBloc, RadioState>(
           builder: (context, state) {
-            if (state.status.isLoading) {
+            if (state.status.isLoading || state.status.isInitial) {
               return const Center(
                 child: CircularProgressIndicator(),
               );

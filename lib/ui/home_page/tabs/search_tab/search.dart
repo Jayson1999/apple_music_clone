@@ -32,7 +32,7 @@ class _SearchTabState extends State<SearchTab> {
       home: Scaffold(
         body: BlocBuilder<SearchBloc, SearchState>(
           builder: (context, state) {
-            if (state.pageLoadStatus.isLoading) {
+            if (state.pageLoadStatus.isLoading || state.pageLoadStatus.isInitial) {
               return const Center(
                 child: CircularProgressIndicator(),
               );
