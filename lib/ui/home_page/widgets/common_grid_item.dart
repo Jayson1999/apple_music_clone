@@ -1,8 +1,9 @@
 import 'package:apple_music_clone/model/artist.dart';
-import 'package:apple_music_clone/ui/home_page/details_page/album_details/album_details_page.dart';
-import 'package:apple_music_clone/ui/home_page/details_page/album_details/bloc/album_bloc.dart';
-import 'package:apple_music_clone/ui/home_page/details_page/playlist_details/bloc/playlist_bloc.dart';
-import 'package:apple_music_clone/ui/home_page/details_page/playlist_details/playlist_details_page.dart';
+import 'package:apple_music_clone/ui/home_page/details_pages/album_details/album_details_page.dart';
+import 'package:apple_music_clone/ui/home_page/details_pages/album_details/bloc/album_bloc.dart';
+import 'package:apple_music_clone/ui/home_page/details_pages/expanded_album_playlist_page.dart';
+import 'package:apple_music_clone/ui/home_page/details_pages/playlist_details/bloc/playlist_bloc.dart';
+import 'package:apple_music_clone/ui/home_page/details_pages/playlist_details/playlist_details_page.dart';
 import 'package:apple_music_clone/utils/config.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +18,10 @@ Widget commonGridItem(BuildContext context, String headerButtonTitle, int noOfRo
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       TextButton(
-        onPressed: ()=>print('hello'),
+        onPressed: () => Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => AlbumPlaylistExpandedPage(dataList: dataList, title: headerButtonTitle)),
+        ),
         child: Row(
           children: [
             Text(headerButtonTitle, style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.black),),
