@@ -3,6 +3,8 @@ import 'package:apple_music_clone/model/artist.dart';
 import 'package:apple_music_clone/model/category.dart';
 import 'package:apple_music_clone/model/playlist.dart';
 import 'package:apple_music_clone/model/track.dart';
+import 'package:apple_music_clone/ui/home_page/details_pages/category_details/bloc/category_bloc.dart';
+import 'package:apple_music_clone/ui/home_page/details_pages/category_details/category_details_page.dart';
 import 'package:apple_music_clone/ui/home_page/tabs/browse_tab/bloc/browse_bloc.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/circular_item.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/common_grid_item.dart';
@@ -97,11 +99,11 @@ class _BrowseTabState extends State<BrowseTab> {
                           _localLatestReleasesSection(context, state.latestLocalAlbums),
                           _localFeaturedPlaylistsSection(context, state.featuredLocalPlaylists),
                           ..._globalCategoriesPlaylistsSection(context, state.categoriesGlobal, state.categoriesGlobalPlaylists),
-                          _featuredCategoriesSection(context, [...state.categoriesGlobal, ...state.categoriesLocal]),
+                          _featuredCategoriesSection(context, [...state.categoriesGlobal, ...state.categoriesLocal], [...state.categoriesGlobalPlaylists, ...state.categoriesLocalPlaylists]),
                           _recommendedTracks(context, state.recommendedTracks),
                           ..._localCategoriesPlaylistsSection(context, state.categoriesLocal, state.categoriesLocalPlaylists),
                           _featuredArtistsSection(context, [...state.artistsGlobal, ...state.artistsLocal]),
-                          _browseCategoriesSection(context, [...state.categoriesGlobal, ...state.categoriesLocal])
+                          _browseCategoriesSection(context, [...state.categoriesGlobal, ...state.categoriesLocal], [...state.categoriesGlobalPlaylists, ...state.categoriesLocalPlaylists])
                         ]
                       )
                     ),
@@ -187,12 +189,12 @@ class _BrowseTabState extends State<BrowseTab> {
     return playlistsWidgets;
   }
 
-  Widget _featuredCategoriesSection(BuildContext context, List<Category> categories){
+  Widget _featuredCategoriesSection(BuildContext context, List<Category> categories, List<List<Playlist>> categoriesPlaylists){
     return narrowGridItem(
         context,
         'Browse by Category',
-        [for (Category category in categories) category.name],
-        [for (Category category in categories) category.categoryIconsInfo[0].url],
+        categories,
+        categoriesPlaylists
     );
   }
 
@@ -212,8 +214,12 @@ class _BrowseTabState extends State<BrowseTab> {
     );
   }
 
-  Widget _browseCategoriesSection (BuildContext context, List <Category> categories){
-    Widget listItem(String title) {
+  Widget _browseCategoriesSection (BuildContext context, List <Category> categories, List<List<Playlist>> categoriesPlaylists){
+    Widget categoryItem(String title, List<Playlist> dataList) {
+      var detailsPage = BlocProvider<CategoryBloc>(
+          create: (context) => CategoryBloc(),
+          child: CategoryDetailsPage(title: title, dataList: dataList)
+      );
       return Container(
           width: double.infinity,
           decoration: const BoxDecoration(
@@ -224,7 +230,12 @@ class _BrowseTabState extends State<BrowseTab> {
               style: TextButton.styleFrom(
                 alignment: Alignment.centerLeft
               ),
-              onPressed: () => print('hello'),
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => detailsPage
+                ),
+              ),
               child: Text(title, style: const TextStyle(color: Colors.red, fontSize: AppConfig.mediumText))
           )
       );
@@ -235,8 +246,27 @@ class _BrowseTabState extends State<BrowseTab> {
       height: MediaQuery.of(context).size.height * 0.45,
       child: Column(
         children: [
-          listItem('Browse by Category'),
-          ...[for (Category category in top5Categories) listItem(category.name)]
+          Container(
+              width: double.infinity,
+              decoration: const BoxDecoration(
+                  border: Border(
+                    top: BorderSide(color: Colors.grey, width: 0.5),
+                  )),
+              child: TextButton(
+                  style: TextButton.styleFrom(
+                      alignment: Alignment.centerLeft
+                  ),
+                  onPressed: () =>print('hello'),
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //       builder: (context) => CategoryDetailsPage(
+                      //           title: title, dataList: dataList)),
+                      // ),
+                  child: const Text('Browse by Category', style: TextStyle(color: Colors.red, fontSize: AppConfig.mediumText))
+              )
+          ),
+          ...[for (int i=0; i<top5Categories.length; i++) categoryItem(top5Categories[i].name, categoriesPlaylists[i])]
         ],
       ),
     );
