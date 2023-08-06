@@ -67,10 +67,10 @@ class _CategoryDetailsPageState extends State<CategoryDetailsPage> {
                               padding: const EdgeInsets.all(10.0),
                               child: _categoryExpandedHeader(widget.title),
                             ),
-                            _globalFeaturedPlaylistsSection(context, widget.dataList.sublist(0,3)),
-                            _globalLatestReleasesSection(context, widget.dataList.sublist(3,6)),
-                            _localLatestReleasesSection(context, widget.dataList.sublist(6,9)),
-                            _localFeaturedPlaylistsSection(context, widget.dataList.sublist(9,12)),
+                            _globalFeaturedPlaylistsSection(context, widget.dataList),
+                            _globalLatestReleasesSection(context, widget.dataList),
+                            _localLatestReleasesSection(context, widget.dataList),
+                            _localFeaturedPlaylistsSection(context, widget.dataList),
                             _recommendedTracks(context, state.tracks),
                             _featuredArtistsSection(context, state.artists)
                           ]
