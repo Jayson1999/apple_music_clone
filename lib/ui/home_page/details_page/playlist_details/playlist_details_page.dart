@@ -43,6 +43,7 @@ class _PlaylistDetailsState extends State<PlaylistDetails> {
                     foregroundColor: Theme.of(context).primaryColor,
                     elevation: 0,
                     pinned: true,
+                    floating: false,
                     flexibleSpace: LayoutBuilder(
                     builder: (context, constraints) {
                       bool showAppBarTitleOnly = constraints.maxHeight == kToolbarHeight + MediaQuery.of(context).padding.top;
@@ -104,7 +105,7 @@ class _PlaylistDetailsState extends State<PlaylistDetails> {
         Positioned(
             bottom: 0, left: 0, right: 0,
             child: Container(
-              padding: const EdgeInsets.only(bottom: 12,left: 12,right: 12),
+              padding: const EdgeInsets.all(12.0),
               decoration: BoxDecoration(
                   color: Colors.black.withOpacity(0.3)
               ),
