@@ -111,11 +111,7 @@ class _ArtistDetailsPageState extends State<ArtistDetailsPage> {
   Widget _latestAlbumsSection(BuildContext context, List<Album> albums) {
     return wideGridItem(
         context,
-        [for (Album album in albums) album.name],
-        [for (Album album in albums) album.genre.join(',')],
-        [for (Album album in albums) album.type],
-        [for (Album album in albums) album.images.first.url],
-        [for (Album album in albums) '${album.releaseDate}, ${album.totalTracks}']
+        albums
     );
   }
 

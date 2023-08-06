@@ -48,10 +48,10 @@ class AlbumPlaylistExpandedPage extends StatelessWidget {
       ),
       itemCount: dataList.length,
       itemBuilder: (context, index) {
-        String title;
-        String subtitle;
-        String url;
-        dynamic detailsPage;
+        String title = '';
+        String subtitle = '';
+        String url = '';
+        dynamic detailsPage = '';
 
         switch(dataList[index].type){
           case 'album':
@@ -72,10 +72,6 @@ class AlbumPlaylistExpandedPage extends StatelessWidget {
                 child: PlaylistDetails(playlistId: dataList[index].id)
             );
             break;
-          default:
-            subtitle = '';
-            title = '';
-            url = '';
         }
 
         return InkWell(

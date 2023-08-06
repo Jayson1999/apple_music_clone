@@ -128,11 +128,7 @@ class _BrowseTabState extends State<BrowseTab> {
   Widget _globalFeaturedPlaylistsSection(BuildContext context, List<Playlist> featuredPlaylists) {
     return wideGridItem(
         context,
-        [for (Playlist playlist in featuredPlaylists) playlist.name],
-        [for (Playlist playlist in featuredPlaylists) playlist.description.split(' ').first],
-        [for (Playlist playlist in featuredPlaylists) playlist.type],
-        [for (Playlist playlist in featuredPlaylists) playlist.images[0].url],
-        [for (Playlist playlist in featuredPlaylists) playlist.description]
+        featuredPlaylists
     );
   }
 
