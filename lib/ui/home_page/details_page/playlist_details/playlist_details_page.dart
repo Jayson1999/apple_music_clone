@@ -34,27 +34,37 @@ class _PlaylistDetailsState extends State<PlaylistDetails> {
             );
           }
           else if (state.playlistStatus.isSuccess) {
-            ScrollController scrollController = ScrollController();
             return CustomScrollView(
-              controller: scrollController,
+              controller: ScrollController(),
               slivers: <Widget>[
                 SliverAppBar(
-                  expandedHeight: MediaQuery.of(context).size.height*0.5,
-                  elevation: 0,
-                  floating: true,
-                  pinned: true,
-                  flexibleSpace: FlexibleSpaceBar(
-                    centerTitle: true,
-                    title: _appBarTitleContent(state.playlistDetails),
-                    background: CachedNetworkImage(
-                      imageUrl: state.playlistDetails?.images.last.url ?? 'playlistDetails is null',
-                      fit: BoxFit.cover,
-                    ),
-                    collapseMode: CollapseMode.parallax,
+                    expandedHeight: MediaQuery.of(context).size.height*0.5,
+                    backgroundColor: Colors.white,
+                    foregroundColor: Theme.of(context).primaryColor,
+                    elevation: 0,
+                    pinned: true,
+                    flexibleSpace: LayoutBuilder(
+                    builder: (context, constraints) {
+                      bool showAppBarTitleOnly = constraints.maxHeight == kToolbarHeight + MediaQuery.of(context).padding.top;
+                      return FlexibleSpaceBar(
+                        centerTitle: true,
+                          background: Visibility(
+                            visible: !showAppBarTitleOnly,
+                            child: _expandedAppBarContent(state.playlistDetails)
+                          ),
+                        title: Visibility(
+                          visible: showAppBarTitleOnly,
+                          child: Text(
+                            state.playlistDetails?.name ?? 'playlistDetails is null',
+                            style: const TextStyle(fontSize: TextSizes.big, color: Colors.black),
+                          ),
+                        ),
+                      );
+                    },
                   ),
                   actions: [
                     PopupMenuButton<String>(
-                        icon: const Icon(Icons.more_vert, color: Colors.white,),
+                        icon: const Icon(Icons.more_vert),
                         onSelected: (value) => Navigator.pushNamed(context, '/$value'),
                         itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
                           const PopupMenuItem<String>(
@@ -83,53 +93,76 @@ class _PlaylistDetailsState extends State<PlaylistDetails> {
     );
   }
 
-  Widget _appBarTitleContent(Playlist? playlistDetails){
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
+  Widget _expandedAppBarContent(Playlist? playlistDetails){
+    return Stack(
+      fit: StackFit.expand,
       children: [
-        Text(
-          playlistDetails?.name ?? 'playlistDetails is null',
-          textAlign: TextAlign.center,
-          style: const TextStyle(fontSize: TextSizes.big, color: Colors.white),
+        CachedNetworkImage(
+          imageUrl: playlistDetails?.images.last.url ?? 'playlistDetails is null',
+          fit: BoxFit.cover,
         ),
-        Text(playlistDetails?.type?? '', style: const TextStyle(fontSize: TextSizes.small, color: Colors.white),),
-        Row(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            ElevatedButton.icon(
-              icon: const Icon(Icons.play_arrow, color: Colors.black,),
-              onPressed: () => print('hello'),
-              label: const Text('Play'),
-              style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12)
-                  )
+        Positioned(
+            bottom: 0, left: 0, right: 0,
+            child: Container(
+              padding: const EdgeInsets.only(bottom: 12,left: 12,right: 12),
+              decoration: BoxDecoration(
+                  color: Colors.black.withOpacity(0.3)
               ),
-            ),
-            ElevatedButton.icon(
-              icon: const Icon(Icons.shuffle, color: Colors.black,),
-              onPressed: () => print('hello'),
-              label: const Text('Shuffle'),
-              style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12)
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    playlistDetails?.name ?? 'playlistDetails is null',
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(fontSize: TextSizes.big, color: Colors.white),
+                  ),
+                  Text(playlistDetails?.type?? '', style: const TextStyle(fontSize: TextSizes.small, color: Colors.white),),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ElevatedButton.icon(
+                        icon: const Icon(Icons.play_arrow, color: Colors.black,),
+                        onPressed: () => print('hello'),
+                        label: const Text('Play', style: TextStyle(color: Colors.black)),
+                        style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12)
+                            ),
+                            backgroundColor: Colors.white
+                        ),
+                      ),
+                      ElevatedButton.icon(
+                        icon: const Icon(Icons.shuffle, color: Colors.black,),
+                        onPressed: () => print('hello'),
+                        label: const Text('Shuffle', style: TextStyle(color: Colors.black),),
+                        style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12)
+                            ),
+                            backgroundColor: Colors.white
+                        ),
+                      ),
+                    ],
+                  ),
+                  Text(
+                    playlistDetails?.description ?? '',
+                    textAlign: TextAlign.justify,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(fontSize: TextSizes.medium, color: Colors.white),
                   )
+                ],
               ),
-            ),
-          ],
+            )
         ),
-        Text(
-          playlistDetails?.description ?? '',
-          textAlign: TextAlign.justify,
-          overflow: TextOverflow.ellipsis,
-          style: const TextStyle(fontSize: TextSizes.medium),
-        )
       ],
     );
   }
 
   Widget _tracksLayout(Playlist? playlistDetails){
     return ListView.builder(
+        shrinkWrap: true,
+        physics: const ClampingScrollPhysics(),
         itemCount: playlistDetails?.tracks.length ?? 0,
         itemBuilder: (context, index){
           final currentItem = playlistDetails?.tracks[index];
