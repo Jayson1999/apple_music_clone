@@ -1,19 +1,23 @@
+import 'package:apple_music_clone/model/artist.dart';
+import 'package:apple_music_clone/ui/home_page/details_pages/expanded_tracks_page.dart';
 import 'package:apple_music_clone/utils/config.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 
-Widget narrowListCardItem(BuildContext context, String headerButtonTitle, List<String> titleList, List<String> subtitleList, List<String> imgUrlList) {
-  final int noOfItemsPerRow = titleList.length~/4;
-  List<List<String>> splitTitleLists = _splitList(titleList, noOfItemsPerRow);
-  List<List<String>> splitSubtitleLists = _splitList(subtitleList, noOfItemsPerRow);
-  List<List<String>> splitImgUrlLists = _splitList(imgUrlList, noOfItemsPerRow);
+Widget narrowListCardItem(BuildContext context, String headerButtonTitle, List dataList) {
+  final int noOfItemsPerRow = dataList.length~/4;
+  List<List> splitDataLists = _splitList(dataList, noOfItemsPerRow);
 
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       TextButton(
-        onPressed: ()=>print('hello'),
+        onPressed: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => TracksExpandedPage(dataList: dataList, title: headerButtonTitle)),
+        ),
         child: Row(
           children: [
             Text(headerButtonTitle, style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.black),),
@@ -26,7 +30,7 @@ Widget narrowListCardItem(BuildContext context, String headerButtonTitle, List<S
         child: PageView.builder(
             controller: PageController(viewportFraction: 0.9),
             scrollDirection: Axis.horizontal,
-            itemCount: splitTitleLists.length,
+            itemCount: splitDataLists.length,
             itemBuilder: (context, pageIndex) {
               List<Widget> currentPageCards = [
                 for (int rowIndex=0; rowIndex<4; rowIndex++)
@@ -38,18 +42,21 @@ Widget narrowListCardItem(BuildContext context, String headerButtonTitle, List<S
                         leading: CachedNetworkImage(
                           height: 30,
                           width: 30,
-                          imageUrl: splitImgUrlLists[rowIndex][pageIndex],
+                          imageUrl: splitDataLists[rowIndex][pageIndex].album?.images.first.url ?? '',
                           placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
                           errorWidget: (context, url, error) => const Center(child: Icon(Icons.error)),
                         ),
-                        title: Text(splitTitleLists[rowIndex][pageIndex], style: const TextStyle(color: Colors.black, fontSize: AppConfig.smallText)),
+                        title: Text(splitDataLists[rowIndex][pageIndex].name, style: const TextStyle(color: Colors.black, fontSize: AppConfig.smallText)),
                         subtitle: Container(
                             decoration: BoxDecoration(
                                 border: Border(
                                   bottom: BorderSide(color: rowIndex!=3? Colors.grey: Colors.white, width: 0.5),
                                 )
                             ),
-                            child: Text(splitSubtitleLists[rowIndex][pageIndex], style: const TextStyle(color: Colors.grey, fontSize: AppConfig.smallText))
+                            child: Text(
+                                [for (Artist a in splitDataLists[rowIndex][pageIndex].artists) a.name].join(','),
+                                style: const TextStyle(color: Colors.grey, fontSize: AppConfig.smallText)
+                            )
                         ),
                       ),
                     ),
