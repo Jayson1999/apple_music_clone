@@ -1,7 +1,10 @@
+import 'package:apple_music_clone/ui/home_page/details_pages/artist_details/artist_details_page.dart';
+import 'package:apple_music_clone/ui/home_page/details_pages/artist_details/bloc/artist_bloc.dart';
 import 'package:apple_music_clone/ui/home_page/details_pages/expanded_artists_page.dart';
 import 'package:apple_music_clone/utils/config.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 
 Widget circularItem(BuildContext context, String headerButtonTitle, List dataList) {
@@ -30,10 +33,22 @@ Widget circularItem(BuildContext context, String headerButtonTitle, List dataLis
             scrollDirection: Axis.horizontal,
             itemCount: dataList.length,
             itemBuilder: (context, pageIndex) {
-              return _circularItem(
+              var detailsPage = BlocProvider<ArtistBloc>(
+                create: (context) => ArtistBloc(),
+                child: ArtistDetailsPage(artist: dataList[pageIndex])
+              );
+              return InkWell(
+                onTap: () => Navigator.push(
                   context,
-                  dataList[pageIndex].name,
-                  dataList[pageIndex].images.first.url
+                  MaterialPageRoute(
+                    builder: (context) => detailsPage,
+                  ),
+                ),
+                child: _circularItem(
+                    context,
+                    dataList[pageIndex].name,
+                    dataList[pageIndex].images.first.url
+                ),
               );
             }),
       )
