@@ -1,10 +1,15 @@
 import 'dart:math';
+import 'package:apple_music_clone/model/category.dart';
+import 'package:apple_music_clone/model/playlist.dart';
+import 'package:apple_music_clone/ui/home_page/details_pages/category_details/bloc/category_bloc.dart';
+import 'package:apple_music_clone/ui/home_page/details_pages/category_details/category_details_page.dart';
 import 'package:apple_music_clone/utils/config.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 
-Widget narrowGridItem(BuildContext context, String headerTitle, List<String> titleList, List<String> imgUrlList) {
+Widget narrowGridItem(BuildContext context, String headerTitle, List<Category> categoryList, List<List<Playlist>> categoriesPlaylists) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
@@ -18,11 +23,12 @@ Widget narrowGridItem(BuildContext context, String headerTitle, List<String> tit
             padEnds: false,
             controller: PageController(viewportFraction: 0.5),
             scrollDirection: Axis.horizontal,
-            itemCount: titleList.length,
+            itemCount: categoryList.length,
             itemBuilder: (context, pageIndex) {
               return _tintedCardItem(context,
-                  titleList[pageIndex],
-                  imgUrlList[pageIndex]
+                  categoryList[pageIndex].name,
+                  categoryList[pageIndex].categoryIconsInfo.first.url,
+                  categoriesPlaylists[pageIndex],
               );
             }),
       )
@@ -30,7 +36,11 @@ Widget narrowGridItem(BuildContext context, String headerTitle, List<String> tit
   );
 }
 
-Widget _tintedCardItem(BuildContext context, String title, String imgUrl) {
+Widget _tintedCardItem(BuildContext context, String title, String imgUrl, List<Playlist> categoryPlaylists) {
+  var detailsPage = BlocProvider<CategoryBloc>(
+      create: (context) => CategoryBloc(),
+      child: CategoryDetailsPage(title: title, dataList: categoryPlaylists)
+  );
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
@@ -45,6 +55,12 @@ Widget _tintedCardItem(BuildContext context, String title, String imgUrl) {
             borderRadius: BorderRadius.all(Radius.circular(12)),
           ),
           child: InkWell(
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => detailsPage
+              ),
+            ),
             child: Container(
               decoration: BoxDecoration(
                 gradient: _createRandomGradient(),
