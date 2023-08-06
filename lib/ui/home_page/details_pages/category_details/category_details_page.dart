@@ -117,9 +117,7 @@ class _CategoryDetailsPageState extends State<CategoryDetailsPage> {
     return squareGridItem(
       context,
       'Featured Playlists',
-      [for (Playlist playlist in playlists) playlist.name],
-      [for (Playlist playlist in playlists) playlist.description],
-      [for (Playlist playlist in playlists) playlist.images.first.url],
+      playlists
     );
   }
 
