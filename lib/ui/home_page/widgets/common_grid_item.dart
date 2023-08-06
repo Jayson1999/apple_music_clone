@@ -1,4 +1,6 @@
 import 'package:apple_music_clone/model/artist.dart';
+import 'package:apple_music_clone/ui/home_page/details_page/album_details/album_details_page.dart';
+import 'package:apple_music_clone/ui/home_page/details_page/album_details/bloc/album_bloc.dart';
 import 'package:apple_music_clone/ui/home_page/details_page/playlist_details/bloc/playlist_bloc.dart';
 import 'package:apple_music_clone/ui/home_page/details_page/playlist_details/playlist_details_page.dart';
 import 'package:apple_music_clone/utils/config.dart';
@@ -68,7 +70,10 @@ Widget _singleCardItem(BuildContext context, dynamic dataItem) {
       subtitle = [for (Artist artist in dataItem.artists) artist.name].join(', ');
       imgUrl = dataItem.images[0].url;
       id = dataItem.id;
-      // nextPage = AlbumDetails;
+      nextPage = BlocProvider<AlbumBloc>(
+          create: (context) => AlbumBloc(),
+          child: AlbumDetails(albumId: id)
+      );
       break;
   }
 
