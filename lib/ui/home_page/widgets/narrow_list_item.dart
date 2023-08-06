@@ -6,8 +6,10 @@ import 'package:flutter/material.dart';
 
 
 Widget narrowListCardItem(BuildContext context, String headerButtonTitle, List dataList) {
-  final int noOfItemsPerRow = dataList.length~/4;
-  List<List> splitDataLists = _splitList(dataList, noOfItemsPerRow);
+  const int noOfRowsPerPage = 4;
+  final int noOfPages = dataList.length~/noOfRowsPerPage;
+  List<List> splitDataLists = _splitList(dataList, noOfRowsPerPage);
+  print("HERE!! splitDataLists length: ${splitDataLists.length}\ndataList length: ${dataList.length}\nbatchSize: ${noOfPages}\n\n");
 
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -30,10 +32,10 @@ Widget narrowListCardItem(BuildContext context, String headerButtonTitle, List d
         child: PageView.builder(
             controller: PageController(viewportFraction: 0.9),
             scrollDirection: Axis.horizontal,
-            itemCount: splitDataLists.length,
+            itemCount: noOfPages,
             itemBuilder: (context, pageIndex) {
               List<Widget> currentPageCards = [
-                for (int rowIndex=0; rowIndex<4; rowIndex++)
+                for (int rowIndex=0; rowIndex<noOfRowsPerPage; rowIndex++)
                   Padding(
                     padding: const EdgeInsets.all(5.0),
                     child: SizedBox(
@@ -42,11 +44,11 @@ Widget narrowListCardItem(BuildContext context, String headerButtonTitle, List d
                         leading: CachedNetworkImage(
                           height: 30,
                           width: 30,
-                          imageUrl: splitDataLists[rowIndex][pageIndex].album?.images.first.url ?? '',
+                          imageUrl: splitDataLists[pageIndex][rowIndex].album?.images.first.url ?? '',
                           placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
                           errorWidget: (context, url, error) => const Center(child: Icon(Icons.error)),
                         ),
-                        title: Text(splitDataLists[rowIndex][pageIndex].name, style: const TextStyle(color: Colors.black, fontSize: AppConfig.smallText)),
+                        title: Text(splitDataLists[pageIndex][rowIndex].name, style: const TextStyle(color: Colors.black, fontSize: AppConfig.smallText)),
                         subtitle: Container(
                             decoration: BoxDecoration(
                                 border: Border(
@@ -54,7 +56,7 @@ Widget narrowListCardItem(BuildContext context, String headerButtonTitle, List d
                                 )
                             ),
                             child: Text(
-                                [for (Artist a in splitDataLists[rowIndex][pageIndex].artists) a.name].join(','),
+                                [for (Artist a in splitDataLists[pageIndex][rowIndex].artists) a.name].join(','),
                                 style: const TextStyle(color: Colors.grey, fontSize: AppConfig.smallText)
                             )
                         ),
