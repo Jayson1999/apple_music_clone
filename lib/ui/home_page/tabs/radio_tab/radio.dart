@@ -18,7 +18,7 @@ class RadioTab extends StatefulWidget {
   State<RadioTab> createState() => _RadioTabState();
 }
 
-class _RadioTabState extends State<RadioTab> {
+class _RadioTabState extends State<RadioTab> with AutomaticKeepAliveClientMixin{
   final ScrollController _scrollController = ScrollController();
   bool _showTitleOnAppBar = false;
   double _offsetNeeded = 120.0;
@@ -32,6 +32,9 @@ class _RadioTabState extends State<RadioTab> {
   }
 
   @override
+  bool get wantKeepAlive => true;
+
+  @override
   void initState() {
     super.initState();
     BlocProvider.of<RadioBloc>(context).add(GetUserSubscription());
@@ -42,6 +45,7 @@ class _RadioTabState extends State<RadioTab> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return MaterialApp(
       theme: AppConfig.getAppTheme(),
       home: Scaffold(

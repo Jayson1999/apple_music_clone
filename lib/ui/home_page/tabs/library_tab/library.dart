@@ -10,7 +10,10 @@ class LibraryTab extends StatefulWidget {
   State<LibraryTab> createState() => _LibraryTabState();
 }
 
-class _LibraryTabState extends State<LibraryTab> {
+class _LibraryTabState extends State<LibraryTab> with AutomaticKeepAliveClientMixin{
+  @override
+  bool get wantKeepAlive => true;
+
   @override
   void initState() {
     super.initState();
@@ -19,6 +22,7 @@ class _LibraryTabState extends State<LibraryTab> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return MaterialApp(
       theme: AppConfig.getAppTheme(),
       home: Scaffold(

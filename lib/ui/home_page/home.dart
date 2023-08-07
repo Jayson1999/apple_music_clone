@@ -42,12 +42,12 @@ class _HomePageState extends State<HomePage> {
       'tab': const SearchTab()
     },
   };
-
   int _selectedIndex = 0;
-
-  void _onPageChanged(index) {
+  PageController pageController = PageController(initialPage: 0);
+  void _onPageSelected(index) {
     setState(() {
       _selectedIndex = index;
+      pageController.jumpToPage(index);
     });
   }
 
@@ -62,8 +62,8 @@ class _HomePageState extends State<HomePage> {
         BlocProvider<SearchBloc>(create: (context) => SearchBloc()),
       ],
       child: Scaffold(
-        body: IndexedStack(
-          index: _selectedIndex,
+        body: PageView(
+          controller: pageController,
           children: _tabItems.values.map((v) => v['tab']!).toList(),
         ),
         bottomNavigationBar: BottomNavigationBar(
@@ -72,7 +72,7 @@ class _HomePageState extends State<HomePage> {
                   BottomNavigationBarItem(icon: e.value['icon']!, label: e.key))
               .toList(),
           currentIndex: _selectedIndex,
-          onTap: _onPageChanged,
+          onTap: _onPageSelected,
         ),
       ),
     );
