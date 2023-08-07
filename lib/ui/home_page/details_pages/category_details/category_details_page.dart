@@ -22,16 +22,27 @@ class CategoryDetailsPage extends StatefulWidget {
 }
 
 class _CategoryDetailsPageState extends State<CategoryDetailsPage> {
+  final ScrollController _scrollController = ScrollController();
+  bool _showTitleOnAppBar = false;
+  final double _offsetNeeded = 60.0;
+
+  void _handleScroll() {
+    if (_showTitleOnAppBar != (_scrollController.offset > _offsetNeeded)) {
+      setState(() {
+        _showTitleOnAppBar = !_showTitleOnAppBar;
+      });
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     BlocProvider.of<CategoryBloc>(context).add(GetTracksAndArtists([for(Playlist p in widget.dataList) p.id]));
+    _scrollController.addListener(_handleScroll);
   }
 
   @override
   Widget build(BuildContext context) {
-    ScrollController scrollController = ScrollController();
-    double threshold = 25.0;
     return Scaffold(
         body: BlocBuilder<CategoryBloc, CategoryState>(
           builder: (context, state) {
@@ -43,30 +54,35 @@ class _CategoryDetailsPageState extends State<CategoryDetailsPage> {
 
             else if (state.categoryStatus.isSuccess){
               return CustomScrollView(
-                controller: scrollController,
+                controller: _scrollController,
                 slivers: <Widget>[
                   SliverAppBar(
+                    foregroundColor: Theme.of(context).primaryColor,
                     backgroundColor: Colors.white,
-                    expandedHeight: 60.0,
                     elevation: 0,
                     floating: false,
                     pinned: true,
-                    flexibleSpace: LayoutBuilder(
-                      builder: (BuildContext context, BoxConstraints constraints) {
-                        return Visibility(
-                            visible: scrollController.position.pixels > threshold,
-                            child: _categoryExpandedAppBar(widget.title)
-                        );
-                      },
+                    flexibleSpace: Visibility(
+                        visible: _showTitleOnAppBar,
+                        child: _disappearingAppBar(widget.title)
                     ),
+                    actions: [
+                      PopupMenuButton<String>(
+                          icon: const Icon(Icons.more_vert),
+                          onSelected: (value) => Navigator.pushNamed(context, '/$value'),
+                          itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+                            const PopupMenuItem<String>(
+                              value: 'settings',
+                              child: Text('Settings'),
+                            ),
+                          ]
+                      )
+                    ],
                   ),
                   SliverList(
                       delegate: SliverChildListDelegate(
                           [
-                            Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: _categoryExpandedHeader(widget.title),
-                            ),
+                            _headerBeforeScroll(widget.title),
                             _globalFeaturedPlaylistsSection(context, widget.dataList),
                             _globalLatestReleasesSection(context, widget.dataList),
                             _localLatestReleasesSection(context, widget.dataList),
@@ -137,7 +153,7 @@ class _CategoryDetailsPageState extends State<CategoryDetailsPage> {
     );
   }
 
-  Widget _categoryExpandedAppBar(String title) {
+  Widget _disappearingAppBar(String title){
     return Container(
       decoration: const BoxDecoration(
           border: Border(
@@ -145,7 +161,6 @@ class _CategoryDetailsPageState extends State<CategoryDetailsPage> {
           )
       ),
       child: FlexibleSpaceBar(
-          titlePadding: const EdgeInsets.all(8.0),
           title: Text(
             title,
             style: const TextStyle(fontSize: AppConfig.mediumText, color: Colors.black),
@@ -154,11 +169,14 @@ class _CategoryDetailsPageState extends State<CategoryDetailsPage> {
     );
   }
 
-  Widget _categoryExpandedHeader(String title) {
-    return Container(
-      padding: const EdgeInsets.only(bottom: 10.0),
-      decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey, width: 1.0))),
-      child: Text(title, style: const TextStyle(fontSize: AppConfig.bigText, fontWeight: FontWeight.bold)),
+  Widget _headerBeforeScroll(String title){
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Container(
+        padding: const EdgeInsets.only(bottom: 10.0),
+        decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey, width: 1.0))),
+        child: Text(title, style: const TextStyle(fontSize: AppConfig.bigText, fontWeight: FontWeight.bold)),
+      ),
     );
   }
 
