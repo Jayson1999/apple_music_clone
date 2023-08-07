@@ -18,7 +18,10 @@ class SearchTab extends StatefulWidget {
   State<SearchTab> createState() => _SearchTabState();
 }
 
-class _SearchTabState extends State<SearchTab> {
+class _SearchTabState extends State<SearchTab> with AutomaticKeepAliveClientMixin{
+  @override
+  bool get wantKeepAlive => true;
+
   @override
   void initState() {
     super.initState();
@@ -30,6 +33,7 @@ class _SearchTabState extends State<SearchTab> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return MaterialApp(
       theme: AppConfig.getAppTheme(),
       home: Scaffold(

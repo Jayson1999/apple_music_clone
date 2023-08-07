@@ -25,7 +25,7 @@ class BrowseTab extends StatefulWidget {
   State<BrowseTab> createState() => _BrowseTabState();
 }
 
-class _BrowseTabState extends State<BrowseTab> {
+class _BrowseTabState extends State<BrowseTab> with AutomaticKeepAliveClientMixin{
   final ScrollController _scrollController = ScrollController();
   bool _showTitleOnAppBar = false;
   double _offsetNeeded = 120.0;
@@ -39,6 +39,9 @@ class _BrowseTabState extends State<BrowseTab> {
   }
 
   @override
+  bool get wantKeepAlive => true;
+
+  @override
   void initState() {
     super.initState();
     BlocProvider.of<BrowseBloc>(context).add(GetUserSubscription());
@@ -50,6 +53,7 @@ class _BrowseTabState extends State<BrowseTab> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return MaterialApp(
       theme: AppConfig.getAppTheme(),
       home: Scaffold(
