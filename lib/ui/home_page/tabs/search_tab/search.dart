@@ -1,5 +1,8 @@
 import 'dart:math';
 import 'package:apple_music_clone/model/category.dart';
+import 'package:apple_music_clone/model/playlist.dart';
+import 'package:apple_music_clone/ui/home_page/details_pages/category_details/bloc/category_bloc.dart';
+import 'package:apple_music_clone/ui/home_page/details_pages/category_details/category_details_page.dart';
 import 'package:apple_music_clone/ui/home_page/tabs/search_tab/bloc/search_bloc.dart';
 import 'package:apple_music_clone/ui/home_page/tabs/search_tab/search_delegate.dart';
 import 'package:apple_music_clone/utils/config.dart';
@@ -83,7 +86,7 @@ class _SearchTabState extends State<SearchTab> {
                             )
                                 :
                             Container(),
-                            _featuredCategoriesSection([...state.categoriesGlobal, ...state.categoriesLocal]),
+                            _featuredCategoriesSection([...state.categoriesGlobal, ...state.categoriesLocal], [...state.categoriesGlobalPlaylists, ...state.categoriesLocalPlaylists]),
                           ]
                       )
                   ),
@@ -104,7 +107,7 @@ class _SearchTabState extends State<SearchTab> {
     );
   }
 
-  Widget _featuredCategoriesSection(List<Category> categories){
+  Widget _featuredCategoriesSection(List<Category> categories, List<List<Playlist>> categoriesPlaylists){
     return Container(
       padding: const EdgeInsets.all(8.0),
       child: Column(
@@ -123,6 +126,10 @@ class _SearchTabState extends State<SearchTab> {
             ),
             itemCount: categories.length,
             itemBuilder: (context, index) {
+              Widget detailsPage = BlocProvider<CategoryBloc>(
+                  create: (context) => CategoryBloc(),
+                  child: CategoryDetailsPage(dataList: categoriesPlaylists[index], title: categories[index].name,)
+              );
               return Stack(
                 children: [
                   Card(
@@ -134,13 +141,16 @@ class _SearchTabState extends State<SearchTab> {
                     child: CachedNetworkImage(
                         fit: BoxFit.cover,
                         width: double.infinity,
-                        imageUrl: categories[index].categoryIconsInfo[0].url,
+                        imageUrl: categories[index].categoryIconsInfo.first.url,
                         placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
                         errorWidget: (context, url, error) => const Center(child: Icon(Icons.error)),
                       ),
                     ),
                   InkWell(
-                    onTap: ()=> print('hello'),
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => detailsPage),
+                    ),
                     child: Container(
                       decoration: BoxDecoration(
                           gradient: _createRandomGradient(),
