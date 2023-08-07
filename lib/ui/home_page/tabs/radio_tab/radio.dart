@@ -61,6 +61,7 @@ class _RadioTabState extends State<RadioTab> {
                 controller: _scrollController,
                 slivers: <Widget>[
                   SliverAppBar(
+                    foregroundColor: Theme.of(context).primaryColor,
                     backgroundColor: Colors.white,
                     elevation: 0,
                     floating: false,
@@ -71,7 +72,7 @@ class _RadioTabState extends State<RadioTab> {
                     ),
                     actions: [
                       PopupMenuButton<String>(
-                          icon: Icon(Icons.more_vert, color: Theme.of(context).primaryColor,),
+                          icon: const Icon(Icons.more_vert),
                           onSelected: (value) => Navigator.pushNamed(context, '/$value'),
                           itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
                             const PopupMenuItem<String>(
