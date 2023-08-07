@@ -10,6 +10,7 @@ import 'package:apple_music_clone/ui/home_page/tabs/search_tab/bloc/search_bloc.
 import 'package:apple_music_clone/ui/home_page/tabs/search_tab/search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 class HomePage extends StatefulWidget {
@@ -43,38 +44,59 @@ class _HomePageState extends State<HomePage> {
     },
   };
   int _selectedIndex = 0;
-  PageController pageController = PageController(initialPage: 0);
-  void _onPageSelected(index) {
+  late PageController _pageController;
+  late Future _getLastVisitedPage;
+
+  void _onPageSelected(index) async{
     setState(() {
       _selectedIndex = index;
-      pageController.jumpToPage(index);
+      _pageController.jumpToPage(index);
     });
+    SharedPreferences sPref = await SharedPreferences.getInstance();
+    sPref.setInt('lastVisitedPage', index);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getLastVisitedPage = SharedPreferences.getInstance();
   }
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider<ListenNowBloc>(create: (context) => ListenNowBloc()),
-        BlocProvider<BrowseBloc>(create: (context) => BrowseBloc()),
-        BlocProvider<RadioBloc>(create: (context) => RadioBloc()),
-        BlocProvider<LibraryBloc>(create: (context) => LibraryBloc()),
-        BlocProvider<SearchBloc>(create: (context) => SearchBloc()),
-      ],
-      child: Scaffold(
-        body: PageView(
-          controller: pageController,
-          children: _tabItems.values.map((v) => v['tab']!).toList(),
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          items: _tabItems.entries
-              .map((e) =>
-                  BottomNavigationBarItem(icon: e.value['icon']!, label: e.key))
-              .toList(),
-          currentIndex: _selectedIndex,
-          onTap: _onPageSelected,
-        ),
-      ),
+    return FutureBuilder(
+      future: _getLastVisitedPage,
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        _selectedIndex = snapshot.data.getInt('lastVisitedPage') ?? 0;
+        _pageController = PageController(initialPage: _selectedIndex);
+        return MultiBlocProvider(
+          providers: [
+            BlocProvider<ListenNowBloc>(create: (context) => ListenNowBloc()),
+            BlocProvider<BrowseBloc>(create: (context) => BrowseBloc()),
+            BlocProvider<RadioBloc>(create: (context) => RadioBloc()),
+            BlocProvider<LibraryBloc>(create: (context) => LibraryBloc()),
+            BlocProvider<SearchBloc>(create: (context) => SearchBloc()),
+          ],
+          child: Scaffold(
+            body: PageView(
+              controller: _pageController,
+              children: _tabItems.values.map((v) => v['tab']!).toList(),
+            ),
+            bottomNavigationBar: BottomNavigationBar(
+              items: _tabItems.entries
+                  .map((e) =>
+                      BottomNavigationBarItem(icon: e.value['icon']!, label: e.key))
+                  .toList(),
+              currentIndex: _selectedIndex,
+              onTap: _onPageSelected,
+            ),
+          ),
+        );
+      }
     );
   }
 }
