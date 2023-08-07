@@ -172,6 +172,8 @@ class _SearchTabState extends State<SearchTab> {
     const String searchHint = 'Artists, Songs, Lyrics and more';
     return ElevatedButton(
         style: ElevatedButton.styleFrom(
+          alignment: Alignment.centerLeft,
+          elevation: 0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8)
           ),

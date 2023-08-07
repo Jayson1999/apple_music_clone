@@ -26,6 +26,18 @@ class BrowseTab extends StatefulWidget {
 }
 
 class _BrowseTabState extends State<BrowseTab> {
+  final ScrollController _scrollController = ScrollController();
+  bool _showTitleOnAppBar = false;
+  double _offsetNeeded = 120.0;
+
+  void _handleScroll() {
+    if (_showTitleOnAppBar != (_scrollController.offset > _offsetNeeded)) {
+      setState(() {
+        _showTitleOnAppBar = !_showTitleOnAppBar;
+      });
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -33,6 +45,7 @@ class _BrowseTabState extends State<BrowseTab> {
     BlocProvider.of<BrowseBloc>(context).add(GetLatestAlbumsArtists());
     BlocProvider.of<BrowseBloc>(context).add(GetFeaturedPlaylists());
     BlocProvider.of<BrowseBloc>(context).add(GetCategoriesPlaylists());
+    _scrollController.addListener(_handleScroll);
   }
 
   @override
@@ -49,24 +62,20 @@ class _BrowseTabState extends State<BrowseTab> {
               }
 
               else if (state.status.isSuccess) {
-                ScrollController scrollController = ScrollController();
-                double threshold = state.userSubscription != 0? 25.0: 30.0;
+                if (state.userSubscription != 0) {
+                  _offsetNeeded -= 60.0;
+                }
                 return CustomScrollView(
-                  controller: scrollController,
+                  controller: _scrollController,
                   slivers: <Widget>[
                     SliverAppBar(
                       backgroundColor: Colors.white,
-                      expandedHeight: 60.0,
                       elevation: 0,
                       floating: false,
                       pinned: true,
-                      flexibleSpace: LayoutBuilder(
-                        builder: (BuildContext context, BoxConstraints constraints) {
-                          return Visibility(
-                            visible: scrollController.position.pixels > threshold,
-                            child: _browseAppBar()
-                          );
-                        },
+                      flexibleSpace: Visibility(
+                        visible: _showTitleOnAppBar,
+                        child: _disappearingAppBar()
                       ),
                       actions: [
                         PopupMenuButton<String>(
@@ -84,17 +93,8 @@ class _BrowseTabState extends State<BrowseTab> {
                     SliverList(
                       delegate: SliverChildListDelegate(
                         [
-                          state.userSubscription == 0?
-                              Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: _subscribeButton()
-                              )
-                          :
-                              Container(),
-                          Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: _browseHeader(),
-                          ),
+                          state.userSubscription == 0? _subscribeButton(): Container(),
+                          _headerBeforeScroll(),
                           _globalFeaturedPlaylistsSection(context, state.featuredGlobalPlaylists),
                           _globalLatestReleasesSection(context, state.latestGlobalAlbums),
                           _localLatestReleasesSection(context, state.latestLocalAlbums),
@@ -267,7 +267,7 @@ class _BrowseTabState extends State<BrowseTab> {
     );
   }
 
-  Widget _browseAppBar() {
+  Widget _disappearingAppBar(){
     return Container(
       decoration: const BoxDecoration(
           border: Border(
@@ -285,35 +285,41 @@ class _BrowseTabState extends State<BrowseTab> {
   }
 
   Widget _subscribeButton() {
-    return Container(
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
-          gradient: const LinearGradient(
-              colors: [Colors.deepPurpleAccent, Colors.blueAccent])),
-      child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-              padding: const EdgeInsets.only(bottom: 8, top: 8),
-              backgroundColor: Colors.transparent,
-              shadowColor: Colors.transparent),
-          onPressed: () => print('hello'),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [Icon(Icons.apple), Text('Music')],
-              ),
-              const Text('Try it Now')
-            ],
-          )),
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8),
+            gradient: const LinearGradient(
+                colors: [Colors.deepPurpleAccent, Colors.blueAccent])),
+        child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+                padding: const EdgeInsets.only(bottom: 8, top: 8),
+                backgroundColor: Colors.transparent,
+                shadowColor: Colors.transparent),
+            onPressed: () => print('hello'),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [Icon(Icons.apple), Text('Music')],
+                ),
+                const Text('Try it Now')
+              ],
+            )),
+      ),
     );
   }
 
-  Widget _browseHeader() {
-    return Container(
-      padding: const EdgeInsets.only(bottom: 10.0),
-      decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey, width: 1.0))),
-      child: const Text('Browse', style: TextStyle(fontSize: AppConfig.bigText, fontWeight: FontWeight.bold)),
+  Widget _headerBeforeScroll(){
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Container(
+        padding: const EdgeInsets.only(bottom: 10.0),
+        decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey, width: 1.0))),
+        child: const Text('Browse', style: TextStyle(fontSize: AppConfig.bigText, fontWeight: FontWeight.bold)),
+      ),
     );
   }
 
