@@ -45,7 +45,7 @@ class _HomePageState extends State<HomePage> {
   };
   int _selectedIndex = 0;
   late PageController _pageController;
-  late Future _getLastVisitedPage;
+  late Future _getSharedPreferences;
 
   void _onPageSelected(index) async{
     setState(() {
@@ -59,13 +59,13 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    _getLastVisitedPage = SharedPreferences.getInstance();
+    _getSharedPreferences = SharedPreferences.getInstance();
   }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: _getLastVisitedPage,
+      future: _getSharedPreferences,
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return const Center(child: CircularProgressIndicator());
