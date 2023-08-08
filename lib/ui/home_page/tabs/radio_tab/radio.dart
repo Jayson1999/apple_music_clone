@@ -1,11 +1,10 @@
 import 'package:apple_music_clone/model/album.dart';
-import 'package:apple_music_clone/model/artist.dart';
 import 'package:apple_music_clone/model/playlist.dart';
 import 'package:apple_music_clone/model/track.dart';
 import 'package:apple_music_clone/ui/home_page/tabs/radio_tab/bloc/radio_bloc.dart';
+import 'package:apple_music_clone/ui/home_page/widgets/list_carousel.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/standard_carousel.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/square_carousel.dart';
-import 'package:apple_music_clone/ui/home_page/widgets/wide_list_item.dart';
 import 'package:apple_music_clone/utils/config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -96,7 +95,7 @@ class _RadioTabState extends State<RadioTab> with AutomaticKeepAliveClientMixin{
                             _globalLatestReleasesSection(state.latestGlobalAlbums),
                             _localBroadcastersSection(state.latestLocalAlbums),
                             _localLatestReleasesSection(state.featuredLocalPlaylists),
-                            _globalBroadcastersSection(state.recommendedTracks)
+                            _globalBroadcastersSection(context, state.recommendedTracks)
                           ]
                       )
                   ),
@@ -146,14 +145,13 @@ class _RadioTabState extends State<RadioTab> with AutomaticKeepAliveClientMixin{
     );
   }
 
-  Widget _globalBroadcastersSection(List<Track> tracks){
-    return wideListCardItem(
-      context,
-      'International Broadcasters',
-      [for (Track track in tracks) track.name],
-      [for (Track track in tracks) [for (Artist artist in track.artists) artist.name].join(', ')],
-      [for (Track track in tracks) '${track.album?.images[0].url}'
-      ],
+  Widget _globalBroadcastersSection(BuildContext context, List<Track> tracks){
+    return ListCarousel(
+      headerButtonTitle: 'International Broadcasters',
+      dataList: tracks,
+      noOfRowsPerPage: 3,
+      imgSize: 100,
+      listTileSize: MediaQuery.of(context).size.height * 0.15
     );
   }
 
