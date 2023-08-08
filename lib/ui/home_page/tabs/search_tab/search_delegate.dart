@@ -127,7 +127,7 @@ class SearchBarDelegate extends SearchDelegate<String> {
                   final currentItem = allSuggestions[index];
 
                   if (index < noOfSuggestionText){
-                    return _suggestedSearchItem(context, query, currentItem.name);
+                    return _suggestedSearchItem(context, currentItem.name);
                   }
                   switch (currentItem.type){
                     case 'artist':
@@ -181,7 +181,8 @@ class SearchBarDelegate extends SearchDelegate<String> {
     ];
   }
 
-  Widget _suggestedSearchItem(BuildContext context, String queryText, String suggestedText){
+  Widget _suggestedSearchItem(BuildContext context, String suggestedText){
+    final formattedSuggestionText = _formatSuggestion(suggestedText, query);
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: InkWell(
@@ -200,7 +201,7 @@ class SearchBarDelegate extends SearchDelegate<String> {
                 const Icon(Icons.search, color: Colors.grey,),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text(suggestedText),
+                  child: Text.rich(formattedSuggestionText),
                 )
               ],
             )
@@ -322,6 +323,32 @@ class SearchBarDelegate extends SearchDelegate<String> {
           ]
       ),
     );
+  }
+
+  TextSpan _formatSuggestion(String suggestionText, String queryText) {
+    final suggestionLower = suggestionText.toLowerCase();
+    final queryLower = queryText.toLowerCase();
+
+    int matchStart = suggestionLower.indexOf(queryLower);
+    if (matchStart == -1) {
+      return TextSpan(text: suggestionText);
+    }
+
+    final List<TextSpan> spans = [];
+
+    if (matchStart > 0) {
+      spans.add(TextSpan(text: suggestionText.substring(0, matchStart), style: const TextStyle(color: Colors.grey)));
+    }
+
+    spans.add(TextSpan(
+      text: suggestionText.substring(matchStart, matchStart + queryText.length)
+    ));
+
+    if (matchStart + queryText.length < suggestionText.length) {
+      spans.add(TextSpan(text: suggestionText.substring(matchStart + queryText.length), style: const TextStyle(color: Colors.grey)));
+    }
+
+    return TextSpan(children: spans);
   }
 
 }
