@@ -84,6 +84,7 @@ class _HomePageState extends State<HomePage> {
           child: Scaffold(
             body: PageView(
               controller: _pageController,
+              physics: const NeverScrollableScrollPhysics(),
               children: _tabItems.values.map((v) => v['tab']!).toList(),
             ),
             bottomNavigationBar: BottomNavigationBar(
