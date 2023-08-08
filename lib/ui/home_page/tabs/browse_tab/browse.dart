@@ -8,7 +8,7 @@ import 'package:apple_music_clone/ui/home_page/details_pages/category_details/ca
 import 'package:apple_music_clone/ui/home_page/details_pages/expanded_categories_page.dart';
 import 'package:apple_music_clone/ui/home_page/tabs/browse_tab/bloc/browse_bloc.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/circular_carousel.dart';
-import 'package:apple_music_clone/ui/home_page/widgets/common_grid_item.dart';
+import 'package:apple_music_clone/ui/home_page/widgets/standard_carousel.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/narrow_grid_item.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/narrow_list_item.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/square_grid_item.dart';
@@ -138,20 +138,18 @@ class _BrowseTabState extends State<BrowseTab> with AutomaticKeepAliveClientMixi
   }
 
   Widget _globalLatestReleasesSection(BuildContext context, List<Album> latestReleaseAlbums) {
-    return commonGridItem(
-        context,
-        'Latest Hits',
-        2,
-        latestReleaseAlbums
+    return StandardCarousel(
+        headerButtonTitle: 'Latest Hits',
+        noOfRows: 2,
+        dataList: latestReleaseAlbums
     );
   }
 
   Widget _localLatestReleasesSection(BuildContext context, List<Album> latestReleaseAlbums) {
-    return commonGridItem(
-        context,
-        'Latest Local Hits',
-        1,
-        latestReleaseAlbums
+    return StandardCarousel(
+        headerButtonTitle: 'Latest Local Hits',
+        noOfRows: 1,
+        dataList: latestReleaseAlbums
     );
   }
 
@@ -166,11 +164,10 @@ class _BrowseTabState extends State<BrowseTab> with AutomaticKeepAliveClientMixi
   List<Widget> _globalCategoriesPlaylistsSection(BuildContext context, List<Category> categories, List<List<Playlist>> categoriesPlaylists) {
     List<Widget> playlistsWidgets = [
       for (int i=0; i<3; i++)
-        commonGridItem(
-          context,
-          categories[i].name,
-          2,
-          categoriesPlaylists[i],
+        StandardCarousel(
+          headerButtonTitle: categories[i].name,
+          noOfRows: 2,
+          dataList: categoriesPlaylists[i],
         )
     ];
     return playlistsWidgets;
@@ -179,11 +176,10 @@ class _BrowseTabState extends State<BrowseTab> with AutomaticKeepAliveClientMixi
   List<Widget> _localCategoriesPlaylistsSection(BuildContext context, List<Category> categories, List<List<Playlist>> categoriesPlaylists) {
     List<Widget> playlistsWidgets = [
       for (int i=0; i<3; i++)
-        commonGridItem(
-          context,
-          categories[i].name,
-          1,
-          categoriesPlaylists[i],
+        StandardCarousel(
+          headerButtonTitle: categories[i].name,
+          noOfRows: 1,
+          dataList: categoriesPlaylists[i],
         )
     ];
     return playlistsWidgets;

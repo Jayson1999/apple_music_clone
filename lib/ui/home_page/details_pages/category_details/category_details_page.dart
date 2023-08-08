@@ -3,7 +3,7 @@ import 'package:apple_music_clone/model/playlist.dart';
 import 'package:apple_music_clone/model/track.dart';
 import 'package:apple_music_clone/ui/home_page/details_pages/category_details/bloc/category_bloc.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/circular_carousel.dart';
-import 'package:apple_music_clone/ui/home_page/widgets/common_grid_item.dart';
+import 'package:apple_music_clone/ui/home_page/widgets/standard_carousel.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/narrow_list_item.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/square_grid_item.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/wide_grid_item.dart';
@@ -112,20 +112,18 @@ class _CategoryDetailsPageState extends State<CategoryDetailsPage> {
   }
 
   Widget _globalLatestReleasesSection(BuildContext context, List<Playlist> playlists) {
-    return commonGridItem(
-        context,
-        'Latest Hits',
-        2,
-        playlists
+    return StandardCarousel(
+        headerButtonTitle: 'Latest Hits',
+        noOfRows: 2,
+        dataList: playlists
     );
   }
 
   Widget _localLatestReleasesSection(BuildContext context, List<Playlist> playlists) {
-    return commonGridItem(
-        context,
-        'Latest Local Hits',
-        1,
-        playlists
+    return StandardCarousel(
+        headerButtonTitle: 'Latest Local Hits',
+        noOfRows: 1,
+        dataList: playlists
     );
   }
 
