@@ -16,8 +16,8 @@ class StandardCarousel extends StatelessWidget {
   final int noOfRows;
   final List dataList;
 
-  int get noOfItemsPerRow => dataList.length ~/ noOfRows;
-  List<List> get splitDataLists => _splitList(dataList, noOfItemsPerRow);
+  int get noOfPages => dataList.length ~/ noOfRows;
+  List<List> get splitDataLists => _splitList(dataList, noOfPages);
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +42,7 @@ class StandardCarousel extends StatelessWidget {
               padEnds: false,
               controller: PageController(viewportFraction: 0.5),
               scrollDirection: Axis.horizontal,
-              itemCount: noOfItemsPerRow,
+              itemCount: noOfPages,
               itemBuilder: (context, pageIndex) {
                 List<Widget> currentPageCards = [
                   for (int rowIndex=0; rowIndex<noOfRows; rowIndex++)
