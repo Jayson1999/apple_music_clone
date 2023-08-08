@@ -117,7 +117,7 @@ class _ArtistDetailsPageState extends State<ArtistDetailsPage> {
   Widget _greatestHitsSection(BuildContext context, List<Album> albums) {
     return StandardCarousel(
         headerButtonTitle: 'Greatest Hits',
-        noOfRows: 2,
+        noOfRowsPerPage: 2,
         dataList: albums
     );
   }
@@ -125,7 +125,7 @@ class _ArtistDetailsPageState extends State<ArtistDetailsPage> {
   Widget _featuredAlbumsSection(BuildContext context, List<Album> albums) {
     return StandardCarousel(
         headerButtonTitle: 'Featured Albums',
-        noOfRows: 1,
+        noOfRowsPerPage: 1,
         dataList: albums
     );
   }

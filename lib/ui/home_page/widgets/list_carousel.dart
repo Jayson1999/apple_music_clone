@@ -14,7 +14,7 @@ class ListCarousel extends StatelessWidget {
   final double imgSize;
 
   int get noOfPages => dataList.length ~/ noOfRowsPerPage;
-  List<List> get splitDataLists => _splitList(dataList, noOfPages);
+  List<List> get splitDataLists => _splitList(dataList, noOfRowsPerPage);
 
   @override
   Widget build(BuildContext context) {
@@ -44,11 +44,11 @@ class ListCarousel extends StatelessWidget {
                 List<Widget> currentPageCards = [
                   for (int rowIndex=0; rowIndex<noOfRowsPerPage; rowIndex++)
                     ListItem(
-                        title: splitDataLists[rowIndex][pageIndex].name,
-                        subtitle: [for (Artist artist in splitDataLists[rowIndex][pageIndex].artists) artist.name].join(', '),
+                        title: splitDataLists[pageIndex][rowIndex].name,
+                        subtitle: [for (Artist artist in splitDataLists[pageIndex][rowIndex].artists) artist.name].join(', '),
                         listTileSize: listTileSize,
                         imgSize: imgSize,
-                        imgUrl: '${splitDataLists[rowIndex][pageIndex].album?.images[0].url}',
+                        imgUrl: '${splitDataLists[pageIndex][rowIndex].album?.images[0].url}',
                         showBtmBorder: rowIndex != noOfRowsPerPage-1
                     )
                 ];

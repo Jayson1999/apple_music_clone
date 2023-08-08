@@ -139,7 +139,7 @@ class _BrowseTabState extends State<BrowseTab> with AutomaticKeepAliveClientMixi
   Widget _globalLatestReleasesSection(BuildContext context, List<Album> latestReleaseAlbums) {
     return StandardCarousel(
         headerButtonTitle: 'Latest Hits',
-        noOfRows: 2,
+        noOfRowsPerPage: 2,
         dataList: latestReleaseAlbums
     );
   }
@@ -147,7 +147,7 @@ class _BrowseTabState extends State<BrowseTab> with AutomaticKeepAliveClientMixi
   Widget _localLatestReleasesSection(BuildContext context, List<Album> latestReleaseAlbums) {
     return StandardCarousel(
         headerButtonTitle: 'Latest Local Hits',
-        noOfRows: 1,
+        noOfRowsPerPage: 1,
         dataList: latestReleaseAlbums
     );
   }
@@ -164,7 +164,7 @@ class _BrowseTabState extends State<BrowseTab> with AutomaticKeepAliveClientMixi
       for (int i=0; i<3; i++)
         StandardCarousel(
           headerButtonTitle: categories[i].name,
-          noOfRows: 2,
+          noOfRowsPerPage: 2,
           dataList: categoriesPlaylists[i],
         )
     ];
@@ -176,7 +176,7 @@ class _BrowseTabState extends State<BrowseTab> with AutomaticKeepAliveClientMixi
       for (int i=0; i<3; i++)
         StandardCarousel(
           headerButtonTitle: categories[i].name,
-          noOfRows: 1,
+          noOfRowsPerPage: 1,
           dataList: categoriesPlaylists[i],
         )
     ];

@@ -113,7 +113,7 @@ class _CategoryDetailsPageState extends State<CategoryDetailsPage> {
   Widget _globalLatestReleasesSection(BuildContext context, List<Playlist> playlists) {
     return StandardCarousel(
         headerButtonTitle: 'Latest Hits',
-        noOfRows: 2,
+        noOfRowsPerPage: 2,
         dataList: playlists
     );
   }
@@ -121,7 +121,7 @@ class _CategoryDetailsPageState extends State<CategoryDetailsPage> {
   Widget _localLatestReleasesSection(BuildContext context, List<Playlist> playlists) {
     return StandardCarousel(
         headerButtonTitle: 'Latest Local Hits',
-        noOfRows: 1,
+        noOfRowsPerPage: 1,
         dataList: playlists
     );
   }
