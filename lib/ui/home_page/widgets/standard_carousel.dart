@@ -10,14 +10,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 
 class StandardCarousel extends StatelessWidget {
-  const StandardCarousel({Key? key, required this.headerButtonTitle, required this.noOfRows, required this.dataList}) : super(key: key);
+  const StandardCarousel({Key? key, required this.headerButtonTitle, required this.noOfRowsPerPage, required this.dataList}) : super(key: key);
 
   final String headerButtonTitle;
-  final int noOfRows;
+  final int noOfRowsPerPage;
   final List dataList;
 
-  int get noOfPages => dataList.length ~/ noOfRows;
-  List<List> get splitDataLists => _splitList(dataList, noOfPages);
+  int get noOfPages => dataList.length ~/ noOfRowsPerPage;
+  List<List> get splitDataLists => _splitList(dataList, noOfRowsPerPage);
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +37,7 @@ class StandardCarousel extends StatelessWidget {
           ),
         ),
         SizedBox(
-          height: MediaQuery.of(context).size.height * 0.3 * noOfRows,
+          height: MediaQuery.of(context).size.height * 0.3 * noOfRowsPerPage,
           child: PageView.builder(
               padEnds: false,
               controller: PageController(viewportFraction: 0.5),
@@ -45,8 +45,8 @@ class StandardCarousel extends StatelessWidget {
               itemCount: noOfPages,
               itemBuilder: (context, pageIndex) {
                 List<Widget> currentPageCards = [
-                  for (int rowIndex=0; rowIndex<noOfRows; rowIndex++)
-                    _standardItemFromData(splitDataLists[rowIndex][pageIndex])
+                  for (int rowIndex=0; rowIndex<noOfRowsPerPage; rowIndex++)
+                    _standardItemFromData(splitDataLists[pageIndex][rowIndex])
                 ];
                 return Column(children: currentPageCards);
               }),

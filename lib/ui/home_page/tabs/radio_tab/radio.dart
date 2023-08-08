@@ -140,7 +140,7 @@ class _RadioTabState extends State<RadioTab> with AutomaticKeepAliveClientMixin{
   Widget _localLatestReleasesSection(List<Playlist> featuredPlaylists) {
     return StandardCarousel(
         headerButtonTitle: 'Loved Locally',
-        noOfRows: 1,
+        noOfRowsPerPage: 1,
         dataList: featuredPlaylists
     );
   }
