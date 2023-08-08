@@ -4,7 +4,7 @@ import 'package:apple_music_clone/model/playlist.dart';
 import 'package:apple_music_clone/model/track.dart';
 import 'package:apple_music_clone/ui/home_page/tabs/radio_tab/bloc/radio_bloc.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/standard_carousel.dart';
-import 'package:apple_music_clone/ui/home_page/widgets/square_grid_item.dart';
+import 'package:apple_music_clone/ui/home_page/widgets/square_carousel.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/wide_list_item.dart';
 import 'package:apple_music_clone/utils/config.dart';
 import 'package:flutter/material.dart';
@@ -118,26 +118,23 @@ class _RadioTabState extends State<RadioTab> with AutomaticKeepAliveClientMixin{
   }
 
   Widget _globalFeaturedRadioSection(List<Playlist> featuredPlaylists) {
-    return squareGridItem(
-      context,
-      'Featured Radio',
-      featuredPlaylists
+    return SquareCarousel(
+      headerButtonTitle: 'Featured Radio',
+      dataList: featuredPlaylists
     );
   }
 
   Widget _globalLatestReleasesSection(List<Album> latestReleaseAlbums) {
-    return squareGridItem(
-      context,
-      'Loved Everywhere',
-      latestReleaseAlbums
+    return SquareCarousel(
+      headerButtonTitle: 'Loved Everywhere',
+      dataList: latestReleaseAlbums
     );
   }
 
   Widget _localBroadcastersSection(List<Album> latestReleaseAlbums) {
-    return squareGridItem(
-      context,
-      'Local Broadcasters',
-      latestReleaseAlbums
+    return SquareCarousel(
+      headerButtonTitle: 'Local Broadcasters',
+      dataList: latestReleaseAlbums
     );
   }
 

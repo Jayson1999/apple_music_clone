@@ -11,7 +11,7 @@ import 'package:apple_music_clone/ui/home_page/widgets/circular_carousel.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/standard_carousel.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/narrow_carousel.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/narrow_list_item.dart';
-import 'package:apple_music_clone/ui/home_page/widgets/square_grid_item.dart';
+import 'package:apple_music_clone/ui/home_page/widgets/square_carousel.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/wide_grid_item.dart';
 import 'package:apple_music_clone/utils/config.dart';
 import 'package:flutter/material.dart';
@@ -154,10 +154,9 @@ class _BrowseTabState extends State<BrowseTab> with AutomaticKeepAliveClientMixi
   }
 
   Widget _localFeaturedPlaylistsSection(BuildContext context, List<Playlist> featuredPlaylists) {
-    return squareGridItem(
-      context,
-      'Featured Playlists',
-      featuredPlaylists
+    return SquareCarousel(
+      headerButtonTitle: 'Featured Playlists',
+      dataList: featuredPlaylists
     );
   }
 
