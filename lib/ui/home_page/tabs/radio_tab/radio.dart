@@ -3,7 +3,7 @@ import 'package:apple_music_clone/model/artist.dart';
 import 'package:apple_music_clone/model/playlist.dart';
 import 'package:apple_music_clone/model/track.dart';
 import 'package:apple_music_clone/ui/home_page/tabs/radio_tab/bloc/radio_bloc.dart';
-import 'package:apple_music_clone/ui/home_page/widgets/common_grid_item.dart';
+import 'package:apple_music_clone/ui/home_page/widgets/standard_carousel.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/square_grid_item.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/wide_list_item.dart';
 import 'package:apple_music_clone/utils/config.dart';
@@ -142,11 +142,10 @@ class _RadioTabState extends State<RadioTab> with AutomaticKeepAliveClientMixin{
   }
 
   Widget _localLatestReleasesSection(List<Playlist> featuredPlaylists) {
-    return commonGridItem(
-        context,
-        'Loved Locally',
-        1,
-        featuredPlaylists
+    return StandardCarousel(
+        headerButtonTitle: 'Loved Locally',
+        noOfRows: 1,
+        dataList: featuredPlaylists
     );
   }
 

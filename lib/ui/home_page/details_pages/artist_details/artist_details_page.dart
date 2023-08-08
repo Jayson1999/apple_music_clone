@@ -3,7 +3,7 @@ import 'package:apple_music_clone/model/artist.dart';
 import 'package:apple_music_clone/model/track.dart';
 import 'package:apple_music_clone/ui/home_page/details_pages/artist_details/bloc/artist_bloc.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/circular_carousel.dart';
-import 'package:apple_music_clone/ui/home_page/widgets/common_grid_item.dart';
+import 'package:apple_music_clone/ui/home_page/widgets/standard_carousel.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/narrow_list_item.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/square_grid_item.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/wide_grid_item.dart';
@@ -116,20 +116,18 @@ class _ArtistDetailsPageState extends State<ArtistDetailsPage> {
   }
 
   Widget _greatestHitsSection(BuildContext context, List<Album> albums) {
-    return commonGridItem(
-        context,
-        'Greatest Hits',
-        2,
-        albums
+    return StandardCarousel(
+        headerButtonTitle: 'Greatest Hits',
+        noOfRows: 2,
+        dataList: albums
     );
   }
 
   Widget _featuredAlbumsSection(BuildContext context, List<Album> albums) {
-    return commonGridItem(
-        context,
-        'Featured Albums',
-        1,
-        albums
+    return StandardCarousel(
+        headerButtonTitle: 'Featured Albums',
+        noOfRows: 1,
+        dataList: albums
     );
   }
 
