@@ -87,10 +87,10 @@ class _ArtistDetailsPageState extends State<ArtistDetailsPage> {
                   SliverList(
                       delegate: SliverChildListDelegate(
                           [
-                            _latestAlbumsSection(context, state.albums),
-                            _greatestHitsSection(context, state.albums),
-                            _featuredAlbumsSection(context, state.albums),
-                            _essentialAlbumsSection(context, state.albums),
+                            _latestAlbumsSection(state.albums),
+                            _greatestHitsSection(state.albums),
+                            _featuredAlbumsSection(state.albums),
+                            _essentialAlbumsSection(state.albums),
                             _topTracksSection(context, state.topTracks),
                             _similarArtistsSection(state.relatedArtists)
                           ]
@@ -108,13 +108,13 @@ class _ArtistDetailsPageState extends State<ArtistDetailsPage> {
     );
   }
 
-  Widget _latestAlbumsSection(BuildContext context, List<Album> albums) {
+  Widget _latestAlbumsSection(List<Album> albums) {
     return WideCarousel(
         dataList: albums
     );
   }
 
-  Widget _greatestHitsSection(BuildContext context, List<Album> albums) {
+  Widget _greatestHitsSection(List<Album> albums) {
     return StandardCarousel(
         headerButtonTitle: 'Greatest Hits',
         noOfRowsPerPage: 2,
@@ -122,7 +122,7 @@ class _ArtistDetailsPageState extends State<ArtistDetailsPage> {
     );
   }
 
-  Widget _featuredAlbumsSection(BuildContext context, List<Album> albums) {
+  Widget _featuredAlbumsSection(List<Album> albums) {
     return StandardCarousel(
         headerButtonTitle: 'Featured Albums',
         noOfRowsPerPage: 1,
@@ -130,7 +130,7 @@ class _ArtistDetailsPageState extends State<ArtistDetailsPage> {
     );
   }
 
-  Widget _essentialAlbumsSection(BuildContext context, List<Album> albums) {
+  Widget _essentialAlbumsSection(List<Album> albums) {
     return SquareCarousel(
       headerButtonTitle: 'Essential Albums',
       dataList: albums

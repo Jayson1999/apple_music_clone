@@ -1,6 +1,7 @@
 import 'package:apple_music_clone/model/album.dart';
+import 'package:apple_music_clone/model/artist.dart';
 import 'package:apple_music_clone/ui/home_page/details_pages/album_details/bloc/album_bloc.dart';
-import 'package:apple_music_clone/ui/home_page/widgets/singleTrackListTile.dart';
+import 'package:apple_music_clone/ui/home_page/widgets/list_item.dart';
 import 'package:apple_music_clone/utils/config.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -174,7 +175,25 @@ class _AlbumDetailsState extends State<AlbumDetails> {
               subtitle: Text('currentItem is null'),
             );
           }
-          return singleTrack(currentItem, context);
+          return ListItem(
+              title: currentItem.name,
+              subtitle: '${currentItem.type} . ${[for (Artist a in currentItem.artists) a.name].join(',')}',
+              listTileSize: MediaQuery.of(context).size.height * 0.1,
+              imgSize: 30,
+              imgUrl: currentItem.album?.images.first.url ?? '',
+              showBtmBorder: false,
+              trailingWidget: PopupMenuButton<String>(
+                  icon: Icon(Icons.more_vert, color: Theme.of(context).primaryColor,),
+                  onSelected: (value) => print('hello'),
+                  itemBuilder: (BuildContext context) =>
+                  <PopupMenuEntry<String>>[
+                    const PopupMenuItem<String>(
+                      value: 'settings',
+                      child: Text('Settings'),
+                    ),
+                  ]
+              ),
+          );
         }
     );
   }

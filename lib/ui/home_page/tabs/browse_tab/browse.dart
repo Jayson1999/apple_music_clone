@@ -100,16 +100,16 @@ class _BrowseTabState extends State<BrowseTab> with AutomaticKeepAliveClientMixi
                         [
                           state.userSubscription == 0? _subscribeButton(): Container(),
                           _headerBeforeScroll(),
-                          _globalFeaturedPlaylistsSection(context, state.featuredGlobalPlaylists),
-                          _globalLatestReleasesSection(context, state.latestGlobalAlbums),
-                          _localLatestReleasesSection(context, state.latestLocalAlbums),
-                          _localFeaturedPlaylistsSection(context, state.featuredLocalPlaylists),
-                          ..._globalCategoriesPlaylistsSection(context, state.categoriesGlobal, state.categoriesGlobalPlaylists),
-                          _featuredCategoriesSection(context, [...state.categoriesGlobal, ...state.categoriesLocal], [...state.categoriesGlobalPlaylists, ...state.categoriesLocalPlaylists]),
+                          _globalFeaturedPlaylistsSection(state.featuredGlobalPlaylists),
+                          _globalLatestReleasesSection(state.latestGlobalAlbums),
+                          _localLatestReleasesSection(state.latestLocalAlbums),
+                          _localFeaturedPlaylistsSection(state.featuredLocalPlaylists),
+                          ..._globalCategoriesPlaylistsSection(state.categoriesGlobal, state.categoriesGlobalPlaylists),
+                          _featuredCategoriesSection([...state.categoriesGlobal, ...state.categoriesLocal], [...state.categoriesGlobalPlaylists, ...state.categoriesLocalPlaylists]),
                           _recommendedTracks(context, state.recommendedTracks),
-                          ..._localCategoriesPlaylistsSection(context, state.categoriesLocal, state.categoriesLocalPlaylists),
+                          ..._localCategoriesPlaylistsSection(state.categoriesLocal, state.categoriesLocalPlaylists),
                           _featuredArtistsSection([...state.artistsGlobal, ...state.artistsLocal]),
-                          _browseCategoriesSection(context, [...state.categoriesGlobal, ...state.categoriesLocal], [...state.categoriesGlobalPlaylists, ...state.categoriesLocalPlaylists])
+                          _browseCategoriesSection([...state.categoriesGlobal, ...state.categoriesLocal], [...state.categoriesGlobalPlaylists, ...state.categoriesLocalPlaylists])
                         ]
                       )
                     ),
@@ -130,13 +130,13 @@ class _BrowseTabState extends State<BrowseTab> with AutomaticKeepAliveClientMixi
     );
   }
 
-  Widget _globalFeaturedPlaylistsSection(BuildContext context, List<Playlist> featuredPlaylists) {
+  Widget _globalFeaturedPlaylistsSection(List<Playlist> featuredPlaylists) {
     return WideCarousel(
         dataList: featuredPlaylists
     );
   }
 
-  Widget _globalLatestReleasesSection(BuildContext context, List<Album> latestReleaseAlbums) {
+  Widget _globalLatestReleasesSection(List<Album> latestReleaseAlbums) {
     return StandardCarousel(
         headerButtonTitle: 'Latest Hits',
         noOfRowsPerPage: 2,
@@ -144,7 +144,7 @@ class _BrowseTabState extends State<BrowseTab> with AutomaticKeepAliveClientMixi
     );
   }
 
-  Widget _localLatestReleasesSection(BuildContext context, List<Album> latestReleaseAlbums) {
+  Widget _localLatestReleasesSection(List<Album> latestReleaseAlbums) {
     return StandardCarousel(
         headerButtonTitle: 'Latest Local Hits',
         noOfRowsPerPage: 1,
@@ -152,14 +152,14 @@ class _BrowseTabState extends State<BrowseTab> with AutomaticKeepAliveClientMixi
     );
   }
 
-  Widget _localFeaturedPlaylistsSection(BuildContext context, List<Playlist> featuredPlaylists) {
+  Widget _localFeaturedPlaylistsSection(List<Playlist> featuredPlaylists) {
     return SquareCarousel(
       headerButtonTitle: 'Featured Playlists',
       dataList: featuredPlaylists
     );
   }
 
-  List<Widget> _globalCategoriesPlaylistsSection(BuildContext context, List<Category> categories, List<List<Playlist>> categoriesPlaylists) {
+  List<Widget> _globalCategoriesPlaylistsSection(List<Category> categories, List<List<Playlist>> categoriesPlaylists) {
     List<Widget> playlistsWidgets = [
       for (int i=0; i<3; i++)
         StandardCarousel(
@@ -171,7 +171,7 @@ class _BrowseTabState extends State<BrowseTab> with AutomaticKeepAliveClientMixi
     return playlistsWidgets;
   }
 
-  List<Widget> _localCategoriesPlaylistsSection(BuildContext context, List<Category> categories, List<List<Playlist>> categoriesPlaylists) {
+  List<Widget> _localCategoriesPlaylistsSection(List<Category> categories, List<List<Playlist>> categoriesPlaylists) {
     List<Widget> playlistsWidgets = [
       for (int i=0; i<3; i++)
         StandardCarousel(
@@ -183,7 +183,7 @@ class _BrowseTabState extends State<BrowseTab> with AutomaticKeepAliveClientMixi
     return playlistsWidgets;
   }
 
-  Widget _featuredCategoriesSection(BuildContext context, List<Category> categories, List<List<Playlist>> categoriesPlaylists){
+  Widget _featuredCategoriesSection(List<Category> categories, List<List<Playlist>> categoriesPlaylists){
     return NarrowCarousel(
         headerTitle: 'Browse by Category',
         dataList: categories,
@@ -208,7 +208,7 @@ class _BrowseTabState extends State<BrowseTab> with AutomaticKeepAliveClientMixi
     );
   }
 
-  Widget _browseCategoriesSection (BuildContext context, List <Category> categories, List<List<Playlist>> categoriesPlaylists){
+  Widget _browseCategoriesSection (List <Category> categories, List<List<Playlist>> categoriesPlaylists){
     Widget categoryItem(String title, List<Playlist> dataList) {
       var detailsPage = BlocProvider<CategoryBloc>(
           create: (context) => CategoryBloc(),
