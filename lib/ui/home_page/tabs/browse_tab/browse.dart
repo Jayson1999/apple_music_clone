@@ -9,7 +9,7 @@ import 'package:apple_music_clone/ui/home_page/details_pages/expanded_categories
 import 'package:apple_music_clone/ui/home_page/tabs/browse_tab/bloc/browse_bloc.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/circular_carousel.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/standard_carousel.dart';
-import 'package:apple_music_clone/ui/home_page/widgets/narrow_grid_item.dart';
+import 'package:apple_music_clone/ui/home_page/widgets/narrow_carousel.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/narrow_list_item.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/square_grid_item.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/wide_grid_item.dart';
@@ -186,11 +186,10 @@ class _BrowseTabState extends State<BrowseTab> with AutomaticKeepAliveClientMixi
   }
 
   Widget _featuredCategoriesSection(BuildContext context, List<Category> categories, List<List<Playlist>> categoriesPlaylists){
-    return narrowGridItem(
-        context,
-        'Browse by Category',
-        categories,
-        categoriesPlaylists
+    return NarrowCarousel(
+        headerTitle: 'Browse by Category',
+        dataList: categories,
+        detailsDataList: categoriesPlaylists
     );
   }
 
