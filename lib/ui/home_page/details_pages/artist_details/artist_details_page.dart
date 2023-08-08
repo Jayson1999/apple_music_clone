@@ -3,8 +3,8 @@ import 'package:apple_music_clone/model/artist.dart';
 import 'package:apple_music_clone/model/track.dart';
 import 'package:apple_music_clone/ui/home_page/details_pages/artist_details/bloc/artist_bloc.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/circular_carousel.dart';
+import 'package:apple_music_clone/ui/home_page/widgets/list_carousel.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/standard_carousel.dart';
-import 'package:apple_music_clone/ui/home_page/widgets/narrow_list_item.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/square_carousel.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/wide_carousel.dart';
 import 'package:apple_music_clone/utils/config.dart';
@@ -138,10 +138,12 @@ class _ArtistDetailsPageState extends State<ArtistDetailsPage> {
   }
 
   Widget _topTracksSection(BuildContext context, List<Track> tracks){
-    return narrowListCardItem(
-        context,
-        'Top Tracks',
-        tracks
+    return ListCarousel(
+        headerButtonTitle: 'Top Tracks',
+        dataList: tracks,
+        noOfRowsPerPage: 4,
+        imgSize: 30,
+        listTileSize: MediaQuery.of(context).size.height * 0.1,
     );
   }
 
