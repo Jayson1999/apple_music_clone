@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 
 class ListItem extends StatelessWidget {
-  const ListItem({Key? key, required this.title, required this.subtitle, required this.listTileSize, required this.imgSize, required this.imgUrl, required this.showBtmBorder}) : super(key: key);
+  const ListItem({Key? key, required this.title, required this.subtitle, required this.listTileSize, required this.imgSize, required this.imgUrl, required this.showBtmBorder, this.trailingWidget}) : super(key: key);
 
   final String title;
   final String subtitle;
@@ -12,6 +12,7 @@ class ListItem extends StatelessWidget {
   final double listTileSize;
   final double imgSize;
   final bool showBtmBorder;
+  final Widget? trailingWidget;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,11 @@ class ListItem extends StatelessWidget {
             placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
             errorWidget: (context, url, error) => const Center(child: Icon(Icons.error)),
           ),
-          title: Text(title, style: const TextStyle(color: Colors.black, fontSize: AppConfig.smallText)),
+          title: Text(
+              title,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(color: Colors.black, fontSize: AppConfig.mediumText)
+          ),
           subtitle: Container(
               decoration: BoxDecoration(
                   border: Border(
@@ -36,9 +41,11 @@ class ListItem extends StatelessWidget {
               ),
               child: Text(
                   subtitle,
+                  overflow: TextOverflow.ellipsis,
                   style: const TextStyle(color: Colors.grey, fontSize: AppConfig.smallText)
               )
           ),
+          trailing: trailingWidget,
         ),
       ),
     );

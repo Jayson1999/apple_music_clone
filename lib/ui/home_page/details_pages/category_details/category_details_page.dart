@@ -83,10 +83,10 @@ class _CategoryDetailsPageState extends State<CategoryDetailsPage> {
                       delegate: SliverChildListDelegate(
                           [
                             _headerBeforeScroll(widget.title),
-                            _globalFeaturedPlaylistsSection(context, widget.dataList),
-                            _globalLatestReleasesSection(context, widget.dataList),
-                            _localLatestReleasesSection(context, widget.dataList),
-                            _localFeaturedPlaylistsSection(context, widget.dataList),
+                            _globalFeaturedPlaylistsSection(widget.dataList),
+                            _globalLatestReleasesSection(widget.dataList),
+                            _localLatestReleasesSection(widget.dataList),
+                            _localFeaturedPlaylistsSection(widget.dataList),
                             _recommendedTracks(context, state.tracks),
                             _featuredArtistsSection(state.artists)
                           ]
@@ -104,13 +104,13 @@ class _CategoryDetailsPageState extends State<CategoryDetailsPage> {
     );
   }
 
-  Widget _globalFeaturedPlaylistsSection(BuildContext context, List<Playlist> playlists) {
+  Widget _globalFeaturedPlaylistsSection(List<Playlist> playlists) {
     return WideCarousel(
         dataList: playlists
     );
   }
 
-  Widget _globalLatestReleasesSection(BuildContext context, List<Playlist> playlists) {
+  Widget _globalLatestReleasesSection(List<Playlist> playlists) {
     return StandardCarousel(
         headerButtonTitle: 'Latest Hits',
         noOfRowsPerPage: 2,
@@ -118,7 +118,7 @@ class _CategoryDetailsPageState extends State<CategoryDetailsPage> {
     );
   }
 
-  Widget _localLatestReleasesSection(BuildContext context, List<Playlist> playlists) {
+  Widget _localLatestReleasesSection(List<Playlist> playlists) {
     return StandardCarousel(
         headerButtonTitle: 'Latest Local Hits',
         noOfRowsPerPage: 1,
@@ -126,7 +126,7 @@ class _CategoryDetailsPageState extends State<CategoryDetailsPage> {
     );
   }
 
-  Widget _localFeaturedPlaylistsSection(BuildContext context, List<Playlist> playlists) {
+  Widget _localFeaturedPlaylistsSection(List<Playlist> playlists) {
     return SquareCarousel(
       headerButtonTitle: 'Featured Playlists',
       dataList: playlists
