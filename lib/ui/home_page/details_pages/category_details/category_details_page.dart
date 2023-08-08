@@ -6,7 +6,7 @@ import 'package:apple_music_clone/ui/home_page/widgets/circular_carousel.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/standard_carousel.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/narrow_list_item.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/square_carousel.dart';
-import 'package:apple_music_clone/ui/home_page/widgets/wide_grid_item.dart';
+import 'package:apple_music_clone/ui/home_page/widgets/wide_carousel.dart';
 import 'package:apple_music_clone/utils/config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -105,9 +105,8 @@ class _CategoryDetailsPageState extends State<CategoryDetailsPage> {
   }
 
   Widget _globalFeaturedPlaylistsSection(BuildContext context, List<Playlist> playlists) {
-    return wideGridItem(
-        context,
-        playlists
+    return WideCarousel(
+        dataList: playlists
     );
   }
 
