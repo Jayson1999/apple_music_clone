@@ -116,10 +116,19 @@ class SearchBarDelegate extends SearchDelegate<String> {
           }
 
           else if (state.searchStatus.isSuccess) {
+            const int noOfSuggestionText = 3;
+            List suggestions = state.searchedResults;
+            List top3Suggestions = suggestions.sublist(suggestions.length-noOfSuggestionText, suggestions.length);
+            List allSuggestions = [...top3Suggestions, ...suggestions];
+
             return ListView.builder(
-                itemCount: state.searchedResults.length,
+                itemCount: allSuggestions.length,
                 itemBuilder: (context, index){
-                  final currentItem = state.searchedResults[index];
+                  final currentItem = allSuggestions[index];
+
+                  if (index < noOfSuggestionText){
+                    return _suggestedSearchItem(context, query, currentItem.name);
+                  }
                   switch (currentItem.type){
                     case 'artist':
                       return _singleArtist(context, currentItem);
@@ -170,6 +179,34 @@ class SearchBarDelegate extends SearchDelegate<String> {
             }
       })
     ];
+  }
+
+  Widget _suggestedSearchItem(BuildContext context, String queryText, String suggestedText){
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: InkWell(
+        onTap: () {
+          query = suggestedText;
+          showResults(context);
+        },
+        child: Container(
+            decoration: const BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(color: Colors.grey, width: 0.5),
+                )
+            ),
+            child: Row(
+              children: [
+                const Icon(Icons.search, color: Colors.grey,),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(suggestedText),
+                )
+              ],
+            )
+        ),
+      ),
+    );
   }
 
   Widget _singleArtist(BuildContext context, Artist artistData){
