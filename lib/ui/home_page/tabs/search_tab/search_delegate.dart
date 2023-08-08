@@ -1,12 +1,14 @@
 import 'package:apple_music_clone/model/album.dart';
 import 'package:apple_music_clone/model/artist.dart';
 import 'package:apple_music_clone/model/playlist.dart';
+import 'package:apple_music_clone/model/track.dart';
 import 'package:apple_music_clone/ui/home_page/tabs/search_tab/bloc/search_bloc.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/list_item.dart';
 import 'package:apple_music_clone/utils/config.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 
 class SearchBarDelegate extends SearchDelegate<String> {
   final SearchBloc searchBloc;
@@ -74,25 +76,7 @@ class SearchBarDelegate extends SearchDelegate<String> {
                     case 'playlist':
                       return _singlePlaylist(currentItem);
                     case 'track':
-                      return ListItem(
-                        title: currentItem.name,
-                        subtitle: '${currentItem.type} . ${[for (Artist a in currentItem.artists) a.name].join(',')}',
-                        listTileSize: MediaQuery.of(context).size.height * 0.1,
-                        imgSize: 30,
-                        imgUrl: currentItem.album?.images.first.url ?? '',
-                        showBtmBorder: false,
-                        trailingWidget: PopupMenuButton<String>(
-                            icon: Icon(Icons.more_vert, color: Theme.of(context).primaryColor,),
-                            onSelected: (value) => print('hello'),
-                            itemBuilder: (BuildContext context) =>
-                            <PopupMenuEntry<String>>[
-                              const PopupMenuItem<String>(
-                                value: 'settings',
-                                child: Text('Settings'),
-                              ),
-                            ]
-                        ),
-                      );
+                      return _singleTrack(context, currentItem);
                   }
                 });
           }
@@ -158,7 +142,7 @@ class SearchBarDelegate extends SearchDelegate<String> {
   Widget _singleAlbum(Album albumData){
     return ListTile(
         leading: CachedNetworkImage(
-          imageUrl: albumData.images[0].url,
+          imageUrl: albumData.images.first.url,
           width: 30,
           errorWidget: (context, url, error) => const Center(child: Icon(Icons.error)),
         ),
@@ -172,6 +156,28 @@ class SearchBarDelegate extends SearchDelegate<String> {
           overflow: TextOverflow.ellipsis,
           style: const TextStyle(fontSize: AppConfig.smallText, color: Colors.grey),
         )
+    );
+  }
+
+  Widget _singleTrack(BuildContext context,Track trackData){
+    return ListItem(
+      title: trackData.name,
+      subtitle: '${trackData.type} . ${[for (Artist a in trackData.artists) a.name].join(',')}',
+      listTileSize: MediaQuery.of(context).size.height * 0.1,
+      imgSize: 30,
+      imgUrl: trackData.album?.images.first.url ?? '',
+      showBtmBorder: false,
+      trailingWidget: PopupMenuButton<String>(
+          icon: Icon(Icons.more_vert, color: Theme.of(context).primaryColor,),
+          onSelected: (value) => print('hello'),
+          itemBuilder: (BuildContext context) =>
+          <PopupMenuEntry<String>>[
+            const PopupMenuItem<String>(
+              value: 'settings',
+              child: Text('Settings'),
+            ),
+          ]
+      ),
     );
   }
 
