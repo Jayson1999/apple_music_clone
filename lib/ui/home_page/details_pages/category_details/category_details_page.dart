@@ -5,7 +5,7 @@ import 'package:apple_music_clone/ui/home_page/details_pages/category_details/bl
 import 'package:apple_music_clone/ui/home_page/widgets/circular_carousel.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/standard_carousel.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/narrow_list_item.dart';
-import 'package:apple_music_clone/ui/home_page/widgets/square_grid_item.dart';
+import 'package:apple_music_clone/ui/home_page/widgets/square_carousel.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/wide_grid_item.dart';
 import 'package:apple_music_clone/utils/config.dart';
 import 'package:flutter/material.dart';
@@ -128,10 +128,9 @@ class _CategoryDetailsPageState extends State<CategoryDetailsPage> {
   }
 
   Widget _localFeaturedPlaylistsSection(BuildContext context, List<Playlist> playlists) {
-    return squareGridItem(
-      context,
-      'Featured Playlists',
-      playlists
+    return SquareCarousel(
+      headerButtonTitle: 'Featured Playlists',
+      dataList: playlists
     );
   }
 

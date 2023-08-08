@@ -5,7 +5,7 @@ import 'package:apple_music_clone/ui/home_page/details_pages/artist_details/bloc
 import 'package:apple_music_clone/ui/home_page/widgets/circular_carousel.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/standard_carousel.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/narrow_list_item.dart';
-import 'package:apple_music_clone/ui/home_page/widgets/square_grid_item.dart';
+import 'package:apple_music_clone/ui/home_page/widgets/square_carousel.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/wide_grid_item.dart';
 import 'package:apple_music_clone/utils/config.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -132,10 +132,9 @@ class _ArtistDetailsPageState extends State<ArtistDetailsPage> {
   }
 
   Widget _essentialAlbumsSection(BuildContext context, List<Album> albums) {
-    return squareGridItem(
-      context,
-      'Essential Albums',
-      albums
+    return SquareCarousel(
+      headerButtonTitle: 'Essential Albums',
+      dataList: albums
     );
   }
 
