@@ -2,7 +2,7 @@ import 'package:apple_music_clone/model/album.dart';
 import 'package:apple_music_clone/model/artist.dart';
 import 'package:apple_music_clone/model/track.dart';
 import 'package:apple_music_clone/ui/home_page/details_pages/artist_details/bloc/artist_bloc.dart';
-import 'package:apple_music_clone/ui/home_page/widgets/circular_item.dart';
+import 'package:apple_music_clone/ui/home_page/widgets/circular_carousel.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/common_grid_item.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/narrow_list_item.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/square_grid_item.dart';
@@ -92,7 +92,7 @@ class _ArtistDetailsPageState extends State<ArtistDetailsPage> {
                             _featuredAlbumsSection(context, state.albums),
                             _essentialAlbumsSection(context, state.albums),
                             _topTracksSection(context, state.topTracks),
-                            _similarArtistsSection(context, state.relatedArtists)
+                            _similarArtistsSection(state.relatedArtists)
                           ]
                       )
                   ),
@@ -149,11 +149,10 @@ class _ArtistDetailsPageState extends State<ArtistDetailsPage> {
     );
   }
 
-  Widget _similarArtistsSection(BuildContext context, List <Artist> artists) {
-    return circularItem(
-        context,
-        'Similar Artists',
-        artists
+  Widget _similarArtistsSection(List <Artist> artists) {
+    return CircularCarousel(
+        headerButtonTitle: 'Similar Artists',
+        dataList: artists
     );
   }
 

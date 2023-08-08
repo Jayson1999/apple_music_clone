@@ -7,7 +7,7 @@ import 'package:apple_music_clone/ui/home_page/details_pages/category_details/bl
 import 'package:apple_music_clone/ui/home_page/details_pages/category_details/category_details_page.dart';
 import 'package:apple_music_clone/ui/home_page/details_pages/expanded_categories_page.dart';
 import 'package:apple_music_clone/ui/home_page/tabs/browse_tab/bloc/browse_bloc.dart';
-import 'package:apple_music_clone/ui/home_page/widgets/circular_item.dart';
+import 'package:apple_music_clone/ui/home_page/widgets/circular_carousel.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/common_grid_item.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/narrow_grid_item.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/narrow_list_item.dart';
@@ -108,7 +108,7 @@ class _BrowseTabState extends State<BrowseTab> with AutomaticKeepAliveClientMixi
                           _featuredCategoriesSection(context, [...state.categoriesGlobal, ...state.categoriesLocal], [...state.categoriesGlobalPlaylists, ...state.categoriesLocalPlaylists]),
                           _recommendedTracks(context, state.recommendedTracks),
                           ..._localCategoriesPlaylistsSection(context, state.categoriesLocal, state.categoriesLocalPlaylists),
-                          _featuredArtistsSection(context, [...state.artistsGlobal, ...state.artistsLocal]),
+                          _featuredArtistsSection([...state.artistsGlobal, ...state.artistsLocal]),
                           _browseCategoriesSection(context, [...state.categoriesGlobal, ...state.categoriesLocal], [...state.categoriesGlobalPlaylists, ...state.categoriesLocalPlaylists])
                         ]
                       )
@@ -206,11 +206,10 @@ class _BrowseTabState extends State<BrowseTab> with AutomaticKeepAliveClientMixi
     );
   }
 
-  Widget _featuredArtistsSection(BuildContext context, List <Artist> artists) {
-    return circularItem(
-        context,
-        'Artists We Love',
-        artists
+  Widget _featuredArtistsSection(List <Artist> artists) {
+    return CircularCarousel(
+        headerButtonTitle: 'Artists We Love',
+        dataList: artists
     );
   }
 

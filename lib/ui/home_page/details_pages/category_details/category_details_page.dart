@@ -2,7 +2,7 @@ import 'package:apple_music_clone/model/artist.dart';
 import 'package:apple_music_clone/model/playlist.dart';
 import 'package:apple_music_clone/model/track.dart';
 import 'package:apple_music_clone/ui/home_page/details_pages/category_details/bloc/category_bloc.dart';
-import 'package:apple_music_clone/ui/home_page/widgets/circular_item.dart';
+import 'package:apple_music_clone/ui/home_page/widgets/circular_carousel.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/common_grid_item.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/narrow_list_item.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/square_grid_item.dart';
@@ -88,7 +88,7 @@ class _CategoryDetailsPageState extends State<CategoryDetailsPage> {
                             _localLatestReleasesSection(context, widget.dataList),
                             _localFeaturedPlaylistsSection(context, widget.dataList),
                             _recommendedTracks(context, state.tracks),
-                            _featuredArtistsSection(context, state.artists)
+                            _featuredArtistsSection(state.artists)
                           ]
                       )
                   ),
@@ -145,11 +145,10 @@ class _CategoryDetailsPageState extends State<CategoryDetailsPage> {
     );
   }
 
-  Widget _featuredArtistsSection(BuildContext context, List <Artist> artists) {
-    return circularItem(
-        context,
-        'Artists',
-        artists
+  Widget _featuredArtistsSection(List <Artist> artists) {
+    return CircularCarousel(
+        headerButtonTitle: 'Artists',
+        dataList: artists
     );
   }
 
