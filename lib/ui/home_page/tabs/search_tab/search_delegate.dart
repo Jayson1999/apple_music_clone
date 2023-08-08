@@ -49,9 +49,55 @@ class SearchBarDelegate extends SearchDelegate<String> {
 
   @override
   Widget buildResults(BuildContext context) {
-    return const Center(
-      child: CircularProgressIndicator(),
-    );
+    if (query.isEmpty) {
+      return Container();
+    }
+    else {
+      searchBloc.add(SearchTextChanged(query));
+      return BlocBuilder<SearchBloc, SearchState>(
+        bloc: searchBloc,
+        builder: (context, state) {
+          if (state.searchStatus.isLoading || state.searchStatus.isInitial) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+
+          else if (state.searchStatus.isSuccess) {
+            return DefaultTabController(
+              length: 5,
+              child: Scaffold(
+                appBar: const TabBar(
+                    indicatorColor: Colors.red,
+                    unselectedLabelColor: Colors.grey,
+                    labelColor: Colors.red,
+                    isScrollable: true,
+                    tabs: [
+                      Tab(text: 'TOP RESULTS'),
+                      Tab(text: 'ARTISTS'),
+                      Tab(text: 'ALBUMS'),
+                      Tab(text: 'SONGS'),
+                      Tab(text: 'PLAYLISTS'),
+                    ],
+                  ),
+                body: TabBarView(
+                  physics: const NeverScrollableScrollPhysics(),
+                  children: _getResultsTabs(state.searchedResults)
+                ),
+              ),
+            );
+          }
+
+          else if (state.searchStatus.isError) {
+            return Center(
+              child: Text('Build Search Results failed: ${state.errorMsg}'),
+            );
+          }
+
+          return Text('$state');
+        },
+      );
+    }
   }
 
   @override
@@ -89,7 +135,7 @@ class SearchBarDelegate extends SearchDelegate<String> {
 
           else if (state.searchStatus.isError) {
             return Center(
-              child: Text('Failed to fetch data: ${state.errorMsg}'),
+              child: Text('Build Search Suggestions failed: ${state.errorMsg}'),
             );
           }
 
@@ -97,6 +143,33 @@ class SearchBarDelegate extends SearchDelegate<String> {
         },
       );
     }
+  }
+
+  List<Widget> _getResultsTabs(List allResults) {
+    List artistResults = [for(dynamic result in allResults) if (result.type=='artist') result ];
+    List albumResults = [for(dynamic result in allResults) if (result.type=='album') result ];
+    List songResults = [for(dynamic result in allResults) if (result.type=='track') result ];
+    List playlistResults = [for(dynamic result in allResults) if (result.type=='playlist') result ];
+
+    List<List> allTabResults = [allResults, artistResults, albumResults, songResults, playlistResults];
+    return [
+      for (List eachTabResults in allTabResults)
+      ListView.builder(
+          itemCount: eachTabResults.length,
+          itemBuilder: (context, index){
+            final currentItem = eachTabResults[index];
+            switch (currentItem.type){
+              case 'artist':
+                return _singleArtist(context, currentItem);
+              case 'album':
+                return _singleAlbum(context, currentItem);
+              case 'playlist':
+                return _singlePlaylist(context, currentItem);
+              case 'track':
+                return _singleTrack(context, currentItem);
+            }
+      })
+    ];
   }
 
   Widget _singleArtist(BuildContext context, Artist artistData){
