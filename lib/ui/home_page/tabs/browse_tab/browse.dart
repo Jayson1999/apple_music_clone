@@ -12,6 +12,7 @@ import 'package:apple_music_clone/ui/home_page/widgets/list_carousel.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/standard_carousel.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/narrow_carousel.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/square_carousel.dart';
+import 'package:apple_music_clone/ui/home_page/widgets/text_list_item.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/wide_carousel.dart';
 import 'package:apple_music_clone/utils/config.dart';
 import 'package:flutter/material.dart';
@@ -209,60 +210,37 @@ class _BrowseTabState extends State<BrowseTab> with AutomaticKeepAliveClientMixi
   }
 
   Widget _browseCategoriesSection (List <Category> categories, List<List<Playlist>> categoriesPlaylists){
-    Widget categoryItem(String title, List<Playlist> dataList) {
-      var detailsPage = BlocProvider<CategoryBloc>(
-          create: (context) => CategoryBloc(),
-          child: CategoryDetailsPage(title: title, dataList: dataList)
-      );
-      return Container(
-          width: double.infinity,
-          decoration: const BoxDecoration(
-              border: Border(
-                top: BorderSide(color: Colors.grey, width: 0.5),
-              )),
-          child: TextButton(
-              style: TextButton.styleFrom(
-                alignment: Alignment.centerLeft
-              ),
-              onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => detailsPage
-                ),
-              ),
-              child: Text(title, style: const TextStyle(color: Colors.red, fontSize: AppConfig.mediumText))
-          )
-      );
-    }
+    List <Category> topCategories = categories.sublist(0, 5);
 
-    List <Category> top5Categories = categories.sublist(0, 5);
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.45,
-      child: Column(
-        children: [
-          Container(
-              width: double.infinity,
-              decoration: const BoxDecoration(
-                  border: Border(
-                    top: BorderSide(color: Colors.grey, width: 0.5),
-                  )),
-              child: TextButton(
-                  style: TextButton.styleFrom(
-                      alignment: Alignment.centerLeft
-                  ),
-                  onPressed: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => CategoriesExpandedPage(
-                                categoriesPlaylists: categoriesPlaylists, categories: categories)
-                        ),
-                      ),
-                  child: const Text('Browse by Category', style: TextStyle(color: Colors.red, fontSize: AppConfig.mediumText))
-              )
+      child: Padding(
+        padding: const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 8.0),
+        child: ListView(
+          shrinkWrap: true,
+          physics: const ClampingScrollPhysics(),
+          children: [
+              TextListItem(
+                  title: 'Browse by Category',
+                  detailsPage: CategoriesExpandedPage(
+                      categoriesPlaylists: categoriesPlaylists,
+                      categories: categories)
+              ),
+              ...[
+                for (int i = 0; i < topCategories.length; i++)
+                  TextListItem(
+                      title: topCategories[i].name,
+                      detailsPage: BlocProvider<CategoryBloc>(
+                          create: (context) => CategoryBloc(),
+                          child: CategoryDetailsPage(
+                              title: topCategories[i].name,
+                              dataList: categoriesPlaylists[i])
+                      )
+                  )
+              ]
+            ],
           ),
-          ...[for (int i=0; i<top5Categories.length; i++) categoryItem(top5Categories[i].name, categoriesPlaylists[i])]
-        ],
-      ),
+      )
     );
   }
 

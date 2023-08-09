@@ -17,7 +17,7 @@ class ListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(5.0),
+      padding: const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 8.0),
       child: SizedBox(
         height: listTileSize,
         child: ListTile(

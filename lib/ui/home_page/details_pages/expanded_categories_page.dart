@@ -2,6 +2,7 @@ import 'package:apple_music_clone/model/category.dart';
 import 'package:apple_music_clone/model/playlist.dart';
 import 'package:apple_music_clone/ui/home_page/details_pages/category_details/bloc/category_bloc.dart';
 import 'package:apple_music_clone/ui/home_page/details_pages/category_details/category_details_page.dart';
+import 'package:apple_music_clone/ui/home_page/widgets/text_list_item.dart';
 import 'package:apple_music_clone/utils/config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,7 +17,7 @@ class CategoriesExpandedPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Browse by Category', style: TextStyle(fontSize: AppConfig.bigText, color: Colors.black),),
+        title: const Text('Browse by Category', style: TextStyle(fontSize: AppConfig.mediumText, color: Colors.black),),
         backgroundColor: Colors.white,
         foregroundColor: Theme.of(context).primaryColor,
         elevation: 0,
@@ -28,7 +29,7 @@ class CategoriesExpandedPage extends StatelessWidget {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 8.0),
         child: _bodyContents(),
       ),
     );
@@ -46,22 +47,7 @@ class CategoriesExpandedPage extends StatelessWidget {
             child: CategoryDetailsPage(title: title, dataList: categoriesPlaylists[index])
         );
 
-        return InkWell(
-          onTap: ()=> Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => detailsPage),
-          ),
-          child: Container(
-            decoration: BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(color: index!=categoriesPlaylists.length-1? Colors.grey: Colors.white, width: 0.5),
-                )
-            ),
-            child: ListTile(
-              title: Text(title, style: TextStyle(color: Theme.of(context).primaryColor, fontSize: AppConfig.mediumText), overflow: TextOverflow.ellipsis,),
-            ),
-          ),
-        );
+        return TextListItem(title: title, detailsPage: detailsPage);
       },
     );
   }
