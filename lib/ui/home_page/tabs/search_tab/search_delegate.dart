@@ -184,7 +184,7 @@ class SearchBarDelegate extends SearchDelegate<String> {
   Widget _suggestedSearchItem(BuildContext context, String suggestedText){
     final formattedSuggestionText = _formatSuggestion(suggestedText, query);
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 8.0),
       child: InkWell(
         onTap: () {
           query = suggestedText;
@@ -204,7 +204,7 @@ class SearchBarDelegate extends SearchDelegate<String> {
                   const Icon(Icons.search, color: Colors.grey,),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Flexible(child: Text.rich(formattedSuggestionText, overflow: TextOverflow.ellipsis)),
+                    child: Text.rich(formattedSuggestionText, overflow: TextOverflow.ellipsis),
                   )
                 ],
               ),
