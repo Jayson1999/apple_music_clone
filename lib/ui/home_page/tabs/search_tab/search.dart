@@ -32,8 +32,8 @@ class _SearchTabState extends State<SearchTab> with AutomaticKeepAliveClientMixi
   bool showCard = true;
 
   @override
-  Widget build(BuildContext context) {
-    super.build(context);
+  Widget build(BuildContext pageContext) {
+    super.build(pageContext);
     return MaterialApp(
       theme: AppConfig.getAppTheme(),
       home: Scaffold(
@@ -64,7 +64,7 @@ class _SearchTabState extends State<SearchTab> with AutomaticKeepAliveClientMixi
                       backgroundColor: Colors.white,
                       title: SizedBox(
                           width:double.infinity,
-                          child: _searchAppBar()
+                          child: _searchAppBar(pageContext)
                       ),
                     ),
                     actions: [
@@ -182,7 +182,7 @@ class _SearchTabState extends State<SearchTab> with AutomaticKeepAliveClientMixi
     );
   }
 
-  Widget _searchAppBar() {
+  Widget _searchAppBar(BuildContext context) {
     const String searchHint = 'Artists, Songs, Lyrics and more';
     return ElevatedButton(
         style: ElevatedButton.styleFrom(
