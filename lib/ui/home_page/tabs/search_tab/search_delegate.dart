@@ -196,14 +196,18 @@ class SearchBarDelegate extends SearchDelegate<String> {
                   bottom: BorderSide(color: Colors.grey, width: 0.5),
                 )
             ),
-            child: Row(
-              children: [
-                const Icon(Icons.search, color: Colors.grey,),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text.rich(formattedSuggestionText),
-                )
-              ],
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(Icons.search, color: Colors.grey,),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Flexible(child: Text.rich(formattedSuggestionText, overflow: TextOverflow.ellipsis)),
+                  )
+                ],
+              ),
             )
         ),
       ),
