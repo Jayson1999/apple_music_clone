@@ -1,6 +1,5 @@
 import 'dart:developer';
 import 'package:apple_music_clone/model/album.dart';
-import 'package:apple_music_clone/model/track.dart';
 import 'package:apple_music_clone/repository/api_helper.dart';
 
 
@@ -20,24 +19,7 @@ class AlbumService {
       }
 
       List albumMaps = response.data['albums']?['items'] ?? [];
-      List<Album> albums = [];
-      Map<String, dynamic> idTracksMap = {};
-
-      for (Map<String, dynamic> albumMap in albumMaps){
-        Album album = Album.fromMap(albumMap);
-        idTracksMap.addAll({album.id: null});
-        albums.add(album);
-      }
-
-      // Get tracks that are not in current API response
-      for (Album album in await getAlbumsByIds(idTracksMap.keys.toList(), country: region)){
-        idTracksMap[album.id] = album.tracks;
-      }
-      for (Album album in albums){
-        for (Track track in idTracksMap[album.id] ?? []){
-          album.tracks.add(track);
-        }
-      }
+      List<Album> albums = [for (Map<String, dynamic> albumMap in albumMaps) Album.fromMap(albumMap)];
 
       return albums;
     }
