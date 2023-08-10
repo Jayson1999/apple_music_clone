@@ -147,7 +147,7 @@ class _SearchTabState extends State<SearchTab> with AutomaticKeepAliveClientMixi
                         width: double.infinity,
                         imageUrl: categories[index].categoryIconsInfo.first.url,
                         placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
-                        errorWidget: (context, url, error) => const Center(child: Icon(Icons.error)),
+                        errorWidget: (context, url, error) => CachedNetworkImage(imageUrl: AppConfig.placeholderImgUrl),
                       ),
                     ),
                   InkWell(
@@ -225,7 +225,7 @@ class _SearchTabState extends State<SearchTab> with AutomaticKeepAliveClientMixi
                           imageUrl: 'https://www.apple.com/newsroom/images/product/services/standard/Apple-Music-100-million-songs-hero_big.jpg.slideshow-xlarge_2x.jpg',
                           width: double.infinity,
                           placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
-                          errorWidget: (context, url, error) => const Center(child: Icon(Icons.error)),
+                          errorWidget: (context, url, error) => CachedNetworkImage(imageUrl: AppConfig.placeholderImgUrl),
                       ),
                       const Padding(
                         padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),

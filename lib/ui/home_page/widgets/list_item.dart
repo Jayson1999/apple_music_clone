@@ -26,7 +26,7 @@ class ListItem extends StatelessWidget {
             width: imgSize,
             imageUrl: imgUrl,
             placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
-            errorWidget: (context, url, error) => const Center(child: Icon(Icons.error)),
+            errorWidget: (context, url, error) => CachedNetworkImage(imageUrl: AppConfig.placeholderImgUrl),
           ),
           title: Text(
               title,

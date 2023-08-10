@@ -16,6 +16,7 @@ class WideItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Padding(
           padding: const EdgeInsets.only(left: 8.0),
@@ -56,7 +57,7 @@ class WideItem extends StatelessWidget {
                     width: double.infinity,
                     imageUrl: imgUrl,
                     placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
-                    errorWidget: (context, url, error) => const Center(child: Icon(Icons.error)),
+                    errorWidget: (context, url, error) => CachedNetworkImage(imageUrl: AppConfig.placeholderImgUrl),
                   ),
                   Positioned(
                     bottom: 0,

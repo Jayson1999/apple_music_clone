@@ -35,7 +35,7 @@ class ListCarousel extends StatelessWidget {
           ),
         ),
         SizedBox(
-          height: MediaQuery.of(context).size.height * 0.5,
+          height: MediaQuery.of(context).size.height * 0.55,
           child: PageView.builder(
               controller: PageController(viewportFraction: 0.9),
               scrollDirection: Axis.horizontal,
@@ -52,7 +52,7 @@ class ListCarousel extends StatelessWidget {
                         showBtmBorder: rowIndex != noOfRowsPerPage-1
                     )
                 ];
-                return Column(children: currentPageCards);
+                return Column(mainAxisAlignment: MainAxisAlignment.center,children: currentPageCards,);
               }),
         )
       ],

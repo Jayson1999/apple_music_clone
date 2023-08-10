@@ -48,7 +48,7 @@ class StandardCarousel extends StatelessWidget {
                   for (int rowIndex=0; rowIndex<noOfRowsPerPage; rowIndex++)
                     _standardItemFromData(splitDataLists[pageIndex][rowIndex])
                 ];
-                return Column(children: currentPageCards);
+                return Column(children: currentPageCards, mainAxisAlignment: MainAxisAlignment.center,);
               }),
         )
       ],

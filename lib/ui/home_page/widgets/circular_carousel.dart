@@ -2,6 +2,7 @@ import 'package:apple_music_clone/ui/home_page/details_pages/artist_details/arti
 import 'package:apple_music_clone/ui/home_page/details_pages/artist_details/bloc/artist_bloc.dart';
 import 'package:apple_music_clone/ui/home_page/details_pages/expanded_artists_page.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/circular_item.dart';
+import 'package:apple_music_clone/utils/config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -52,7 +53,7 @@ class CircularCarousel extends StatelessWidget {
                   ),
                   child: CircularItem(
                       title: dataList[pageIndex].name,
-                      imgUrl: dataList[pageIndex].images.isNotEmpty? dataList[pageIndex].images.first.url : 'https://www.w3schools.com/howto/img_avatar2.png'
+                      imgUrl: dataList[pageIndex].images.isNotEmpty? dataList[pageIndex].images.first.url : AppConfig.placeholderImgUrl
                   ),
                 );
               }),

@@ -10,6 +10,7 @@ class AppConfig{
   static const double bigText = 24.0;
   static const double mediumText = 15.0;
   static const double smallText = 9.0;
+  static const String placeholderImgUrl = 'https://www.w3schools.com/howto/img_avatar2.png';
 
   static ThemeData getAppTheme() =>
       ThemeData(
