@@ -41,4 +41,20 @@ class Album {
     );
   }
 
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'type': type,
+      'tracks': tracks.map((track) => track.toJson()).toList(),
+      'artists': artists.map((artist) => artist.toJson()).toList(),
+      'total_tracks': totalTracks,
+      'release_date': releaseDate,
+      'genres': genre,
+      'label': label,
+      'images': images.map((image) => image.toJson()).toList(),
+      'copyrights': copyrights.map((copyright) => copyright.toJson()).toList(),
+    };
+  }
+
 }

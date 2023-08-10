@@ -29,4 +29,17 @@ class Track {
       artists,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'type': type,
+      'duration_ms': durationInMs,
+      'popularity': popularity,
+      'track_number': trackNumber,
+      'album': album?.toJson(), // Convert the album to JSON if it's not null
+      'artists': artists.map((artist) => artist.toJson()).toList(),
+    };
+  }
 }

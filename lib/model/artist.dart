@@ -21,4 +21,14 @@ class Artist {
       genres
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'type': type,
+      'images': images.map((image) => image.toJson()).toList(),
+      'genres': genres,
+    };
+  }
 }
