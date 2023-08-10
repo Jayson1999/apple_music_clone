@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:apple_music_clone/model/album.dart';
 import 'package:apple_music_clone/model/artist.dart';
 import 'package:apple_music_clone/model/playlist.dart';
@@ -14,13 +15,15 @@ import 'package:apple_music_clone/utils/config.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 class SearchBarDelegate extends SearchDelegate<String> {
   final SearchBloc searchBloc;
   final String searchHint;
+  final List<String> searchHistories;
 
-  SearchBarDelegate(this.searchBloc, this.searchHint): super(
+  SearchBarDelegate(this.searchBloc, this.searchHint, this.searchHistories): super(
     searchFieldLabel: searchHint,
     searchFieldStyle: const TextStyle(color: Colors.grey)
   );
@@ -52,106 +55,61 @@ class SearchBarDelegate extends SearchDelegate<String> {
     if (query.isEmpty) {
       return Container();
     }
-    else {
-      searchBloc.add(SearchTextChanged(query));
-      return BlocBuilder<SearchBloc, SearchState>(
-        bloc: searchBloc,
-        builder: (context, state) {
-          if (state.searchStatus.isLoading || state.searchStatus.isInitial) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
 
-          else if (state.searchStatus.isSuccess) {
-            return DefaultTabController(
-              length: 5,
-              child: Scaffold(
-                appBar: const TabBar(
-                    indicatorColor: Colors.red,
-                    unselectedLabelColor: Colors.grey,
-                    labelColor: Colors.red,
-                    isScrollable: true,
-                    tabs: [
-                      Tab(text: 'TOP RESULTS'),
-                      Tab(text: 'ARTISTS'),
-                      Tab(text: 'ALBUMS'),
-                      Tab(text: 'SONGS'),
-                      Tab(text: 'PLAYLISTS'),
-                    ],
-                  ),
-                body: TabBarView(
-                  physics: const NeverScrollableScrollPhysics(),
-                  children: _getResultsTabs(state.searchedResults)
+    searchBloc.add(SearchTextChanged(query));
+    return BlocBuilder<SearchBloc, SearchState>(
+      bloc: searchBloc,
+      builder: (context, state) {
+        if (state.searchStatus.isLoading || state.searchStatus.isInitial) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+
+        else if (state.searchStatus.isSuccess) {
+          return DefaultTabController(
+            length: 5,
+            child: Scaffold(
+              appBar: const TabBar(
+                  indicatorColor: Colors.red,
+                  unselectedLabelColor: Colors.grey,
+                  labelColor: Colors.red,
+                  isScrollable: true,
+                  tabs: [
+                    Tab(text: 'TOP RESULTS'),
+                    Tab(text: 'ARTISTS'),
+                    Tab(text: 'ALBUMS'),
+                    Tab(text: 'SONGS'),
+                    Tab(text: 'PLAYLISTS'),
+                  ],
                 ),
+              body: TabBarView(
+                physics: const NeverScrollableScrollPhysics(),
+                children: _getResultsTabs(state.searchedResults)
               ),
-            );
-          }
+            ),
+          );
+        }
 
-          else if (state.searchStatus.isError) {
-            return Center(
-              child: Text('Build Search Results failed: ${state.errorMsg}'),
-            );
-          }
+        else if (state.searchStatus.isError) {
+          return Center(
+            child: Text('Build Search Results failed: ${state.errorMsg}'),
+          );
+        }
 
-          return Text('$state');
-        },
-      );
-    }
+        return Text('$state');
+      },
+    );
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
     if (query.isEmpty) {
-      return Container();
-    } else {
-      searchBloc.add(SearchTextChanged(query));
-      return BlocBuilder<SearchBloc, SearchState>(
-        bloc: searchBloc,
-        builder: (context, state) {
-          if (state.searchStatus.isLoading || state.searchStatus.isInitial) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-
-          else if (state.searchStatus.isSuccess) {
-            const int noOfSuggestionText = 3;
-            List suggestions = state.searchedResults;
-            List top3Suggestions = suggestions.sublist(suggestions.length-noOfSuggestionText, suggestions.length);
-            List allSuggestions = [...top3Suggestions, ...suggestions];
-
-            return ListView.builder(
-                itemCount: allSuggestions.length,
-                itemBuilder: (context, index){
-                  final currentItem = allSuggestions[index];
-
-                  if (index < noOfSuggestionText){
-                    return _suggestedSearchItem(context, currentItem.name);
-                  }
-                  switch (currentItem.type){
-                    case 'artist':
-                      return _singleArtist(context, currentItem);
-                    case 'album':
-                      return _singleAlbum(context, currentItem);
-                    case 'playlist':
-                      return _singlePlaylist(context, currentItem);
-                    case 'track':
-                      return _singleTrack(context, currentItem);
-                  }
-                });
-          }
-
-          else if (state.searchStatus.isError) {
-            return Center(
-              child: Text('Build Search Suggestions failed: ${state.errorMsg}'),
-            );
-          }
-
-          return Text('$state');
-        },
-      );
+      return _recentSearches(context);
     }
+
+    searchBloc.add(SearchTextChanged(query));
+    return _suggestions();
   }
 
   List<Widget> _getResultsTabs(List allResults) {
@@ -163,22 +121,98 @@ class SearchBarDelegate extends SearchDelegate<String> {
     List<List> allTabResults = [allResults, artistResults, albumResults, songResults, playlistResults];
     return [
       for (List eachTabResults in allTabResults)
-      ListView.builder(
-          itemCount: eachTabResults.length,
-          itemBuilder: (context, index){
-            final currentItem = eachTabResults[index];
-            switch (currentItem.type){
-              case 'artist':
-                return _singleArtist(context, currentItem);
-              case 'album':
-                return _singleAlbum(context, currentItem);
-              case 'playlist':
-                return _singlePlaylist(context, currentItem);
-              case 'track':
-                return _singleTrack(context, currentItem);
-            }
-      })
+        ListView.builder(
+            itemCount: eachTabResults.length,
+            itemBuilder: (context, index){
+              final currentItem = eachTabResults[index];
+              return _getWidgetFromData(context, currentItem);
+            })
     ];
+  }
+
+  Widget _recentSearches(BuildContext context){
+    Widget header = ListTile(
+      title: const Text(
+        'Recently Searched',
+        style: TextStyle( fontWeight: FontWeight.bold, fontSize: AppConfig.mediumText),),
+      trailing: TextButton(
+        style: TextButton.styleFrom(foregroundColor: Theme.of(context).primaryColor),
+        onPressed: () => SharedPreferences.getInstance().then((value) => value.remove('searchHistories')),
+        child: const Text('Clear'),
+      ),
+    );
+
+    List<Widget> historyWidgets = [];
+    for (String currentHistory in searchHistories) {
+      List<String> splitData = currentHistory.split(';;;');
+      final String currentType = splitData.first;
+      dynamic currentItem;
+
+      switch (currentType){
+        case 'artist':
+          currentItem = Artist.fromMap(json.decode(splitData.last));
+          break;
+
+        case 'album':
+          currentItem = Album.fromMap(json.decode(splitData.last));
+          break;
+
+        case 'playlist':
+          currentItem = Playlist.fromMap(json.decode(splitData.last));
+          break;
+
+        default:
+          currentItem = Track.fromMap(json.decode(splitData.last));
+      }
+
+      historyWidgets.add(_getWidgetFromData(context, currentItem));
+    }
+
+    return ListView(
+      children: [
+        header,
+        ...historyWidgets
+      ],
+    );
+  }
+
+  Widget _suggestions(){
+    return BlocBuilder<SearchBloc, SearchState>(
+      bloc: searchBloc,
+      builder: (context, state) {
+        if (state.searchStatus.isLoading || state.searchStatus.isInitial) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+
+        else if (state.searchStatus.isSuccess) {
+          const int noOfSuggestionText = 3;
+          List suggestions = state.searchedResults;
+          List top3Suggestions = suggestions.sublist(suggestions.length-noOfSuggestionText, suggestions.length);
+          List allSuggestions = [...top3Suggestions, ...suggestions];
+
+          return ListView.builder(
+              itemCount: allSuggestions.length,
+              itemBuilder: (context, index){
+                final currentItem = allSuggestions[index];
+
+                if (index < noOfSuggestionText){
+                  return _suggestedSearchItem(context, currentItem.name);
+                }
+                return _getWidgetFromData(context, currentItem);
+              });
+        }
+
+        else if (state.searchStatus.isError) {
+          return Center(
+            child: Text('Build Search Suggestions failed: ${state.errorMsg}'),
+          );
+        }
+
+        return Text('$state');
+      },
+    );
   }
 
   Widget _suggestedSearchItem(BuildContext context, String suggestedText){
@@ -214,15 +248,65 @@ class SearchBarDelegate extends SearchDelegate<String> {
     );
   }
 
+  TextSpan _formatSuggestion(String suggestionText, String queryText) {
+    final suggestionLower = suggestionText.toLowerCase();
+    final queryLower = queryText.toLowerCase();
+
+    int matchStart = suggestionLower.indexOf(queryLower);
+    if (matchStart == -1) {
+      return TextSpan(text: suggestionText);
+    }
+
+    final List<TextSpan> spans = [];
+
+    if (matchStart > 0) {
+      spans.add(TextSpan(text: suggestionText.substring(0, matchStart), style: const TextStyle(color: Colors.grey)));
+    }
+
+    spans.add(TextSpan(
+        text: suggestionText.substring(matchStart, matchStart + queryText.length)
+    ));
+
+    if (matchStart + queryText.length < suggestionText.length) {
+      spans.add(TextSpan(text: suggestionText.substring(matchStart + queryText.length), style: const TextStyle(color: Colors.grey)));
+    }
+
+    return TextSpan(children: spans);
+  }
+
+  Widget _getWidgetFromData(BuildContext context, var currentItem){
+    switch (currentItem.type){
+      case 'artist':
+        return _singleArtist(context, currentItem);
+
+      case 'album':
+        return _singleAlbum(context, currentItem);
+
+      case 'playlist':
+        return _singlePlaylist(context, currentItem);
+
+      case 'track':
+        return _singleTrack(context, currentItem);
+
+      default:
+        return const Text('Unrecognized Type of item passed to _getItemFromData');
+    }
+  }
+
   Widget _singleArtist(BuildContext context, Artist artistData){
     return InkWell(
-      onTap: () => Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => BlocProvider<ArtistBloc>(
-            create: (context) => ArtistBloc(),
-            child: ArtistDetailsPage(artist: artistData)
-        )),
-      ),
+      onTap: () =>
+          SharedPreferences.getInstance().then((value) {
+            searchHistories.add('artist;;;${jsonEncode(artistData)}');
+            value.setStringList('searchHistories', searchHistories);
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => BlocProvider<ArtistBloc>(
+                  create: (context) => ArtistBloc(),
+                  child: ArtistDetailsPage(artist: artistData)
+              )),
+            );
+          }),
       child: ListTile(
         leading: CircleAvatar(
           radius: 15,
@@ -250,16 +334,23 @@ class SearchBarDelegate extends SearchDelegate<String> {
 
   Widget _singlePlaylist(BuildContext context, Playlist playlistData){
     return InkWell(
-      onTap: () => Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => BlocProvider<PlaylistBloc>(
-            create: (context) => PlaylistBloc(),
-            child: PlaylistDetails(playlistId: playlistData.id)
-        )),
-      ),
+      onTap: () =>
+          SharedPreferences.getInstance().then((value) {
+            searchHistories.add('playlist;;;${jsonEncode(playlistData)}');
+            value.setStringList('searchHistories', searchHistories);
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) =>
+                  BlocProvider<PlaylistBloc>(
+                    create: (context) => PlaylistBloc(),
+                    child: PlaylistDetails(playlistId: playlistData.id)
+                  )
+              ),
+            );
+          }),
       child: ListTile(
         leading: CachedNetworkImage(
-          imageUrl: playlistData.images[0].url,
+          imageUrl: playlistData.images.first.url,
           width: 30,
           errorWidget: (context, url, error) =>
           const Center(child: Icon(Icons.error)),
@@ -280,13 +371,19 @@ class SearchBarDelegate extends SearchDelegate<String> {
 
   Widget _singleAlbum(BuildContext context, Album albumData){
     return InkWell(
-      onTap: () => Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => BlocProvider<AlbumBloc>(
-            create: (context) => AlbumBloc(),
-            child: AlbumDetails(albumId: albumData.id,)
-        )),
-      ),
+      onTap: () => SharedPreferences.getInstance().then((value) {
+        searchHistories.add('album;;;${jsonEncode(albumData)}');
+        value.setStringList('searchHistories', searchHistories);
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => BlocProvider<AlbumBloc>(
+                  create: (context) => AlbumBloc(),
+                  child: AlbumDetails(
+                    albumId: albumData.id,
+              ))),
+        );
+      }),
       child: ListTile(
           leading: CachedNetworkImage(
             imageUrl: albumData.images.first.url,
@@ -307,52 +404,32 @@ class SearchBarDelegate extends SearchDelegate<String> {
     );
   }
 
-  Widget _singleTrack(BuildContext context,Track trackData){
-    return ListItem(
-      title: trackData.name,
-      subtitle: '${trackData.type} . ${[for (Artist a in trackData.artists) a.name].join(',')}',
-      listTileSize: MediaQuery.of(context).size.height * 0.1,
-      imgSize: 30,
-      imgUrl: trackData.album?.images.first.url ?? '',
-      showBtmBorder: false,
-      trailingWidget: PopupMenuButton<String>(
-          icon: Icon(Icons.more_vert, color: Theme.of(context).primaryColor,),
-          onSelected: (value) => print('hello'),
-          itemBuilder: (BuildContext context) =>
-          <PopupMenuEntry<String>>[
-            const PopupMenuItem<String>(
-              value: 'settings',
-              child: Text('Settings'),
-            ),
-          ]
+  Widget _singleTrack(BuildContext context, Track trackData){
+    return InkWell(
+      onTap: () => SharedPreferences.getInstance().then((value) {
+        searchHistories.add('track;;;${jsonEncode(trackData)}');
+        value.setStringList('searchHistories', searchHistories);
+      }),
+      child: ListItem(
+        title: trackData.name,
+        subtitle: '${trackData.type} . ${[for (Artist a in trackData.artists) a.name].join(',')}',
+        listTileSize: MediaQuery.of(context).size.height * 0.1,
+        imgSize: 30,
+        imgUrl: trackData.album?.images.first.url ?? '',
+        showBtmBorder: false,
+        trailingWidget: PopupMenuButton<String>(
+            icon: Icon(Icons.more_vert, color: Theme.of(context).primaryColor,),
+            onSelected: (value) => print('hello'),
+            itemBuilder: (BuildContext context) =>
+            <PopupMenuEntry<String>>[
+              const PopupMenuItem<String>(
+                value: 'settings',
+                child: Text('Settings'),
+              ),
+            ]
+        ),
       ),
     );
-  }
-
-  TextSpan _formatSuggestion(String suggestionText, String queryText) {
-    final suggestionLower = suggestionText.toLowerCase();
-    final queryLower = queryText.toLowerCase();
-
-    int matchStart = suggestionLower.indexOf(queryLower);
-    if (matchStart == -1) {
-      return TextSpan(text: suggestionText);
-    }
-
-    final List<TextSpan> spans = [];
-
-    if (matchStart > 0) {
-      spans.add(TextSpan(text: suggestionText.substring(0, matchStart), style: const TextStyle(color: Colors.grey)));
-    }
-
-    spans.add(TextSpan(
-      text: suggestionText.substring(matchStart, matchStart + queryText.length)
-    ));
-
-    if (matchStart + queryText.length < suggestionText.length) {
-      spans.add(TextSpan(text: suggestionText.substring(matchStart + queryText.length), style: const TextStyle(color: Colors.grey)));
-    }
-
-    return TextSpan(children: spans);
   }
 
 }
