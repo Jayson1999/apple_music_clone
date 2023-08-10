@@ -102,13 +102,13 @@ class _BrowseTabState extends State<BrowseTab> with AutomaticKeepAliveClientMixi
                           state.userSubscription == 0? _subscribeButton(): Container(),
                           _headerBeforeScroll(),
                           _globalFeaturedPlaylistsSection(state.featuredGlobalPlaylists),
-                          _globalLatestReleasesSection(state.latestGlobalAlbums),
-                          _localLatestReleasesSection(state.latestLocalAlbums),
+                          ..._localCategoriesPlaylistsSection(state.categoriesLocal, state.categoriesLocalPlaylists),
                           _localFeaturedPlaylistsSection(state.featuredLocalPlaylists),
                           ..._globalCategoriesPlaylistsSection(state.categoriesGlobal, state.categoriesGlobalPlaylists),
                           _featuredCategoriesSection([...state.categoriesGlobal, ...state.categoriesLocal], [...state.categoriesGlobalPlaylists, ...state.categoriesLocalPlaylists]),
                           _recommendedTracks(context, state.recommendedTracks),
-                          ..._localCategoriesPlaylistsSection(state.categoriesLocal, state.categoriesLocalPlaylists),
+                          _globalLatestReleasesSection(state.latestGlobalAlbums),
+                          _localLatestReleasesSection(state.latestLocalAlbums),
                           _featuredArtistsSection([...state.artistsGlobal, ...state.artistsLocal]),
                           _browseCategoriesSection([...state.categoriesGlobal, ...state.categoriesLocal], [...state.categoriesGlobalPlaylists, ...state.categoriesLocalPlaylists])
                         ]
