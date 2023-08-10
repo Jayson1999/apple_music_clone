@@ -37,8 +37,17 @@ class SearchService {
 
       List<Album> albums = [for (Map<String, dynamic> albumData in albumResponse) Album.fromMap(albumData)];
       List<Artist> artists = [for (Map<String, dynamic> artistData in artistResponse) Artist.fromMap(artistData)];
-      List<Playlist> playlists = [for (Map<String, dynamic> playlistData in playlistResponse) Playlist.fromMap(playlistData)];
       List<Track> tracks = [for (Map<String, dynamic> trackData in trackResponse) Track.fromMap(trackData)];
+      List<Playlist> playlists = [];
+      for (Map<String, dynamic>? playlistMap in playlistResponse){
+        // Some responses are null
+        if (playlistMap==null){
+          continue;
+        }
+        // Remove inconsistent data & data type
+        playlistMap.remove('tracks');
+        playlists.add(Playlist.fromMap(playlistMap));
+      }
 
       return [...albums, ...artists, ...playlists, ...tracks];
     }
