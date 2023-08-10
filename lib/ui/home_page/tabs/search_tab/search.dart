@@ -250,15 +250,16 @@ class _SearchTabState extends State<SearchTab> with AutomaticKeepAliveClientMixi
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 48.0, vertical: 8.0),
-                        child: Container(
+                        child: SizedBox(
                           width: double.infinity,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8)
-                          ),
                           child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                   padding: const EdgeInsets.only(bottom: 8, top: 8),
-                                  backgroundColor: Colors.red,),
+                                  backgroundColor: Colors.red,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8)
+                                  )
+                              ),
                               onPressed: () => print('hello'),
                               child: const Text('Try it Now')),
                         ),

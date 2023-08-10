@@ -273,7 +273,11 @@ class _BrowseTabState extends State<BrowseTab> with AutomaticKeepAliveClientMixi
             style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.only(bottom: 8, top: 8),
                 backgroundColor: Colors.transparent,
-                shadowColor: Colors.transparent),
+                shadowColor: Colors.transparent,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8)
+                )
+            ),
             onPressed: () => print('hello'),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
