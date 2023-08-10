@@ -24,12 +24,14 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
     emit(state.copyWith(categoryStatus: CategoryStatus.loading));
 
     try {
+      List<Future<Playlist>> futures = [for (String playlistId in playlistIds) _playlistService.getPlaylistById(playlistId)];
+      List<Playlist> playlists = await Future.wait(futures);
+
       List<Track> tracksList = [];
       List<Artist> artistsList = [];
-      for (String playlistId in playlistIds){
-        final Playlist playlistDetails = await _playlistService.getPlaylistById(playlistId);
-        tracksList = [...tracksList, ...playlistDetails.tracks];
-        artistsList = [...artistsList, ...[for (Track t in playlistDetails.tracks) for (Artist a in t.artists) a]];
+      for (Playlist playlist in playlists){
+        tracksList = [...tracksList, ...playlist.tracks];
+        artistsList = [...artistsList, ...[for (Track t in playlist.tracks) for (Artist a in t.artists) a]];
       }
 
       emit(state.copyWith(
