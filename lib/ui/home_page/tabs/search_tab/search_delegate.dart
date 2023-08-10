@@ -322,7 +322,7 @@ class SearchBarDelegate extends SearchDelegate<String> {
             child: CachedNetworkImage(
               fit: BoxFit.cover,
               imageUrl: artistData.images.isNotEmpty ? artistData.images[0].url : '',
-              errorWidget: (context, url, error) => const Center(child: Icon(Icons.error)),
+              errorWidget: (context, url, error) => CachedNetworkImage(imageUrl: AppConfig.placeholderImgUrl),
             ),
           ),
         ),
@@ -365,7 +365,7 @@ class SearchBarDelegate extends SearchDelegate<String> {
           imageUrl: playlistData.images.first.url,
           width: 40,
           errorWidget: (context, url, error) =>
-          const Center(child: Icon(Icons.error)),
+          CachedNetworkImage(imageUrl: AppConfig.placeholderImgUrl),
         ),
         title: Text(
           playlistData.name,
@@ -404,7 +404,7 @@ class SearchBarDelegate extends SearchDelegate<String> {
           leading: CachedNetworkImage(
             imageUrl: albumData.images.first.url,
             width: 40,
-            errorWidget: (context, url, error) => const Center(child: Icon(Icons.error)),
+            errorWidget: (context, url, error) => CachedNetworkImage(imageUrl: AppConfig.placeholderImgUrl),
           ),
           title: Text(
             albumData.name,

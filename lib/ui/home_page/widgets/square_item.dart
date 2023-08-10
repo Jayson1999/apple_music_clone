@@ -14,6 +14,7 @@ class SquareItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Card(
@@ -39,7 +40,7 @@ class SquareItem extends StatelessWidget {
                     width: double.infinity,
                     imageUrl: imgUrl,
                     placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
-                    errorWidget: (context, url, error) => const Center(child: Icon(Icons.error)),
+                    errorWidget: (context, url, error) => CachedNetworkImage(imageUrl: AppConfig.placeholderImgUrl),
                   ),
                   overlayText.isNotEmpty ?
                   Positioned(

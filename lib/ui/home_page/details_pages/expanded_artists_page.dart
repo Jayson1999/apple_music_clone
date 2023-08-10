@@ -60,7 +60,7 @@ class ArtistsExpandedPage extends StatelessWidget {
                   width: 40,
                   imageUrl: url,
                   placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
-                  errorWidget: (context, url, error) => const Center(child: Icon(Icons.error)),
+                  errorWidget: (context, url, error) => CachedNetworkImage(imageUrl: AppConfig.placeholderImgUrl),
                 ),
               ),
             ),

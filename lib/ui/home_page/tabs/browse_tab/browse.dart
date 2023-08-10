@@ -212,35 +212,32 @@ class _BrowseTabState extends State<BrowseTab> with AutomaticKeepAliveClientMixi
   Widget _browseCategoriesSection (List <Category> categories, List<List<Playlist>> categoriesPlaylists){
     List <Category> topCategories = categories.sublist(0, 5);
 
-    return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.45,
-      child: Padding(
-        padding: const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 8.0),
-        child: ListView(
-          shrinkWrap: true,
-          physics: const ClampingScrollPhysics(),
-          children: [
-              TextListItem(
-                  title: 'Browse by Category',
-                  detailsPage: CategoriesExpandedPage(
-                      categoriesPlaylists: categoriesPlaylists,
-                      categories: categories)
-              ),
-              ...[
-                for (int i = 0; i < topCategories.length; i++)
-                  TextListItem(
-                      title: topCategories[i].name,
-                      detailsPage: BlocProvider<CategoryBloc>(
-                          create: (context) => CategoryBloc(),
-                          child: CategoryDetailsPage(
-                              title: topCategories[i].name,
-                              dataList: categoriesPlaylists[i])
-                      )
-                  )
-              ]
-            ],
-          ),
-      )
+    return Padding(
+      padding: const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 8.0),
+      child: ListView(
+        shrinkWrap: true,
+        physics: const ClampingScrollPhysics(),
+        children: [
+            TextListItem(
+                title: 'Browse by Category',
+                detailsPage: CategoriesExpandedPage(
+                    categoriesPlaylists: categoriesPlaylists,
+                    categories: categories)
+            ),
+            ...[
+              for (int i = 0; i < topCategories.length; i++)
+                TextListItem(
+                    title: topCategories[i].name,
+                    detailsPage: BlocProvider<CategoryBloc>(
+                        create: (context) => CategoryBloc(),
+                        child: CategoryDetailsPage(
+                            title: topCategories[i].name,
+                            dataList: categoriesPlaylists[i])
+                    )
+                )
+            ]
+          ],
+        ),
     );
   }
 

@@ -159,7 +159,7 @@ class _ArtistDetailsPageState extends State<ArtistDetailsPage> {
       fit: StackFit.expand,
       children: [
         CachedNetworkImage(
-          imageUrl: artistDetails.images.isNotEmpty? artistDetails.images.first.url : 'https://www.w3schools.com/howto/img_avatar2.png',
+          imageUrl: artistDetails.images.isNotEmpty? artistDetails.images.first.url : AppConfig.placeholderImgUrl,
           fit: BoxFit.cover,
         ),
         Positioned(
