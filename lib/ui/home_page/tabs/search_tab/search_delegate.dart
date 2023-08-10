@@ -137,13 +137,17 @@ class SearchBarDelegate extends SearchDelegate<String> {
         style: TextStyle( fontWeight: FontWeight.bold, fontSize: AppConfig.mediumText),),
       trailing: TextButton(
         style: TextButton.styleFrom(foregroundColor: Theme.of(context).primaryColor),
-        onPressed: () => SharedPreferences.getInstance().then((value) => value.remove('searchHistories')),
+        onPressed: () => SharedPreferences.getInstance().then((value) {
+          value.remove('searchHistories');
+          searchHistories.clear();
+          showSuggestions(context);
+        }),
         child: const Text('Clear'),
       ),
     );
 
     List<Widget> historyWidgets = [];
-    for (String currentHistory in searchHistories) {
+    for (String currentHistory in searchHistories.reversed.toList()) {
       List<String> splitData = currentHistory.split(';;;');
       final String currentType = splitData.first;
       dynamic currentItem;
@@ -297,7 +301,11 @@ class SearchBarDelegate extends SearchDelegate<String> {
     return InkWell(
       onTap: () =>
           SharedPreferences.getInstance().then((value) {
-            searchHistories.add('artist;;;${jsonEncode(artistData)}');
+            String historyToBeAdded = 'artist;;;${jsonEncode(artistData)}';
+            if (searchHistories.contains(historyToBeAdded)){
+              searchHistories.remove(historyToBeAdded);
+            }
+            searchHistories.add(historyToBeAdded);
             value.setStringList('searchHistories', searchHistories);
             Navigator.push(
               context,
@@ -336,7 +344,11 @@ class SearchBarDelegate extends SearchDelegate<String> {
     return InkWell(
       onTap: () =>
           SharedPreferences.getInstance().then((value) {
-            searchHistories.add('playlist;;;${jsonEncode(playlistData)}');
+            String historyToBeAdded = 'playlist;;;${jsonEncode(playlistData)}';
+            if (searchHistories.contains(historyToBeAdded)){
+              searchHistories.remove(historyToBeAdded);
+            }
+            searchHistories.add(historyToBeAdded);
             value.setStringList('searchHistories', searchHistories);
             Navigator.push(
               context,
@@ -372,7 +384,11 @@ class SearchBarDelegate extends SearchDelegate<String> {
   Widget _singleAlbum(BuildContext context, Album albumData){
     return InkWell(
       onTap: () => SharedPreferences.getInstance().then((value) {
-        searchHistories.add('album;;;${jsonEncode(albumData)}');
+        String historyToBeAdded = 'album;;;${jsonEncode(albumData)}';
+        if (searchHistories.contains(historyToBeAdded)){
+          searchHistories.remove(historyToBeAdded);
+        }
+        searchHistories.add(historyToBeAdded);
         value.setStringList('searchHistories', searchHistories);
         Navigator.push(
           context,
@@ -407,7 +423,11 @@ class SearchBarDelegate extends SearchDelegate<String> {
   Widget _singleTrack(BuildContext context, Track trackData){
     return InkWell(
       onTap: () => SharedPreferences.getInstance().then((value) {
-        searchHistories.add('track;;;${jsonEncode(trackData)}');
+        String historyToBeAdded = 'track;;;${jsonEncode(trackData)}';
+        if (searchHistories.contains(historyToBeAdded)){
+          searchHistories.remove(historyToBeAdded);
+        }
+        searchHistories.add(historyToBeAdded);
         value.setStringList('searchHistories', searchHistories);
       }),
       child: ListItem(
