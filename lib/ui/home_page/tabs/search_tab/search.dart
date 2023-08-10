@@ -64,7 +64,7 @@ class _SearchTabState extends State<SearchTab> with AutomaticKeepAliveClientMixi
                       backgroundColor: Colors.white,
                       title: SizedBox(
                           width:double.infinity,
-                          child: _searchAppBar(pageContext)
+                          child: _searchAppBar(pageContext, state.searchHistories)
                       ),
                     ),
                     actions: [
@@ -182,7 +182,7 @@ class _SearchTabState extends State<SearchTab> with AutomaticKeepAliveClientMixi
     );
   }
 
-  Widget _searchAppBar(BuildContext context) {
+  Widget _searchAppBar(BuildContext context, List<String> histories) {
     const String searchHint = 'Artists, Songs, Lyrics and more';
     return ElevatedButton(
         style: ElevatedButton.styleFrom(
@@ -197,7 +197,7 @@ class _SearchTabState extends State<SearchTab> with AutomaticKeepAliveClientMixi
           final  SearchBloc searchBloc = context.read<SearchBloc>();
           showSearch(
               context: context,
-              delegate: SearchBarDelegate(searchBloc, searchHint)
+              delegate: SearchBarDelegate(searchBloc, searchHint, histories)
           );
         },
         child: const Text(

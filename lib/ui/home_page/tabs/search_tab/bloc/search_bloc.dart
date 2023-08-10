@@ -31,7 +31,11 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   void _mapGetUserSubscriptionEventToState(GetUserSubscription event, Emitter<SearchState> emit) async {
     final SharedPreferences preferences = await SharedPreferences.getInstance();
     int userSubscription = preferences.getInt('userSubscription') ?? 0;
-    emit(state.copyWith(userSubscription: userSubscription));
+    List<String> searchHistories = preferences.getStringList('searchHistories') ?? [];
+    emit(state.copyWith(
+        userSubscription: userSubscription,
+        searchHistories: searchHistories
+    ));
   }
 
   void _mapGetCategoriesPlaylistsEventToState(GetCategoriesPlaylists event, Emitter<SearchState> emit) async {

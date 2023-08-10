@@ -19,6 +19,7 @@ class SearchState extends Equatable {
     this.categoriesGlobal = const [],
     this.categoriesLocal = const [],
     this.searchedResults = const[],
+    this.searchHistories = const[],
     this.userSubscription = 0,
     this.errorMsg = '',
   });
@@ -30,6 +31,7 @@ class SearchState extends Equatable {
   final List<Category> categoriesGlobal;
   final List<Category> categoriesLocal;
   final List searchedResults;
+  final List<String> searchHistories;
   final int userSubscription;
   final String errorMsg;
 
@@ -42,6 +44,7 @@ class SearchState extends Equatable {
     categoriesGlobal,
     categoriesLocal,
     searchedResults,
+    searchHistories,
     userSubscription,
     errorMsg
   ];
@@ -52,6 +55,7 @@ class SearchState extends Equatable {
         List<Category>? categoriesGlobal,
         List<Category>? categoriesLocal,
         List? searchedResults,
+        List<String>? searchHistories,
         SearchStatus? pageLoadStatus,
         SearchStatus? searchStatus,
         int? userSubscription,
@@ -62,6 +66,7 @@ class SearchState extends Equatable {
         categoriesGlobal: categoriesGlobal ?? this.categoriesGlobal,
         categoriesLocal: categoriesLocal ?? this.categoriesLocal,
         searchedResults: searchedResults ?? this.searchedResults,
+        searchHistories: searchHistories ?? this.searchHistories,
         pageLoadStatus: pageLoadStatus ?? this.pageLoadStatus,
         searchStatus: searchStatus ?? this.searchStatus,
         userSubscription: userSubscription ?? this.userSubscription,
