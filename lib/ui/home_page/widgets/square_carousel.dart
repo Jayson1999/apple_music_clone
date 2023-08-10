@@ -9,10 +9,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 
 class SquareCarousel extends StatelessWidget {
-  const SquareCarousel({Key? key, required this.headerButtonTitle, required this.dataList}) : super(key: key);
+  const SquareCarousel({Key? key, required this.headerButtonTitle, required this.dataList, this.trailingWidget}) : super(key: key);
 
   final String headerButtonTitle;
   final List dataList;
+  final Widget? trailingWidget;
 
   @override
   Widget build(BuildContext context) {
@@ -25,9 +26,16 @@ class SquareCarousel extends StatelessWidget {
             MaterialPageRoute(builder: (context) => AlbumPlaylistExpandedPage(dataList: dataList, title: headerButtonTitle)),
           ),
           child: Row(
+            mainAxisSize: MainAxisSize.max,
             children: [
               Text(headerButtonTitle, style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.black),),
-              const Icon(Icons.chevron_right, color: Colors.grey,)
+              const Icon(Icons.chevron_right, color: Colors.grey,),
+              Expanded(
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: trailingWidget,
+                ),
+              )
             ],
           ),
         ),
