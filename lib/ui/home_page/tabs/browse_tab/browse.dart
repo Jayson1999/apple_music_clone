@@ -197,7 +197,7 @@ class _BrowseTabState extends State<BrowseTab> with AutomaticKeepAliveClientMixi
         headerButtonTitle: 'Best New Songs',
         dataList: tracks,
         noOfRowsPerPage: 4,
-        imgSize: 30,
+        imgSize: 40,
         listTileSize: MediaQuery.of(context).size.height * 0.1
     );
   }

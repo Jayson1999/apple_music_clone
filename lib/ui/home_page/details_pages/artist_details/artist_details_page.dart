@@ -142,7 +142,7 @@ class _ArtistDetailsPageState extends State<ArtistDetailsPage> {
         headerButtonTitle: 'Top Tracks',
         dataList: tracks,
         noOfRowsPerPage: 4,
-        imgSize: 30,
+        imgSize: 40,
         listTileSize: MediaQuery.of(context).size.height * 0.1,
     );
   }

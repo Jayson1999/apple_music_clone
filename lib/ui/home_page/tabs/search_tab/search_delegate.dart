@@ -317,7 +317,7 @@ class SearchBarDelegate extends SearchDelegate<String> {
           }),
       child: ListTile(
         leading: CircleAvatar(
-          radius: 15,
+          radius: 20,
           child: ClipOval(
             child: CachedNetworkImage(
               fit: BoxFit.cover,
@@ -363,7 +363,7 @@ class SearchBarDelegate extends SearchDelegate<String> {
       child: ListTile(
         leading: CachedNetworkImage(
           imageUrl: playlistData.images.first.url,
-          width: 30,
+          width: 40,
           errorWidget: (context, url, error) =>
           const Center(child: Icon(Icons.error)),
         ),
@@ -403,7 +403,7 @@ class SearchBarDelegate extends SearchDelegate<String> {
       child: ListTile(
           leading: CachedNetworkImage(
             imageUrl: albumData.images.first.url,
-            width: 30,
+            width: 40,
             errorWidget: (context, url, error) => const Center(child: Icon(Icons.error)),
           ),
           title: Text(
@@ -434,7 +434,7 @@ class SearchBarDelegate extends SearchDelegate<String> {
         title: trackData.name,
         subtitle: '${trackData.type} . ${[for (Artist a in trackData.artists) a.name].join(',')}',
         listTileSize: MediaQuery.of(context).size.height * 0.1,
-        imgSize: 30,
+        imgSize: 40,
         imgUrl: trackData.album?.images.first.url ?? '',
         showBtmBorder: false,
         trailingWidget: PopupMenuButton<String>(

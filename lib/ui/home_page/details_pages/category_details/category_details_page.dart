@@ -138,7 +138,7 @@ class _CategoryDetailsPageState extends State<CategoryDetailsPage> {
         headerButtonTitle: 'Tracks',
         dataList: tracks,
         noOfRowsPerPage: 4,
-        imgSize: 30,
+        imgSize: 40,
         listTileSize: MediaQuery.of(context).size.height * 0.1,
     );
   }
