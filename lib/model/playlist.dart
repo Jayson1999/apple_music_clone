@@ -10,19 +10,22 @@ class Playlist {
   final List<ImageInfo> images;
   final List<Track> tracks;
 
-  Playlist(this.id, this.name, this.type, this.description, this.images, this.tracks);
+  Playlist(
+      {required this.id,
+        required this.name,
+        required this.type,
+        required this.description,
+        required this.images,
+        required this.tracks});
 
   factory Playlist.fromMap(Map<String, dynamic> respData) {
-    List<ImageInfo> images = (respData['images'] as List?)?.map<ImageInfo>((imageMap) => ImageInfo.fromMap(imageMap)).toList() ?? [];
-    List<Track> tracks = (respData['tracks']?['items'] as List?)?.map<Track>((trackMap) => Track.fromMap(trackMap)).toList() ?? [];
-
     return Playlist(
-      respData['id'] ?? '',
-      respData['name'] ?? '',
-      respData['type'] ?? '',
-      respData['description'] ?? '',
-      images,
-      tracks,
+      id: respData['id'],
+      name: respData['name'],
+      type: respData['type'],
+      description: respData['description'],
+      images: [for (Map<String, dynamic> imgMap in respData['images']) ImageInfo.fromMap(imgMap)],
+      tracks: [for (Map<String, dynamic> trackMap in respData['tracks'] ?? []) Track.fromMap(trackMap)],
     );
   }
 

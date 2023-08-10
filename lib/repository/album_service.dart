@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:apple_music_clone/model/album.dart';
+import 'package:apple_music_clone/model/track.dart';
 import 'package:apple_music_clone/repository/api_helper.dart';
 
 
@@ -14,13 +15,31 @@ class AlbumService {
     try {
       await _apiHelper.updateAuthorizationHeader();
       final response = await _apiHelper.dio.get(_apiHelper.newReleaseSubUrl, queryParameters: queryParams);
-
       if (response.statusCode != 200){
         throw Exception('$response');
       }
 
-      List<Album> albumsFromResp = (response.data['albums']?['items'] as List?)?.map((albumMap) => Album.fromMap(albumMap)).toList() ?? [];
-      return albumsFromResp;
+      List albumMaps = response.data['albums']?['items'] ?? [];
+      List<Album> albums = [];
+      Map<String, dynamic> idTracksMap = {};
+
+      for (Map<String, dynamic> albumMap in albumMaps){
+        Album album = Album.fromMap(albumMap);
+        idTracksMap.addAll({album.id: null});
+        albums.add(album);
+      }
+
+      // Get tracks that are not in current API response
+      for (Album album in await getAlbumsByIds(idTracksMap.keys.toList(), country: region)){
+        idTracksMap[album.id] = album.tracks;
+      }
+      for (Album album in albums){
+        for (Track track in idTracksMap[album.id] ?? []){
+          album.tracks.add(track);
+        }
+      }
+
+      return albums;
     }
     catch (error, stack) {
       final String errorMsg = 'GetNewReleasesAlbum failed: $error\n$stack';
@@ -42,8 +61,16 @@ class AlbumService {
         throw Exception('$response');
       }
 
-      List<Album> albumsFromResp = (response.data['albums'] as List?)?.map((albumMap) => Album.fromMap(albumMap)).toList() ?? [];
-      return albumsFromResp;
+      List albumMaps = response.data['albums'] ?? [];
+      List<Album> albums = [];
+      for (Map<String, dynamic> albumMap in albumMaps){
+        albumMap.addAll({
+          'tracks': albumMap['tracks']['items']
+        });
+        albums.add(Album.fromMap(albumMap));
+      }
+
+      return albums;
     }
     catch (error, stack) {
       final String errorMsg = 'GetAlbumsByIds failed: $error\n$stack';

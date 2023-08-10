@@ -7,26 +7,31 @@ class Track {
   final String name;
   final String type;
   final int durationInMs;
-  final int popularity;
+  final int? popularity;
   final int trackNumber;
   final Album? album;
   final List<Artist> artists;
 
-  Track(this.id, this.name, this.type, this.durationInMs, this.popularity, this.trackNumber, this.album, this.artists);
+  Track(
+      {required this.id,
+        required this.name,
+        required this.type,
+        required this.durationInMs,
+        this.popularity,
+        required this.trackNumber,
+        this.album,
+        required this.artists});
 
   factory Track.fromMap(Map<String, dynamic> respData) {
-    List<Artist> artists = (respData['artists'] as List?)?.map((artistMap) => Artist.fromMap(artistMap)).toList() ?? [];
-    Album? album = respData['album']!=null ? Album.fromMap(respData['album']): null;
-
     return Track(
-      respData['id'] ?? '',
-      respData['name'] ?? '',
-      respData['type'] ?? '',
-      respData['duration_ms'] ?? 0,
-      respData['popularity'] ?? 0,
-      respData['track_number'] ?? 0,
-      album,
-      artists,
+      id: respData['id'],
+      name: respData['name'],
+      type: respData['type'],
+      durationInMs: respData['duration_ms'],
+      popularity: respData['popularity'],
+      trackNumber: respData['track_number'],
+      album: respData['album']!=null? Album.fromMap(respData['album']): null,
+      artists: [for (Map<String, dynamic> artistMap in respData['artists'] ?? []) Artist.fromMap(artistMap)],
     );
   }
 
@@ -38,7 +43,7 @@ class Track {
       'duration_ms': durationInMs,
       'popularity': popularity,
       'track_number': trackNumber,
-      'album': album?.toJson(), // Convert the album to JSON if it's not null
+      'album': album?.toJson(),
       'artists': artists.map((artist) => artist.toJson()).toList(),
     };
   }

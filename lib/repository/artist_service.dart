@@ -21,8 +21,10 @@ class ArtistService {
         throw Exception('$response');
       }
 
-      List<Artist> artistsFromResp = (response.data['artists'] as List?)?.map((artistMap) => Artist.fromMap(artistMap)).toList() ?? [];
-      return artistsFromResp;
+      List artistMaps = response.data['artists'] ?? [];
+      List<Artist> artists = [for(Map<String, dynamic> artistMap in artistMaps) Artist.fromMap(artistMap)];
+
+      return artists;
     }
     catch (error) {
       final String errorMsg = 'GetArtistsByIds failed: $error';
@@ -45,8 +47,10 @@ class ArtistService {
         throw Exception('$response');
       }
 
-      List<Track> tracksFromResp = (response.data['tracks'] as List?)?.map((trackMap) => Track.fromMap(trackMap)).toList() ?? [];
-      return tracksFromResp;
+      List trackMaps = response.data['tracks'] ?? [];
+      List<Track> tracks = [for(Map<String, dynamic> trackMap in trackMaps) Track.fromMap(trackMap)];
+
+      return tracks;
     }
     catch (error, stack) {
       final String errorMsg = 'GetArtistTopTracks failed: $error\n$stack';
@@ -64,8 +68,10 @@ class ArtistService {
         throw Exception('$response');
       }
 
-      List<Artist> artistsFromResp = (response.data['artists'] as List?)?.map((artistMap) => Artist.fromMap(artistMap)).toList() ?? [];
-      return artistsFromResp;
+      List artistMaps = response.data['artists'] ?? [];
+      List<Artist> artists = [for(Map<String, dynamic> artistMap in artistMaps) Artist.fromMap(artistMap)];
+
+      return artists;
     }
     catch (error, stack) {
       final String errorMsg = 'GetRelatedArtists failed: $error\n$stack';
@@ -83,8 +89,10 @@ class ArtistService {
         throw Exception('$response');
       }
 
-      List<Album> albumsFromResp = (response.data['items'] as List?)?.map((albumMap) => Album.fromMap(albumMap)).toList() ?? [];
-      return albumsFromResp;
+      List albumMaps = response.data['items'] ?? [];
+      List<Album> albums = [for (Map<String, dynamic> albumMap in albumMaps) Album.fromMap(albumMap)];
+
+      return albums;
     }
     catch (error, stack) {
       final String errorMsg = 'GetArtistAlbums failed: $error\n$stack';

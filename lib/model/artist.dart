@@ -7,18 +7,15 @@ class Artist {
   final List<ImageInfo> images;
   final List<String> genres;
 
-  Artist(this.id, this.name, this.type, this.images, this.genres);
+  Artist({required this.id, required this.name, required this.type, required this.images, required this.genres});
 
   factory Artist.fromMap(Map<String, dynamic> respData) {
-    List<ImageInfo> images = (respData['images'] as List?)?.map<ImageInfo>((imageMap) => ImageInfo.fromMap(imageMap)).toList() ?? [];
-    List<String> genres = (respData['genres'] as List?)?.cast<String>() ?? [];
-
     return Artist(
-      respData['id'] ?? '',
-      respData['name'] ?? '',
-      respData['type'] ?? '',
-      images,
-      genres
+      id: respData['id'],
+      name: respData['name'],
+      type: respData['type'],
+      images: [for (Map<String, dynamic> imgMap in respData['images'] ?? []) ImageInfo.fromMap(imgMap)],
+      genres: [for (String genre in respData['genres'] ?? []) genre],
     );
   }
 

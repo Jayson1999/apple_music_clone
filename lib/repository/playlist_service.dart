@@ -23,8 +23,19 @@ class PlaylistService {
         throw Exception('$response');
       }
 
-      Playlist playlistFromResp = Playlist.fromMap(response.data);
-      return playlistFromResp;
+      Map<String, dynamic>? playlistMap = response.data;
+      if (playlistMap==null){
+        throw Exception('No playlist found matching $playlistId in $country');
+      }
+      // Make inconsistent tracks data consistent
+      playlistMap.addAll({
+        'tracks': [for (Map<String, dynamic> itemMap in playlistMap['tracks']?['items'] ?? [])
+          if(itemMap['track']!=null)
+          itemMap['track']]
+      });
+      Playlist playlist = Playlist.fromMap(playlistMap);
+
+      return playlist;
     }
     catch (error, stack) {
       final String errorMsg = 'GetPlaylistById failed for playlist $playlistId: $error\n$stack';
@@ -47,10 +58,20 @@ class PlaylistService {
         throw Exception('$response');
       }
 
-      List<dynamic>? playlistData = response.data['playlists']?['items'] as List<dynamic>?;
-      List<Playlist> playlistsFromResp = (playlistData ?? []).whereType<Map<String, dynamic>>().map((playlistMap) => Playlist.fromMap(playlistMap)).toList();
+      List playlistMaps = response.data['playlists']?['items'] ?? [];
+      List<Playlist> playlists = [];
+      for (Map<String, dynamic>? playlistMap in playlistMaps){
+        // Some responses are null
+        if (playlistMap==null){
+          continue;
+        }
 
-      return playlistsFromResp;
+        // Remove inconsistent data & data type
+        playlistMap.remove('tracks');
+        playlists.add(Playlist.fromMap(playlistMap));
+      }
+
+      return playlists;
     }
     catch (error, stack) {
       final String errorMsg = 'GetCategoryPlaylists failed for category $categoryId: $error\n$stack';
@@ -70,8 +91,20 @@ class PlaylistService {
         throw Exception('$response');
       }
 
-      List<Playlist> playlistsFromResp = (response.data['playlists']?['items'] as List?)?.map((playlistMap) => Playlist.fromMap(playlistMap)).toList() ?? [];
-      return playlistsFromResp;
+      List playlistMaps = response.data['playlists']?['items'] ?? [];
+      List<Playlist> playlists = [];
+      for (Map<String, dynamic>? playlistMap in playlistMaps){
+        // Some responses are null
+        if (playlistMap==null){
+          continue;
+        }
+
+        // Remove inconsistent data & data type
+        playlistMap.remove('tracks');
+        playlists.add(Playlist.fromMap(playlistMap));
+      }
+
+      return playlists;
     }
     catch (error, stack) {
       final String errorMsg = 'GetFeaturedPlaylists failed for country $country: $error\n$stack';

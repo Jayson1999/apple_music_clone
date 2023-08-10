@@ -6,15 +6,13 @@ class Category {
   final String name;
   final List<CategoryIconInfo> categoryIconsInfo;
 
-  Category(this.id, this.name, this.categoryIconsInfo);
+  Category({required this.id, required this.name, required this.categoryIconsInfo});
 
   factory Category.fromMap(Map <String, dynamic> respData){
-    List<CategoryIconInfo> icons = (respData['icons'] as List?)?.map<CategoryIconInfo>((iconMap) => CategoryIconInfo.fromMap(iconMap)).toList() ?? [];
-
     return Category(
-        respData['id'] ?? '',
-        respData['name'] ?? '',
-        icons
+        id: respData['id'],
+        name: respData['name'],
+        categoryIconsInfo: [for (Map<String, dynamic> iconInfoMap in respData['icons']) CategoryIconInfo.fromMap(iconInfoMap)]
     );
   }
 
