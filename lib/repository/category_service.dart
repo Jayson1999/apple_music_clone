@@ -19,8 +19,10 @@ class CategoryService {
         throw Exception('$response');
       }
 
-      List<Category> categoriesFromResp = (response.data['categories']?['items'] as List?)?.map((categoryMap) => Category.fromMap(categoryMap)).toList() ?? [];
-      return categoriesFromResp;
+      List categoryMaps = response.data['categories']?['items'] ?? [];
+      List<Category> categories = [for(Map<String, dynamic> categoryMap in categoryMaps) Category.fromMap(categoryMap)];
+
+      return categories;
     }
     catch (error, stack) {
       final String errorMsg = 'GetBrowseCategories failed: $error\n$stack';

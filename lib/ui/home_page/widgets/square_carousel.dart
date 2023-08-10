@@ -54,7 +54,7 @@ class SquareCarousel extends StatelessWidget {
     switch (dataItem.type){
       case 'album':
         title = dataItem.name;
-        subtitle = dataItem.genre.join(',');
+        subtitle = dataItem.genres.join(',');
         imgUrl = dataItem.images.first.url;
         overlayText = '${dataItem.releaseDate}, ${dataItem.totalTracks}';
         detailsPage = BlocProvider<AlbumBloc>(

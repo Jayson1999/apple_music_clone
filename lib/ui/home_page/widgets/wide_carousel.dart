@@ -37,7 +37,7 @@ class WideCarousel extends StatelessWidget {
       case 'album':
         description = dataItem.type;
         title = dataItem.name;
-        subtitle = dataItem.genre.join(',');
+        subtitle = dataItem.genres.join(',');
         imgUrl = dataItem.images.first.url;
         overlayText = '${dataItem.releaseDate}, ${dataItem.totalTracks}';
         detailsPage = BlocProvider<AlbumBloc>(
