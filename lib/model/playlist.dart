@@ -25,4 +25,17 @@ class Playlist {
       tracks,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'type': type,
+      'description': description,
+      'images': images.map((image) => image.toJson()).toList(),
+      'tracks': {
+        'items': tracks.map((track) => track.toJson()).toList(),
+      },
+    };
+  }
 }

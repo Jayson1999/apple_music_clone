@@ -12,4 +12,12 @@ class ImageInfo {
       map['width'] ?? 0,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'url': url,
+      'height': height,
+      'width': width,
+    };
+  }
 }

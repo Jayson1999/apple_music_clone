@@ -11,4 +11,10 @@ class CopyrightInfo {
     );
   }
 
+  Map<String, dynamic> toJson() {
+    return {
+      'text': text,
+      'type': type,
+    };
+  }
 }
