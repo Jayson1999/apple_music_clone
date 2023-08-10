@@ -105,7 +105,7 @@ class SearchBarDelegate extends SearchDelegate<String> {
   @override
   Widget buildSuggestions(BuildContext context) {
     if (query.isEmpty) {
-      return _recentSearches(context);
+      return searchHistories.isNotEmpty? _recentSearches(context): Container();
     }
 
     searchBloc.add(SearchTextChanged(query));
