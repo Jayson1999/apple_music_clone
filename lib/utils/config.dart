@@ -12,13 +12,21 @@ class AppConfig{
   static const double smallText = 9.0;
   static const String placeholderImgUrl = 'https://www.w3schools.com/howto/img_avatar2.png';
 
-  static ThemeData getAppTheme() =>
+  static ThemeData getAppLightTheme() =>
       ThemeData(
-        buttonTheme: const ButtonThemeData(
-          buttonColor: Colors.red,
+        colorScheme: const ColorScheme.light().copyWith(
+          primary: Colors.red,
+          secondary: Colors.grey,
         ),
-        primaryColor: Colors.red,
+        appBarTheme: const AppBarTheme(
+            color: Colors.white
+        ),
         scaffoldBackgroundColor: Colors.white,
+        textTheme: const TextTheme(
+          bodyLarge: TextStyle(color: Colors.black),
+          bodyMedium: TextStyle(color: Colors.black),
+          bodySmall: TextStyle(color: Colors.grey),
+        ),
         bottomNavigationBarTheme: const BottomNavigationBarThemeData(
           backgroundColor: Colors.white,
           selectedItemColor: Colors.red,
@@ -28,4 +36,28 @@ class AppConfig{
           unselectedLabelStyle: TextStyle(fontSize: 12),
         ),
       );
+
+  static ThemeData getAppDarkTheme() =>
+      ThemeData(
+          colorScheme: const ColorScheme.dark().copyWith(
+            primary: Colors.red,
+            secondary: Colors.grey,
+          ),
+        appBarTheme: const AppBarTheme(
+          color: Colors.black
+        ),
+        scaffoldBackgroundColor: Colors.black,
+        textTheme: const TextTheme(
+          bodyLarge: TextStyle(color: Colors.white),
+          bodyMedium: TextStyle(color: Colors.white),
+          bodySmall: TextStyle(color: Colors.grey),
+        ),
+        bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+          backgroundColor: Colors.black,
+          selectedItemColor: Colors.red,
+          selectedLabelStyle: TextStyle(fontSize: 12),
+          type: BottomNavigationBarType.fixed,
+          unselectedItemColor: Colors.grey,
+          unselectedLabelStyle: TextStyle(fontSize: 12),
+      ));
 }

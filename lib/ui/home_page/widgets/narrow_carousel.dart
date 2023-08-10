@@ -21,7 +21,7 @@ class NarrowCarousel extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Text(headerTitle, style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.black),),
+          child: Text(headerTitle, style: const TextStyle(fontWeight: FontWeight.bold),),
         ),
         SizedBox(
           height: MediaQuery.of(context).size.height * 0.2,

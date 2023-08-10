@@ -47,8 +47,8 @@ class _ArtistDetailsPageState extends State<ArtistDetailsPage> {
                 slivers: <Widget>[
                   SliverAppBar(
                     expandedHeight: MediaQuery.of(context).size.height*0.5,
-                    backgroundColor: Colors.white,
-                    foregroundColor: Theme.of(context).primaryColor,
+
+                    foregroundColor: Theme.of(context).colorScheme.primary,
                     elevation: 0,
                     pinned: true,
                     floating: false,
@@ -65,7 +65,7 @@ class _ArtistDetailsPageState extends State<ArtistDetailsPage> {
                             visible: showAppBarTitleOnly,
                             child: Text(
                               widget.artist.name,
-                              style: const TextStyle(fontSize: AppConfig.bigText, color: Colors.black),
+                              style: const TextStyle(fontSize: AppConfig.bigText),
                             ),
                           ),
                         );

@@ -31,7 +31,7 @@ class CircularItem extends StatelessWidget {
           child: Text(
             title,
             overflow: TextOverflow.ellipsis,
-            style: const TextStyle(fontSize: AppConfig.mediumText, color: Colors.black),
+            style: const TextStyle(fontSize: AppConfig.mediumText),
           ),
         ),
       ],

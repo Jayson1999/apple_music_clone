@@ -32,7 +32,7 @@ class SearchBarDelegate extends SearchDelegate<String> {
   List<Widget> buildActions(BuildContext context) {
     return [
       IconButton(
-        icon: Icon(Icons.clear, color: Theme.of(context).primaryColor,),
+        icon: Icon(Icons.clear, color: Theme.of(context).colorScheme.primary,),
         onPressed: () {
           query = '';
         },
@@ -43,7 +43,7 @@ class SearchBarDelegate extends SearchDelegate<String> {
   @override
   Widget buildLeading(BuildContext context) {
     return IconButton(
-      icon: Icon(Icons.arrow_back, color: Theme.of(context).primaryColor),
+      icon: Icon(Icons.arrow_back, color: Theme.of(context).colorScheme.primary),
       onPressed: () {
         close(context, '');
       },
@@ -136,7 +136,7 @@ class SearchBarDelegate extends SearchDelegate<String> {
         'Recently Searched',
         style: TextStyle( fontWeight: FontWeight.bold, fontSize: AppConfig.mediumText),),
       trailing: TextButton(
-        style: TextButton.styleFrom(foregroundColor: Theme.of(context).primaryColor),
+        style: TextButton.styleFrom(foregroundColor: Theme.of(context).colorScheme.primary),
         onPressed: () => SharedPreferences.getInstance().then((value) {
           value.remove('searchHistories');
           searchHistories.clear();
@@ -438,7 +438,7 @@ class SearchBarDelegate extends SearchDelegate<String> {
         imgUrl: trackData.album?.images.first.url ?? '',
         showBtmBorder: false,
         trailingWidget: PopupMenuButton<String>(
-            icon: Icon(Icons.more_vert, color: Theme.of(context).primaryColor,),
+            icon: Icon(Icons.more_vert, color: Theme.of(context).colorScheme.primary,),
             onSelected: (value) => print('hello'),
             itemBuilder: (BuildContext context) =>
             <PopupMenuEntry<String>>[

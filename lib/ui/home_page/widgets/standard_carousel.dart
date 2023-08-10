@@ -31,7 +31,7 @@ class StandardCarousel extends StatelessWidget {
           ),
           child: Row(
             children: [
-              Text(headerButtonTitle, style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.black),),
+              Text(headerButtonTitle, style: const TextStyle(fontWeight: FontWeight.bold),),
               const Icon(Icons.chevron_right, color: Colors.grey,)
             ],
           ),

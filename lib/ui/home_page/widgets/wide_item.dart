@@ -24,7 +24,7 @@ class WideItem extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.only(left: 8.0),
-          child: Text(title, style: const TextStyle(fontSize: AppConfig.mediumText, color: Colors.black),),
+          child: Text(title, style: const TextStyle(fontSize: AppConfig.mediumText),),
         ),
         Padding(
           padding: const EdgeInsets.only(left: 8.0),

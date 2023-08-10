@@ -40,8 +40,8 @@ class _AlbumDetailsState extends State<AlbumDetails> {
                 slivers: <Widget>[
                   SliverAppBar(
                     expandedHeight: MediaQuery.of(context).size.height*0.5,
-                    backgroundColor: Colors.white,
-                    foregroundColor: Theme.of(context).primaryColor,
+
+                    foregroundColor: Theme.of(context).colorScheme.primary,
                     elevation: 0,
                     pinned: true,
                     floating: false,
@@ -58,7 +58,7 @@ class _AlbumDetailsState extends State<AlbumDetails> {
                             visible: showAppBarTitleOnly,
                             child: Text(
                               state.albumDetails?.name ?? 'albumDetails is null',
-                              style: const TextStyle(fontSize: AppConfig.bigText, color: Colors.black),
+                              style: const TextStyle(fontSize: AppConfig.bigText),
                             ),
                           ),
                         );
@@ -124,9 +124,9 @@ class _AlbumDetailsState extends State<AlbumDetails> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       ElevatedButton.icon(
-                        icon: const Icon(Icons.play_arrow, color: Colors.black,),
+                        icon: const Icon(Icons.play_arrow),
                         onPressed: () => print('hello'),
-                        label: const Text('Play', style: TextStyle(color: Colors.black)),
+                        label: const Text('Play'),
                         style: ElevatedButton.styleFrom(
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12)
@@ -135,9 +135,9 @@ class _AlbumDetailsState extends State<AlbumDetails> {
                         ),
                       ),
                       ElevatedButton.icon(
-                        icon: const Icon(Icons.shuffle, color: Colors.black,),
+                        icon: const Icon(Icons.shuffle),
                         onPressed: () => print('hello'),
-                        label: const Text('Shuffle', style: TextStyle(color: Colors.black),),
+                        label: const Text('Shuffle'),
                         style: ElevatedButton.styleFrom(
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12)
@@ -183,7 +183,7 @@ class _AlbumDetailsState extends State<AlbumDetails> {
               imgUrl: currentItem.album?.images.first.url ?? '',
               showBtmBorder: false,
               trailingWidget: PopupMenuButton<String>(
-                  icon: Icon(Icons.more_vert, color: Theme.of(context).primaryColor,),
+                  icon: Icon(Icons.more_vert, color: Theme.of(context).colorScheme.primary,),
                   onSelected: (value) => print('hello'),
                   itemBuilder: (BuildContext context) =>
                   <PopupMenuEntry<String>>[

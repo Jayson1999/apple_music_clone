@@ -57,8 +57,8 @@ class _CategoryDetailsPageState extends State<CategoryDetailsPage> {
                 controller: _scrollController,
                 slivers: <Widget>[
                   SliverAppBar(
-                    foregroundColor: Theme.of(context).primaryColor,
-                    backgroundColor: Colors.white,
+                    foregroundColor: Theme.of(context).colorScheme.primary,
+
                     elevation: 0,
                     floating: false,
                     pinned: true,
@@ -160,7 +160,7 @@ class _CategoryDetailsPageState extends State<CategoryDetailsPage> {
       child: FlexibleSpaceBar(
           title: Text(
             title,
-            style: const TextStyle(fontSize: AppConfig.mediumText, color: Colors.black),
+            style: const TextStyle(fontSize: AppConfig.mediumText),
           )
       ),
     );

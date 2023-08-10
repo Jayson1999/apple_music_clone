@@ -35,7 +35,7 @@ class _SearchTabState extends State<SearchTab> with AutomaticKeepAliveClientMixi
   Widget build(BuildContext pageContext) {
     super.build(pageContext);
     return MaterialApp(
-      theme: AppConfig.getAppTheme(),
+      theme: AppConfig.getAppLightTheme(),
       home: Scaffold(
         body: BlocBuilder<SearchBloc, SearchState>(
           builder: (context, state) {
@@ -51,17 +51,17 @@ class _SearchTabState extends State<SearchTab> with AutomaticKeepAliveClientMixi
                 controller: scrollController,
                 slivers: <Widget>[
                   SliverAppBar(
-                    backgroundColor: Colors.white,
+
                     expandedHeight: 100.0,
                     elevation: 0,
                     floating: true,
                     pinned: true,
                     title: const Text(
                       'Search',
-                      style: TextStyle(fontSize: AppConfig.bigText, color: Colors.black),
+                      style: TextStyle(fontSize: AppConfig.bigText),
                     ),
                     bottom: AppBar(
-                      backgroundColor: Colors.white,
+
                       title: SizedBox(
                           width:double.infinity,
                           child: _searchAppBar(pageContext, state.searchHistories)
@@ -69,7 +69,7 @@ class _SearchTabState extends State<SearchTab> with AutomaticKeepAliveClientMixi
                     ),
                     actions: [
                       PopupMenuButton<String>(
-                          icon: Icon(Icons.more_vert, color: Theme.of(context).primaryColor,),
+                          icon: Icon(Icons.more_vert, color: Theme.of(context).colorScheme.primary,),
                           onSelected: (value) => Navigator.pushNamed(context, '/$value'),
                           itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
                             const PopupMenuItem<String>(

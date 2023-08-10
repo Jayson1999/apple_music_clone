@@ -46,7 +46,7 @@ class _RadioTabState extends State<RadioTab> with AutomaticKeepAliveClientMixin{
   Widget build(BuildContext context) {
     super.build(context);
     return MaterialApp(
-      theme: AppConfig.getAppTheme(),
+      theme: AppConfig.getAppLightTheme(),
       home: Scaffold(
         body: BlocBuilder<RadioBloc, RadioState>(
           builder: (context, state) {
@@ -64,8 +64,8 @@ class _RadioTabState extends State<RadioTab> with AutomaticKeepAliveClientMixin{
                 controller: _scrollController,
                 slivers: <Widget>[
                   SliverAppBar(
-                    foregroundColor: Theme.of(context).primaryColor,
-                    backgroundColor: Colors.white,
+                    foregroundColor: Theme.of(context).colorScheme.primary,
+
                     elevation: 0,
                     floating: false,
                     pinned: true,
@@ -121,7 +121,7 @@ class _RadioTabState extends State<RadioTab> with AutomaticKeepAliveClientMixin{
       headerButtonTitle: 'Featured Radio',
       dataList: featuredPlaylists,
       trailingWidget: IconButton(
-        color: Theme.of(context).primaryColor,
+        color: Theme.of(context).colorScheme.primary,
         icon: const Icon(Icons.calendar_month_rounded),
         onPressed: ()=> print('hello'),
       ),
@@ -171,7 +171,7 @@ class _RadioTabState extends State<RadioTab> with AutomaticKeepAliveClientMixin{
           titlePadding: EdgeInsets.all(8.0),
           title: Text(
             'Radio',
-            style: TextStyle(fontSize: AppConfig.mediumText, color: Colors.black),
+            style: TextStyle(fontSize: AppConfig.mediumText),
           )
       ),
     );

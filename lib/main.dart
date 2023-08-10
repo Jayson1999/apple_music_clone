@@ -31,7 +31,9 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Apple Music Clone',
-      theme: AppConfig.getAppTheme(),
+      theme: AppConfig.getAppLightTheme(),
+      darkTheme: AppConfig.getAppDarkTheme(),
+      themeMode: ThemeMode.system,
       initialRoute: widget.agreedTerms? '/home': '/first',
       routes: {
         '/first': (context) => const FirstPage(),
