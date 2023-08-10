@@ -52,7 +52,7 @@ class CircularCarousel extends StatelessWidget {
                   ),
                   child: CircularItem(
                       title: dataList[pageIndex].name,
-                      imgUrl: dataList[pageIndex].images.first.url
+                      imgUrl: dataList[pageIndex].images.isNotEmpty? dataList[pageIndex].images.first.url : 'https://www.w3schools.com/howto/img_avatar2.png'
                   ),
                 );
               }),
