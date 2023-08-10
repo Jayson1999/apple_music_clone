@@ -151,14 +151,15 @@ class _LibraryTabState extends State<LibraryTab> with AutomaticKeepAliveClientMi
   Widget _subscribeButton() {
     return Container(
       width: double.infinity,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
-      ),
       child: ElevatedButton(
           style: ElevatedButton.styleFrom(
               padding: const EdgeInsets.only(bottom: 8, top: 8),
               backgroundColor: Colors.red,
-              shadowColor: Colors.transparent),
+              shadowColor: Colors.transparent,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8)
+              )
+          ),
           onPressed: () => print('hello'),
           child: const Text('Try it Now')),
     );
