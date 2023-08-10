@@ -119,7 +119,12 @@ class _RadioTabState extends State<RadioTab> with AutomaticKeepAliveClientMixin{
   Widget _globalFeaturedRadioSection(List<Playlist> featuredPlaylists) {
     return SquareCarousel(
       headerButtonTitle: 'Featured Radio',
-      dataList: featuredPlaylists
+      dataList: featuredPlaylists,
+      trailingWidget: IconButton(
+        color: Theme.of(context).primaryColor,
+        icon: const Icon(Icons.calendar_month_rounded),
+        onPressed: ()=> print('hello'),
+      ),
     );
   }
 
