@@ -179,7 +179,7 @@ class _AlbumDetailsState extends State<AlbumDetails> {
               title: currentItem.name,
               subtitle: '${currentItem.type} . ${[for (Artist a in currentItem.artists) a.name].join(',')}',
               listTileSize: MediaQuery.of(context).size.height * 0.1,
-              imgSize: 30,
+              imgSize: 40,
               imgUrl: currentItem.album?.images.first.url ?? '',
               showBtmBorder: false,
               trailingWidget: PopupMenuButton<String>(
