@@ -13,9 +13,9 @@ class TracksExpandedPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(title, style: const TextStyle(fontSize: AppConfig.mediumText, color: Colors.black),),
-        backgroundColor: Colors.white,
-        foregroundColor: Theme.of(context).primaryColor,
+        title: Text(title, style: const TextStyle(fontSize: AppConfig.mediumText),),
+
+        foregroundColor: Theme.of(context).colorScheme.primary,
         elevation: 0,
         shape: const Border(
             bottom: BorderSide(

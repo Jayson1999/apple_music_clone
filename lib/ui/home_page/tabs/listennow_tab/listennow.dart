@@ -24,7 +24,7 @@ class _ListenNowTabState extends State<ListenNowTab> with AutomaticKeepAliveClie
   Widget build(BuildContext context) {
     super.build(context);
     return MaterialApp(
-      theme: AppConfig.getAppTheme(),
+      theme: AppConfig.getAppLightTheme(),
       home: Scaffold(
         body: BlocBuilder<ListenNowBloc, ListenNowState>(
           builder: (context, state) {
@@ -41,7 +41,7 @@ class _ListenNowTabState extends State<ListenNowTab> with AutomaticKeepAliveClie
                 controller: scrollController,
                 slivers: <Widget>[
                   SliverAppBar(
-                    backgroundColor: Colors.white,
+
                     expandedHeight: 60.0,
                     elevation: 0,
                     floating: false,
@@ -56,7 +56,7 @@ class _ListenNowTabState extends State<ListenNowTab> with AutomaticKeepAliveClie
                     ),
                     actions: [
                       PopupMenuButton<String>(
-                          icon: Icon(Icons.more_vert, color: Theme.of(context).primaryColor,),
+                          icon: Icon(Icons.more_vert, color: Theme.of(context).colorScheme.primary,),
                           onSelected: (value) => Navigator.pushNamed(context, '/$value'),
                           itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
                             const PopupMenuItem<String>(
@@ -109,7 +109,7 @@ class _ListenNowTabState extends State<ListenNowTab> with AutomaticKeepAliveClie
           titlePadding: EdgeInsets.all(8.0),
           title: Text(
             'ListenNow',
-            style: TextStyle(fontSize: AppConfig.mediumText, color: Colors.black),
+            style: TextStyle(fontSize: AppConfig.mediumText),
           )
       ),
     );

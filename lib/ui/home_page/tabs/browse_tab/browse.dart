@@ -56,7 +56,7 @@ class _BrowseTabState extends State<BrowseTab> with AutomaticKeepAliveClientMixi
   Widget build(BuildContext context) {
     super.build(context);
     return MaterialApp(
-      theme: AppConfig.getAppTheme(),
+      theme: AppConfig.getAppLightTheme(),
       home: Scaffold(
         body: BlocBuilder<BrowseBloc, BrowseState>(
             builder: (context, state) {
@@ -74,8 +74,8 @@ class _BrowseTabState extends State<BrowseTab> with AutomaticKeepAliveClientMixi
                   controller: _scrollController,
                   slivers: <Widget>[
                     SliverAppBar(
-                      foregroundColor: Theme.of(context).primaryColor,
-                      backgroundColor: Colors.white,
+                      foregroundColor: Theme.of(context).colorScheme.primary,
+
                       elevation: 0,
                       floating: false,
                       pinned: true,
@@ -252,7 +252,7 @@ class _BrowseTabState extends State<BrowseTab> with AutomaticKeepAliveClientMixi
           titlePadding: EdgeInsets.all(8.0),
           title: Text(
             'Browse',
-            style: TextStyle(fontSize: AppConfig.mediumText, color: Colors.black),
+            style: TextStyle(fontSize: AppConfig.mediumText),
           )
       ),
     );

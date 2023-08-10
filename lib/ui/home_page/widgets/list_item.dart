@@ -31,7 +31,7 @@ class ListItem extends StatelessWidget {
           title: Text(
               title,
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(color: Colors.black, fontSize: AppConfig.mediumText)
+              style: const TextStyle(fontSize: AppConfig.mediumText)
           ),
           subtitle: Container(
               decoration: BoxDecoration(
