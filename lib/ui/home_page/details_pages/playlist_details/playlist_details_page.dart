@@ -121,26 +121,38 @@ class _PlaylistDetailsState extends State<PlaylistDetails> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      ElevatedButton.icon(
-                        icon: const Icon(Icons.play_arrow),
-                        onPressed: () => print('hello'),
-                        label: const Text('Play'),
-                        style: ElevatedButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12)
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ElevatedButton.icon(
+                            icon: const Icon(Icons.play_arrow),
+                            onPressed: () => print('hello'),
+                            label: const Text('Play'),
+                            style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12)
+                                ),
+                                foregroundColor: Theme.of(context).brightness == Brightness.light? Colors.black: Colors.white,
+                                backgroundColor: Theme.of(context).brightness == Brightness.light? Colors.white: Colors.black
                             ),
-                            backgroundColor: Colors.white
+                          ),
                         ),
                       ),
-                      ElevatedButton.icon(
-                        icon: const Icon(Icons.shuffle),
-                        onPressed: () => print('hello'),
-                        label: const Text('Shuffle'),
-                        style: ElevatedButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12)
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ElevatedButton.icon(
+                            icon: const Icon(Icons.shuffle),
+                            onPressed: () => print('hello'),
+                            label: const Text('Shuffle'),
+                            style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12)
+                                ),
+                                foregroundColor: Theme.of(context).brightness == Brightness.light? Colors.black: Colors.white,
+                                backgroundColor: Theme.of(context).brightness == Brightness.light? Colors.white: Colors.black
                             ),
-                            backgroundColor: Colors.white
+                          ),
                         ),
                       ),
                     ],
