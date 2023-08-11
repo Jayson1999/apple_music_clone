@@ -1,5 +1,5 @@
 import 'package:apple_music_clone/ui/home_page/details_pages/details_pages_args.dart';
-import 'package:apple_music_clone/ui/home_page/details_pages/expanded_pages_args.dart';
+import 'package:apple_music_clone/ui/home_page/expanded_pages/expanded_pages_args.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/square_item.dart';
 import 'package:apple_music_clone/utils/app_routes.dart';
 import 'package:flutter/material.dart';
