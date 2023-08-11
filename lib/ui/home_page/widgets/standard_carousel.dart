@@ -1,12 +1,9 @@
 import 'package:apple_music_clone/model/artist.dart';
-import 'package:apple_music_clone/ui/home_page/details_pages/album_details/album_details_page.dart';
-import 'package:apple_music_clone/ui/home_page/details_pages/album_details/bloc/album_bloc.dart';
-import 'package:apple_music_clone/ui/home_page/details_pages/expanded_album_playlist_page.dart';
-import 'package:apple_music_clone/ui/home_page/details_pages/playlist_details/bloc/playlist_bloc.dart';
-import 'package:apple_music_clone/ui/home_page/details_pages/playlist_details/playlist_details_page.dart';
+import 'package:apple_music_clone/ui/home_page/details_pages/details_pages_args.dart';
+import 'package:apple_music_clone/ui/home_page/details_pages/expanded_pages_args.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/standard_item.dart';
+import 'package:apple_music_clone/utils/app_routes.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 
 class StandardCarousel extends StatelessWidget {
@@ -25,9 +22,10 @@ class StandardCarousel extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TextButton(
-          onPressed: () => Navigator.push(
+          onPressed: () => Navigator.pushNamed(
             context,
-            MaterialPageRoute(builder: (context) => AlbumPlaylistExpandedPage(dataList: dataList, title: headerButtonTitle)),
+            AppRoutes.albumsExpandedPage,
+            arguments: AlbumsPlaylistsExpandedArguments(headerButtonTitle, dataList)
           ),
           child: Row(
             children: [
@@ -48,7 +46,7 @@ class StandardCarousel extends StatelessWidget {
                   for (int rowIndex=0; rowIndex<noOfRowsPerPage; rowIndex++)
                     _standardItemFromData(splitDataLists[pageIndex][rowIndex])
                 ];
-                return Column(children: currentPageCards, mainAxisAlignment: MainAxisAlignment.center,);
+                return Column(mainAxisAlignment: MainAxisAlignment.center,children: currentPageCards,);
               }),
         )
       ],
@@ -61,32 +59,36 @@ Widget _standardItemFromData(var dataItem) {
   String subtitle = '';
   String id = '';
   String imgUrl = '';
-  Widget nextPage = Container();
+  String nextPageRoute = '';
+  dynamic nextPageArgs;
 
   switch (dataItem.type){
     case 'playlist':
       title = dataItem.name;
       subtitle = dataItem.description;
-      imgUrl = dataItem.images[0].url;
+      imgUrl = dataItem.images.first.url;
       id = dataItem.id;
-      nextPage = BlocProvider<PlaylistBloc>(
-          create: (context) => PlaylistBloc(),
-          child: PlaylistDetails(playlistId: id)
-      );
+      nextPageRoute = AppRoutes.playlistDetailsPage;
+      nextPageArgs = PlaylistDetailsArguments(id);
       break;
     case 'album':
       title = dataItem.name;
       subtitle = [for (Artist artist in dataItem.artists) artist.name].join(', ');
       imgUrl = dataItem.images[0].url;
       id = dataItem.id;
-      nextPage = BlocProvider<AlbumBloc>(
-          create: (context) => AlbumBloc(),
-          child: AlbumDetails(albumId: id)
-      );
+      nextPageRoute = AppRoutes.albumDetailsPage;
+      nextPageArgs = AlbumDetailsArguments(id);
       break;
   }
 
-  return StandardItem(title: title, subtitle: subtitle, imgUrl: imgUrl, id: id, nextPage: nextPage);
+  return StandardItem(
+    title: title,
+    subtitle: subtitle,
+    imgUrl: imgUrl,
+    id: id,
+    nextPageRoute: nextPageRoute,
+    nextPageArgs: nextPageArgs,
+  );
 }
 
 List<List<T>> _splitList<T>(List<T> list, int size) {

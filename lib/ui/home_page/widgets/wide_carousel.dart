@@ -1,10 +1,7 @@
-import 'package:apple_music_clone/ui/home_page/details_pages/album_details/album_details_page.dart';
-import 'package:apple_music_clone/ui/home_page/details_pages/album_details/bloc/album_bloc.dart';
-import 'package:apple_music_clone/ui/home_page/details_pages/playlist_details/bloc/playlist_bloc.dart';
-import 'package:apple_music_clone/ui/home_page/details_pages/playlist_details/playlist_details_page.dart';
+import 'package:apple_music_clone/ui/home_page/details_pages/details_pages_args.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/wide_item.dart';
+import 'package:apple_music_clone/utils/app_routes.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 
 class WideCarousel extends StatelessWidget {
@@ -31,7 +28,8 @@ class WideCarousel extends StatelessWidget {
     String subtitle = '';
     String imgUrl = '';
     String overlayText = '';
-    Widget detailsPage = Container();
+    String detailsPageRoute = '';
+    dynamic detailsPageArgs;
 
     switch (dataItem.type){
       case 'album':
@@ -40,10 +38,8 @@ class WideCarousel extends StatelessWidget {
         subtitle = dataItem.genres.join(',');
         imgUrl = dataItem.images.first.url;
         overlayText = '${dataItem.releaseDate}, ${dataItem.totalTracks}';
-        detailsPage = BlocProvider<AlbumBloc>(
-            create: (context) => AlbumBloc(),
-            child: AlbumDetails(albumId: dataItem.id,)
-        );
+        detailsPageRoute = AppRoutes.albumDetailsPage;
+        detailsPageArgs = AlbumDetailsArguments(dataItem.id);
         break;
       case 'playlist':
         description = dataItem.type;
@@ -51,14 +47,20 @@ class WideCarousel extends StatelessWidget {
         subtitle = dataItem.description.split(' ').first;
         imgUrl = dataItem.images.first.url;
         overlayText = dataItem.description;
-        detailsPage = BlocProvider<PlaylistBloc>(
-            create: (context) => PlaylistBloc(),
-            child: PlaylistDetails(playlistId: dataItem.id,)
-        );
+        detailsPageRoute = AppRoutes.playlistDetailsPage;
+        detailsPageArgs = PlaylistDetailsArguments(dataItem.id);
         break;
     }
 
-    return WideItem(description: description, title: title, subtitle: subtitle, imgUrl: imgUrl, overlayText: overlayText, detailsPage: detailsPage);
+    return WideItem(
+      description: description,
+      title: title,
+      subtitle: subtitle,
+      imgUrl: imgUrl,
+      overlayText: overlayText,
+      detailsPageRoute: detailsPageRoute,
+      detailsPageArgs: detailsPageArgs,
+    );
   }
 
 }

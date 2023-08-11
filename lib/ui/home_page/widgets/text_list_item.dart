@@ -3,10 +3,16 @@ import 'package:flutter/material.dart';
 
 
 class TextListItem extends StatelessWidget {
-  const TextListItem({Key? key, required this.title, required this.detailsPage}) : super(key: key);
+  const TextListItem(
+      {Key? key,
+      required this.title,
+      required this.detailsPageRoute,
+      this.detailsPageArgs})
+      : super(key: key);
 
   final String title;
-  final Widget detailsPage;
+  final String detailsPageRoute;
+  final dynamic detailsPageArgs;
 
   @override
   Widget build(BuildContext context) {
@@ -20,11 +26,10 @@ class TextListItem extends StatelessWidget {
             style: TextButton.styleFrom(
                 alignment: Alignment.centerLeft
             ),
-            onPressed: () => Navigator.push(
+            onPressed: () => Navigator.pushNamed(
               context,
-              MaterialPageRoute(
-                  builder: (context) => detailsPage
-              ),
+              detailsPageRoute,
+              arguments: detailsPageArgs
             ),
             child: Text(title, style: const TextStyle(color: Colors.red, fontSize: AppConfig.mediumText))
         )

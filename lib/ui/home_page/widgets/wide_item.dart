@@ -2,15 +2,26 @@ import 'package:apple_music_clone/utils/config.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
+
 class WideItem extends StatelessWidget {
-  const WideItem({Key? key, required this.description, required this.title, required this.subtitle, required this.imgUrl, required this.overlayText, required this.detailsPage}) : super(key: key);
+  const WideItem(
+      {Key? key,
+      required this.description,
+      required this.title,
+      required this.subtitle,
+      required this.imgUrl,
+      required this.overlayText,
+      required this.detailsPageRoute,
+      this.detailsPageArgs})
+      : super(key: key);
 
   final String description;
   final String title;
   final String subtitle;
   final String imgUrl;
   final String overlayText;
-  final Widget detailsPage;
+  final String detailsPageRoute;
+  final dynamic detailsPageArgs;
 
   @override
   Widget build(BuildContext context) {
@@ -44,11 +55,10 @@ class WideItem extends StatelessWidget {
               borderRadius: BorderRadius.all(Radius.circular(12)),
             ),
             child: InkWell(
-              onTap: () => Navigator.push(
+              onTap: () => Navigator.pushNamed(
                 context,
-                MaterialPageRoute(
-                  builder: (context) => detailsPage,
-                ),
+                detailsPageRoute,
+                arguments: detailsPageArgs
               ),
               child: Stack(
                 children: [

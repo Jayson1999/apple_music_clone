@@ -3,13 +3,22 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class SquareItem extends StatelessWidget {
-  const SquareItem({Key? key, required this.title, required this.subtitle, required this.imgUrl, required this.overlayText, required this.detailsPage}) : super(key: key);
+  const SquareItem(
+      {Key? key,
+      required this.title,
+      required this.subtitle,
+      required this.imgUrl,
+      required this.overlayText,
+      required this.detailsPageRoute,
+      required this.detailsPageArgs})
+      : super(key: key);
 
   final String title;
   final String subtitle;
   final String imgUrl ;
   final String overlayText;
-  final Widget detailsPage;
+  final String detailsPageRoute;
+  final dynamic detailsPageArgs;
 
   @override
   Widget build(BuildContext context) {
@@ -28,9 +37,10 @@ class SquareItem extends StatelessWidget {
               borderRadius: BorderRadius.all(Radius.circular(12)),
             ),
             child: InkWell(
-              onTap: () => Navigator.push(
+              onTap: () => Navigator.pushNamed(
                 context,
-                MaterialPageRoute(builder: (context) => detailsPage),
+                detailsPageRoute,
+                arguments: detailsPageArgs
               ),
               child: Stack(
                 children: [

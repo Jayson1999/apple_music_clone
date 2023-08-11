@@ -4,11 +4,18 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class NarrowTintedItem extends StatelessWidget {
-  const NarrowTintedItem({Key? key, required this.title, required this.imgUrl, required this.detailsPage}) : super(key: key);
+  const NarrowTintedItem(
+      {Key? key,
+      required this.title,
+      required this.imgUrl,
+      required this.detailsPageRoute,
+      this.detailsPageArgs})
+      : super(key: key);
 
   final String title;
   final String imgUrl;
-  final Widget detailsPage;
+  final String detailsPageRoute;
+  final dynamic detailsPageArgs;
 
   @override
   Widget build(BuildContext context) {
@@ -27,11 +34,10 @@ class NarrowTintedItem extends StatelessWidget {
               borderRadius: BorderRadius.all(Radius.circular(12)),
             ),
             child: InkWell(
-              onTap: () => Navigator.push(
+              onTap: () => Navigator.pushNamed(
                 context,
-                MaterialPageRoute(
-                    builder: (context) => detailsPage
-                ),
+                detailsPageRoute,
+                arguments: detailsPageArgs
               ),
               child: Container(
                 decoration: BoxDecoration(

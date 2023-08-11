@@ -1,10 +1,9 @@
 import 'package:apple_music_clone/model/category.dart';
 import 'package:apple_music_clone/model/playlist.dart';
-import 'package:apple_music_clone/ui/home_page/details_pages/category_details/bloc/category_bloc.dart';
-import 'package:apple_music_clone/ui/home_page/details_pages/category_details/category_details_page.dart';
+import 'package:apple_music_clone/ui/home_page/details_pages/details_pages_args.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/narrow_tinted_item.dart';
+import 'package:apple_music_clone/utils/app_routes.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 
 class NarrowCarousel extends StatelessWidget {
@@ -34,10 +33,8 @@ class NarrowCarousel extends StatelessWidget {
                 return NarrowTintedItem(
                   title: dataList[pageIndex].name,
                   imgUrl: dataList[pageIndex].categoryIconsInfo.first.url,
-                  detailsPage: BlocProvider<CategoryBloc>(
-                      create: (context) => CategoryBloc(),
-                      child: CategoryDetailsPage(title: dataList[pageIndex].name, dataList: detailsDataList[pageIndex])
-                  )
+                  detailsPageRoute: AppRoutes.categoryDetailsPage,
+                  detailsPageArgs: CategoryDetailsArguments(dataList[pageIndex].name, detailsDataList[pageIndex]),
                 );
               }),
         )

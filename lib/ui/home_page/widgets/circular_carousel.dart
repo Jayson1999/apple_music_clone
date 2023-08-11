@@ -1,10 +1,9 @@
-import 'package:apple_music_clone/ui/home_page/details_pages/artist_details/artist_details_page.dart';
-import 'package:apple_music_clone/ui/home_page/details_pages/artist_details/bloc/artist_bloc.dart';
-import 'package:apple_music_clone/ui/home_page/details_pages/expanded_artists_page.dart';
+import 'package:apple_music_clone/ui/home_page/details_pages/details_pages_args.dart';
+import 'package:apple_music_clone/ui/home_page/details_pages/expanded_pages_args.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/circular_item.dart';
+import 'package:apple_music_clone/utils/app_routes.dart';
 import 'package:apple_music_clone/utils/config.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 
 class CircularCarousel extends StatelessWidget {
@@ -19,12 +18,11 @@ class CircularCarousel extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TextButton(
-          onPressed: () => Navigator.push(
+          onPressed: () => Navigator.pushNamed(
             context,
-            MaterialPageRoute(
-              builder: (context) => ArtistsExpandedPage(dataList: dataList, title: headerButtonTitle),
-            ),
-          ),
+            AppRoutes.artistsExpandedPage,
+            arguments: ArtistsExpandedArguments(headerButtonTitle, dataList)
+        ),
           child: Row(
             children: [
               Text(headerButtonTitle, style: const TextStyle(fontWeight: FontWeight.bold),),
@@ -40,16 +38,11 @@ class CircularCarousel extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               itemCount: dataList.length,
               itemBuilder: (context, pageIndex) {
-                var detailsPage = BlocProvider<ArtistBloc>(
-                    create: (context) => ArtistBloc(),
-                    child: ArtistDetailsPage(artist: dataList[pageIndex])
-                );
                 return InkWell(
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => detailsPage,
-                    ),
+                  onTap: () => Navigator.pushNamed(
+                      context,
+                      AppRoutes.artistDetailsPage,
+                      arguments: ArtistDetailsArguments(dataList[pageIndex])
                   ),
                   child: CircularItem(
                       title: dataList[pageIndex].name,

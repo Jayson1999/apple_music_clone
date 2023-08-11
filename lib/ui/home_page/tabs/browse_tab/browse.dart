@@ -3,9 +3,7 @@ import 'package:apple_music_clone/model/artist.dart';
 import 'package:apple_music_clone/model/category.dart';
 import 'package:apple_music_clone/model/playlist.dart';
 import 'package:apple_music_clone/model/track.dart';
-import 'package:apple_music_clone/ui/home_page/details_pages/category_details/bloc/category_bloc.dart';
-import 'package:apple_music_clone/ui/home_page/details_pages/category_details/category_details_page.dart';
-import 'package:apple_music_clone/ui/home_page/details_pages/expanded_categories_page.dart';
+import 'package:apple_music_clone/ui/home_page/details_pages/details_pages_args.dart';
 import 'package:apple_music_clone/ui/home_page/tabs/browse_tab/bloc/browse_bloc.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/circular_carousel.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/list_carousel.dart';
@@ -14,6 +12,7 @@ import 'package:apple_music_clone/ui/home_page/widgets/narrow_carousel.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/square_carousel.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/text_list_item.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/wide_carousel.dart';
+import 'package:apple_music_clone/utils/app_routes.dart';
 import 'package:apple_music_clone/utils/config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -213,22 +212,17 @@ class _BrowseTabState extends State<BrowseTab> with AutomaticKeepAliveClientMixi
         shrinkWrap: true,
         physics: const ClampingScrollPhysics(),
         children: [
-            TextListItem(
-                title: 'Browse by Category',
-                detailsPage: CategoriesExpandedPage(
-                    categoriesPlaylists: categoriesPlaylists,
-                    categories: categories)
+            const TextListItem(
+              title: 'Browse by Category',
+              detailsPageRoute: AppRoutes.categoriesExpandedPage,
+              detailsPageArgs: null,
             ),
             ...[
               for (int i = 0; i < topCategories.length; i++)
                 TextListItem(
-                    title: topCategories[i].name,
-                    detailsPage: BlocProvider<CategoryBloc>(
-                        create: (context) => CategoryBloc(),
-                        child: CategoryDetailsPage(
-                            title: topCategories[i].name,
-                            dataList: categoriesPlaylists[i])
-                    )
+                  title: topCategories[i].name,
+                  detailsPageRoute: AppRoutes.categoryDetailsPage,
+                  detailsPageArgs: CategoryDetailsArguments(topCategories[i].name, categoriesPlaylists[i]),
                 )
             ]
           ],
