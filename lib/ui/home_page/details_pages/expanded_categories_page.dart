@@ -1,11 +1,10 @@
 import 'package:apple_music_clone/model/category.dart';
 import 'package:apple_music_clone/model/playlist.dart';
-import 'package:apple_music_clone/ui/home_page/details_pages/category_details/bloc/category_bloc.dart';
-import 'package:apple_music_clone/ui/home_page/details_pages/category_details/category_details_page.dart';
+import 'package:apple_music_clone/ui/home_page/details_pages/details_pages_args.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/text_list_item.dart';
+import 'package:apple_music_clone/utils/app_routes.dart';
 import 'package:apple_music_clone/utils/config.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 
 class CategoriesExpandedPage extends StatelessWidget {
@@ -42,12 +41,12 @@ class CategoriesExpandedPage extends StatelessWidget {
       itemCount: categoriesPlaylists.length,
       itemBuilder: (context, index) {
         String title = categories[index].name;
-        var detailsPage = BlocProvider<CategoryBloc>(
-            create: (context) => CategoryBloc(),
-            child: CategoryDetailsPage(title: title, dataList: categoriesPlaylists[index])
-        );
 
-        return TextListItem(title: title, detailsPage: detailsPage);
+        return TextListItem(
+          title: title,
+          detailsPageRoute: AppRoutes.categoryDetailsPage,
+          detailsPageArgs: CategoryDetailsArguments(title, categoriesPlaylists[index]),
+        );
       },
     );
   }

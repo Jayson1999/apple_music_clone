@@ -4,13 +4,22 @@ import 'package:flutter/material.dart';
 
 
 class StandardItem extends StatelessWidget {
-  const StandardItem({Key? key, required this.title, required this.subtitle, required this.imgUrl, required this.id, required this.nextPage}) : super(key: key);
+  const StandardItem(
+      {Key? key,
+      required this.title,
+      required this.subtitle,
+      required this.imgUrl,
+      required this.id,
+      required this.nextPageRoute,
+      required this.nextPageArgs})
+      : super(key: key);
 
   final String title ;
   final String subtitle;
   final String imgUrl;
   final String id ;
-  final Widget nextPage;
+  final String nextPageRoute;
+  final dynamic nextPageArgs;
 
   @override
   Widget build(BuildContext context) {
@@ -28,9 +37,10 @@ class StandardItem extends StatelessWidget {
               borderRadius: BorderRadius.all(Radius.circular(12)),
             ),
             child: InkWell(
-              onTap: ()=> Navigator.push(
+              onTap: ()=> Navigator.pushNamed(
                 context,
-                MaterialPageRoute(builder: (context) => nextPage),
+                nextPageRoute,
+                arguments: nextPageArgs
               ),
               child: CachedNetworkImage(
                 height: MediaQuery.of(context).size.height * 0.2,

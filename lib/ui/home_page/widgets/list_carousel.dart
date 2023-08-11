@@ -1,6 +1,7 @@
 import 'package:apple_music_clone/model/artist.dart';
-import 'package:apple_music_clone/ui/home_page/details_pages/expanded_tracks_page.dart';
+import 'package:apple_music_clone/ui/home_page/details_pages/expanded_pages_args.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/list_item.dart';
+import 'package:apple_music_clone/utils/app_routes.dart';
 import 'package:flutter/material.dart';
 
 
@@ -22,10 +23,10 @@ class ListCarousel extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TextButton(
-          onPressed: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => TracksExpandedPage(title: 'Tracks', dataList: dataList)),
+          onPressed: () => Navigator.pushNamed(
+              context,
+              AppRoutes.tracksExpandedPage,
+              arguments: TracksExpandedArguments('Tracks', dataList)
           ),
           child: Row(
             children: [
