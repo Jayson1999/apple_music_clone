@@ -5,11 +5,11 @@ import 'package:apple_music_clone/ui/home_page/details_pages/artist_details/bloc
 import 'package:apple_music_clone/ui/home_page/details_pages/category_details/bloc/category_bloc.dart';
 import 'package:apple_music_clone/ui/home_page/details_pages/category_details/category_details_page.dart';
 import 'package:apple_music_clone/ui/home_page/details_pages/details_pages_args.dart';
-import 'package:apple_music_clone/ui/home_page/details_pages/expanded_album_playlist_page.dart';
-import 'package:apple_music_clone/ui/home_page/details_pages/expanded_artists_page.dart';
-import 'package:apple_music_clone/ui/home_page/details_pages/expanded_categories_page.dart';
-import 'package:apple_music_clone/ui/home_page/details_pages/expanded_pages_args.dart';
-import 'package:apple_music_clone/ui/home_page/details_pages/expanded_tracks_page.dart';
+import 'package:apple_music_clone/ui/home_page/expanded_pages/expanded_album_playlist_page.dart';
+import 'package:apple_music_clone/ui/home_page/expanded_pages/expanded_artists_page.dart';
+import 'package:apple_music_clone/ui/home_page/expanded_pages/expanded_categories_page.dart';
+import 'package:apple_music_clone/ui/home_page/expanded_pages/expanded_pages_args.dart';
+import 'package:apple_music_clone/ui/home_page/expanded_pages/expanded_tracks_page.dart';
 import 'package:apple_music_clone/ui/home_page/details_pages/playlist_details/bloc/playlist_bloc.dart';
 import 'package:apple_music_clone/ui/home_page/details_pages/playlist_details/playlist_details_page.dart';
 import 'package:apple_music_clone/utils/app_routes.dart';
