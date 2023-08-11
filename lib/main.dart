@@ -1,6 +1,7 @@
 import 'package:apple_music_clone/ui/first_page/first_page.dart';
 import 'package:apple_music_clone/ui/home_page/home.dart';
 import 'package:apple_music_clone/ui/settings_page/settings_page.dart';
+import 'package:apple_music_clone/utils/app_routes.dart';
 import 'package:apple_music_clone/utils/config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -30,15 +31,15 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Apple Music Clone',
+      title: AppConfig.appTitle,
       theme: AppConfig.getAppLightTheme(),
       darkTheme: AppConfig.getAppDarkTheme(),
       themeMode: ThemeMode.system,
-      initialRoute: widget.agreedTerms? '/home': '/first',
+      initialRoute: widget.agreedTerms? AppRoutes.homePage: AppRoutes.firstPage,
       routes: {
-        '/first': (context) => const FirstPage(),
-        '/home': (context) => const HomePage(),
-        '/settings': (context) => const SettingsPage()
+        AppRoutes.firstPage: (context) => const FirstPage(),
+        AppRoutes.homePage: (context) => const HomePage(),
+        AppRoutes.settingsPage: (context) => const SettingsPage()
       },
     );
   }
