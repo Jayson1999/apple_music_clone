@@ -129,7 +129,8 @@ class _AlbumDetailsState extends State<AlbumDetails> {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12)
                             ),
-                            backgroundColor: Colors.white
+                            foregroundColor: Theme.of(context).brightness == Brightness.light? Colors.black: Colors.white,
+                            backgroundColor: Theme.of(context).brightness == Brightness.light? Colors.white: Colors.black
                         ),
                       ),
                       ElevatedButton.icon(
@@ -140,7 +141,8 @@ class _AlbumDetailsState extends State<AlbumDetails> {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12)
                             ),
-                            backgroundColor: Colors.white
+                            foregroundColor: Theme.of(context).brightness == Brightness.light? Colors.black: Colors.white,
+                            backgroundColor: Theme.of(context).brightness == Brightness.light? Colors.white: Colors.black
                         ),
                       ),
                     ],
