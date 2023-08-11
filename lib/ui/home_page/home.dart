@@ -1,3 +1,4 @@
+import 'package:apple_music_clone/ui/home_page/tab_navigator.dart';
 import 'package:apple_music_clone/ui/home_page/tabs/browse_tab/bloc/browse_bloc.dart';
 import 'package:apple_music_clone/ui/home_page/tabs/browse_tab/browse.dart';
 import 'package:apple_music_clone/ui/home_page/tabs/library_tab/bloc/library_bloc.dart';
@@ -9,6 +10,7 @@ import 'package:apple_music_clone/ui/home_page/tabs/radio_tab/radio.dart';
 import 'package:apple_music_clone/ui/home_page/tabs/search_tab/bloc/search_bloc.dart';
 import 'package:apple_music_clone/ui/home_page/tabs/search_tab/search.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -21,6 +23,10 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  int _selectedTab = 0;
+  late PageController _pageController;
+  late Future _getSharedPreferences;
+  late List<GlobalKey<NavigatorState>> _navigatorKeys;
   final Map<String, Map<String, Widget>> _tabItems = {
     'Listen Now': {
       'icon': const Icon(Icons.play_circle),
@@ -43,23 +49,35 @@ class _HomePageState extends State<HomePage> {
       'tab': const SearchTab()
     },
   };
-  int _selectedIndex = 0;
-  late PageController _pageController;
-  late Future _getSharedPreferences;
-
-  void _onPageSelected(index) async{
-    setState(() {
-      _selectedIndex = index;
-      _pageController.jumpToPage(index);
-    });
-    SharedPreferences sPref = await SharedPreferences.getInstance();
-    sPref.setInt('lastVisitedPage', index);
-  }
 
   @override
   void initState() {
     super.initState();
     _getSharedPreferences = SharedPreferences.getInstance();
+
+    _tabItems.forEach((key, value) {
+      GlobalKey<NavigatorState> tabNavigatorKey = GlobalKey<NavigatorState>();
+      _navigatorKeys.add(tabNavigatorKey);
+      value['tab'] = TabNavigator(currentTab: value['tab']!, navigatorKey: tabNavigatorKey);
+    });
+  }
+
+  void _onPageSelected(tabIndex) async{
+    setState(() {
+      _selectedTab = tabIndex;
+      _pageController.jumpToPage(tabIndex);
+    });
+    SharedPreferences sPref = await SharedPreferences.getInstance();
+    sPref.setInt('lastVisitedPage', tabIndex);
+  }
+
+  Future<bool> _systemBackButtonPressed() async {
+    if (_navigatorKeys[_selectedTab].currentState!.canPop()) {
+      _navigatorKeys[_selectedTab].currentState!.pop(_navigatorKeys[_selectedTab].currentContext);
+    } else {
+      SystemChannels.platform.invokeMethod<void>('SystemNavigator.pop');
+    }
+    return true;
   }
 
   @override
@@ -71,8 +89,8 @@ class _HomePageState extends State<HomePage> {
           return const Center(child: CircularProgressIndicator());
         }
 
-        _selectedIndex = snapshot.data.getInt('lastVisitedPage') ?? 0;
-        _pageController = PageController(initialPage: _selectedIndex);
+        _selectedTab = snapshot.data.getInt('lastVisitedPage') ?? 0;
+        _pageController = PageController(initialPage: _selectedTab);
         return MultiBlocProvider(
           providers: [
             BlocProvider<ListenNowBloc>(create: (context) => ListenNowBloc()),
@@ -81,23 +99,27 @@ class _HomePageState extends State<HomePage> {
             BlocProvider<LibraryBloc>(create: (context) => LibraryBloc()),
             BlocProvider<SearchBloc>(create: (context) => SearchBloc()),
           ],
-          child: Scaffold(
-            body: PageView(
-              controller: _pageController,
-              physics: const NeverScrollableScrollPhysics(),
-              children: _tabItems.values.map((v) => v['tab']!).toList(),
-            ),
-            bottomNavigationBar: BottomNavigationBar(
-              items: _tabItems.entries
-                  .map((e) =>
-                      BottomNavigationBarItem(icon: e.value['icon']!, label: e.key))
-                  .toList(),
-              currentIndex: _selectedIndex,
-              onTap: _onPageSelected,
+          child: WillPopScope(
+            onWillPop: _systemBackButtonPressed,
+            child: Scaffold(
+              body: PageView(
+                controller: _pageController,
+                physics: const NeverScrollableScrollPhysics(),
+                children: _tabItems.values.map((v) => v['tab']!).toList(),
+              ),
+              bottomNavigationBar: BottomNavigationBar(
+                items: _tabItems.entries
+                    .map((e) =>
+                        BottomNavigationBarItem(icon: e.value['icon']!, label: e.key))
+                    .toList(),
+                currentIndex: _selectedTab,
+                onTap: _onPageSelected,
+              ),
             ),
           ),
         );
       }
     );
   }
+
 }
