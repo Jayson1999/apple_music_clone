@@ -32,8 +32,7 @@ class _ArtistDetailsPageState extends State<ArtistDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: BlocBuilder<ArtistBloc, ArtistState>(
+    return BlocBuilder<ArtistBloc, ArtistState>(
           builder: (context, state) {
             if (state.artistStatus.isLoading || state.artistStatus.isInitial) {
               return const Center(
@@ -104,8 +103,7 @@ class _ArtistDetailsPageState extends State<ArtistDetailsPage> {
               return Text('$state');
             }
           }
-      ),
-    );
+      );
   }
 
   Widget _latestAlbumsSection(List<Album> albums) {

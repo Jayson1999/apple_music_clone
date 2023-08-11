@@ -34,10 +34,7 @@ class _SearchTabState extends State<SearchTab> with AutomaticKeepAliveClientMixi
   @override
   Widget build(BuildContext pageContext) {
     super.build(pageContext);
-    return MaterialApp(
-      theme: AppConfig.getAppLightTheme(),
-      home: Scaffold(
-        body: BlocBuilder<SearchBloc, SearchState>(
+    return BlocBuilder<SearchBloc, SearchState>(
           builder: (context, state) {
             if (state.pageLoadStatus.isLoading || state.pageLoadStatus.isInitial) {
               return const Center(
@@ -106,9 +103,7 @@ class _SearchTabState extends State<SearchTab> with AutomaticKeepAliveClientMixi
 
             return Text('$state');
           },
-        ),
-      ),
-    );
+        );
   }
 
   Widget _featuredCategoriesSection(List<Category> categories, List<List<Playlist>> categoriesPlaylists){

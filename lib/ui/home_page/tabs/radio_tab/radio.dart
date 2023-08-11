@@ -45,10 +45,7 @@ class _RadioTabState extends State<RadioTab> with AutomaticKeepAliveClientMixin{
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return MaterialApp(
-      theme: AppConfig.getAppLightTheme(),
-      home: Scaffold(
-        body: BlocBuilder<RadioBloc, RadioState>(
+    return BlocBuilder<RadioBloc, RadioState>(
           builder: (context, state) {
             if (state.status.isLoading || state.status.isInitial) {
               return const Center(
@@ -111,9 +108,7 @@ class _RadioTabState extends State<RadioTab> with AutomaticKeepAliveClientMixin{
 
             return Text('$state');
           },
-        ),
-      ),
-    );
+        );
   }
 
   Widget _globalFeaturedRadioSection(List<Playlist> featuredPlaylists) {
