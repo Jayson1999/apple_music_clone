@@ -96,6 +96,17 @@ class _SearchTabState extends State<SearchTab> with AutomaticKeepAliveClientMixi
             }
 
             else if (state.pageLoadStatus.isError) {
+              if (state.errorMsg.contains('Failed host lookup')){
+                return Column(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text("You're Offline\n", style: TextStyle(fontWeight: FontWeight.bold),),
+                    Text("Turn off Aeroplane Mode or connect to Wi-Fi", style: TextStyle(color: Theme.of(context).colorScheme.secondary),),
+                  ],
+                );
+              }
+
               return Center(
                 child: Text('Failed to fetch data: ${state.errorMsg}'),
               );
