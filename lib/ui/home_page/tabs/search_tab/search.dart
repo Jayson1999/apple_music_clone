@@ -186,7 +186,9 @@ class _SearchTabState extends State<SearchTab> with AutomaticKeepAliveClientMixi
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8)
           ),
-            backgroundColor: Colors.white70,
+          backgroundColor: Theme.of(context).brightness == Brightness.light
+              ? Colors.white70
+              : Colors.black12,
         ),
         onPressed: (){
           final  SearchBloc searchBloc = context.read<SearchBloc>();
@@ -195,9 +197,9 @@ class _SearchTabState extends State<SearchTab> with AutomaticKeepAliveClientMixi
               delegate: SearchBarDelegate(searchBloc, searchHint, histories)
           );
         },
-        child: const Text(
+        child: Text(
           searchHint,
-          style: TextStyle(color: Colors.grey),
+          style: TextStyle(color: Theme.of(context).colorScheme.secondary),
         )
     );
   }
@@ -250,7 +252,7 @@ class _SearchTabState extends State<SearchTab> with AutomaticKeepAliveClientMixi
                           child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                   padding: const EdgeInsets.only(bottom: 8, top: 8),
-                                  backgroundColor: Colors.red,
+                                  foregroundColor: Colors.white,
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(8)
                                   )
@@ -271,7 +273,7 @@ class _SearchTabState extends State<SearchTab> with AutomaticKeepAliveClientMixi
             onTap: () {
               _toggleShowCard();
             },
-            child: const Icon(Icons.close, color: Colors.grey,),
+            child: Icon(Icons.close, color: Theme.of(context).colorScheme.secondary,),
           ),
         ),
       ],

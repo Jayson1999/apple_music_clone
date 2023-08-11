@@ -95,9 +95,9 @@ class _LibraryTabState extends State<LibraryTab> with AutomaticKeepAliveClientMi
 
   Widget _libraryAppBar() {
     return Container(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
           border: Border(
-            bottom: BorderSide(color: Colors.grey, width: 1.0),
+            bottom: BorderSide(color: Theme.of(context).colorScheme.secondary, width: 1.0),
           )
       ),
       child: const FlexibleSpaceBar(
@@ -144,12 +144,12 @@ class _LibraryTabState extends State<LibraryTab> with AutomaticKeepAliveClientMi
   }
 
   Widget _subscribeButton() {
-    return Container(
+    return SizedBox(
       width: double.infinity,
       child: ElevatedButton(
           style: ElevatedButton.styleFrom(
               padding: const EdgeInsets.only(bottom: 8, top: 8),
-              backgroundColor: Colors.red,
+              foregroundColor: Colors.white,
               shadowColor: Colors.transparent,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8)

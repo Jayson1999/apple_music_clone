@@ -18,9 +18,9 @@ class TextListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         width: double.infinity,
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
             border: Border(
-              top: BorderSide(color: Colors.grey, width: 0.5),
+              top: BorderSide(color: Theme.of(context).colorScheme.secondary, width: 0.5),
             )),
         child: TextButton(
             style: TextButton.styleFrom(
@@ -31,7 +31,7 @@ class TextListItem extends StatelessWidget {
               detailsPageRoute,
               arguments: detailsPageArgs
             ),
-            child: Text(title, style: const TextStyle(color: Colors.red, fontSize: AppConfig.mediumText))
+            child: Text(title, style: TextStyle(color: Theme.of(context).colorScheme.primary, fontSize: AppConfig.mediumText))
         )
     );
   }

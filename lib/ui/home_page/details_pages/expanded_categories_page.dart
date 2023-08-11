@@ -17,12 +17,10 @@ class CategoriesExpandedPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Browse by Category', style: TextStyle(fontSize: AppConfig.mediumText),),
-
-        foregroundColor: Theme.of(context).colorScheme.primary,
         elevation: 0,
-        shape: const Border(
+        shape: Border(
             bottom: BorderSide(
-                color: Colors.grey,
+                color: Theme.of(context).colorScheme.secondary,
                 width: 0.5
             )
         ),

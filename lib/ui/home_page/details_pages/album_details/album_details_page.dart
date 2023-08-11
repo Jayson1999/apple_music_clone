@@ -167,10 +167,10 @@ class _AlbumDetailsState extends State<AlbumDetails> {
         itemBuilder: (context, index){
           final currentItem = albumDetails?.tracks[index];
           if (currentItem == null){
-            return const ListTile(
-              leading: Icon(Icons.error, color: Colors.red,),
-              title: Text('ERROR'),
-              subtitle: Text('currentItem is null'),
+            return ListTile(
+              leading: Icon(Icons.error, color: Theme.of(context).colorScheme.primary,),
+              title: const Text('ERROR'),
+              subtitle: const Text('currentItem is null'),
             );
           }
           return ListItem(

@@ -150,9 +150,9 @@ class _CategoryDetailsPageState extends State<CategoryDetailsPage> {
 
   Widget _disappearingAppBar(String title){
     return Container(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
           border: Border(
-            bottom: BorderSide(color: Colors.grey, width: 1.0),
+            bottom: BorderSide(color: Theme.of(context).colorScheme.secondary, width: 1.0),
           )
       ),
       child: FlexibleSpaceBar(
@@ -169,7 +169,7 @@ class _CategoryDetailsPageState extends State<CategoryDetailsPage> {
       padding: const EdgeInsets.all(10.0),
       child: Container(
         padding: const EdgeInsets.only(bottom: 10.0),
-        decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey, width: 1.0))),
+        decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Theme.of(context).colorScheme.secondary, width: 1.0))),
         child: Text(title, style: const TextStyle(fontSize: AppConfig.bigText, fontWeight: FontWeight.bold)),
       ),
     );

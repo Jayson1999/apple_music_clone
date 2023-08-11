@@ -157,9 +157,9 @@ class _RadioTabState extends State<RadioTab> with AutomaticKeepAliveClientMixin{
 
   Widget _disappearingAppBar(){
     return Container(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
           border: Border(
-            bottom: BorderSide(color: Colors.grey, width: 1.0),
+            bottom: BorderSide(color: Theme.of(context).colorScheme.secondary, width: 1.0),
           )
       ),
       child: const FlexibleSpaceBar(
@@ -183,6 +183,7 @@ class _RadioTabState extends State<RadioTab> with AutomaticKeepAliveClientMixin{
         child: ElevatedButton(
             style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.only(bottom: 8, top: 8),
+                foregroundColor: Colors.white,
                 backgroundColor: Colors.transparent,
                 shadowColor: Colors.transparent),
             onPressed: () => print('hello'),
@@ -205,7 +206,7 @@ class _RadioTabState extends State<RadioTab> with AutomaticKeepAliveClientMixin{
       padding: const EdgeInsets.all(10.0),
       child: Container(
         padding: const EdgeInsets.only(bottom: 10.0),
-        decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey, width: 1.0))),
+        decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Theme.of(context).colorScheme.secondary, width: 1.0))),
         child: const Text('Radio', style: TextStyle(fontSize: AppConfig.bigText, fontWeight: FontWeight.bold)),
       ),
     );
