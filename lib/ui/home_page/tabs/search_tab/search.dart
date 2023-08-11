@@ -32,8 +32,8 @@ class _SearchTabState extends State<SearchTab> with AutomaticKeepAliveClientMixi
   bool showCard = true;
 
   @override
-  Widget build(BuildContext pageContext) {
-    super.build(pageContext);
+  Widget build(BuildContext context) {
+    super.build(context);
     return BlocBuilder<SearchBloc, SearchState>(
           builder: (context, state) {
             if (state.pageLoadStatus.isLoading || state.pageLoadStatus.isInitial) {
@@ -61,7 +61,7 @@ class _SearchTabState extends State<SearchTab> with AutomaticKeepAliveClientMixi
 
                       title: SizedBox(
                           width:double.infinity,
-                          child: _searchAppBar(pageContext, state.searchHistories)
+                          child: _searchAppBar(context, state.searchHistories)
                       ),
                     ),
                     actions: [
