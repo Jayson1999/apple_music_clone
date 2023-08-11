@@ -102,26 +102,23 @@ class SettingsPageState extends State<SettingsPage> {
             ),
             body: ListView(
               children: [
-                ListTile(
-                    title: Text(
-                      'Display Options',
-                      style: TextStyle(
-                          fontSize: AppConfig.mediumText,
-                          fontWeight: FontWeight.bold,
-                          color: Theme.of(context).colorScheme.primary),
-                    )
-                ),
-                ListTile(
-                  title: const Text('Theme Settings', style: TextStyle(fontSize: AppConfig.mediumText),),
-                  subtitle: Text(
-                    '${state.themeMode.name[0].toUpperCase()}${state.themeMode.name.substring(1)}',
-                    style: TextStyle(fontSize: AppConfig.smallText, color: Theme.of(context).colorScheme.secondary),
-                  ),
-                  onTap: ()=> _showThemeOptionsDialog(state.themeMode),
-                ),
-                // Add other settings items here
+                TextButton(
+                    onPressed: () => print('hello'),
+                    child: const Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          'Sign In',
+                          style: TextStyle(fontSize: AppConfig.mediumText),
+                        ))),
+                ..._displaySettingsContent(state.themeMode),
+                ..._diagnosticSettingsContent(),
+                ..._aboutContent(),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text('Copyright 2023 Apple Clone Inc. All rights reserved', style: TextStyle(fontSize: AppConfig.smallText, color: Theme.of(context).colorScheme.secondary),),
+                )
               ],
-            ),
+            )
           );
         }
 
@@ -134,5 +131,131 @@ class SettingsPageState extends State<SettingsPage> {
         return Text('$state');
       }
     );
+  }
+
+  List<Widget> _displaySettingsContent(ThemeMode themeMode) {
+    return [
+      ListTile(
+        title: Text(
+          'Display Options',
+          style: TextStyle(
+              fontSize: AppConfig.mediumText,
+              fontWeight: FontWeight.bold,
+              color: Theme.of(context).colorScheme.primary),
+        ),
+        shape: Border(
+            top: BorderSide(color: Theme.of(context).colorScheme.secondary, width: 0.5)
+        ),
+      ),
+      ListTile(
+        title: const Text(
+          'Theme', style: TextStyle(fontSize: AppConfig.mediumText),),
+        subtitle: Text(
+          '${themeMode.name[0].toUpperCase()}${themeMode.name.substring(1)}',
+          style: TextStyle(fontSize: AppConfig.smallText, color: Theme.of(context).colorScheme.secondary),
+        ),
+        onTap: () => _showThemeOptionsDialog(themeMode),
+      ),
+      ListTile(
+        title: const Text(
+          'Motion', style: TextStyle(fontSize: AppConfig.mediumText),),
+        subtitle: Text(
+          'Manage how animations are displayed',
+          style: TextStyle(fontSize: AppConfig.smallText, color: Theme.of(context).colorScheme.secondary),
+        ),
+        onTap: () => print('hello'),
+        shape: Border(
+            bottom: BorderSide(color: Theme.of(context).colorScheme.secondary, width: 0.5)
+        ),
+      ),
+    ];
+  }
+
+  List<Widget> _diagnosticSettingsContent() {
+    bool toggleSwitch = true;
+    return [
+      ListTile(
+        title: Text(
+          'Diagnostics',
+          style: TextStyle(
+              fontSize: AppConfig.mediumText,
+              fontWeight: FontWeight.bold,
+              color: Theme.of(context).colorScheme.primary),
+        ),
+        shape: Border(
+            top: BorderSide(color: Theme.of(context).colorScheme.secondary, width: 0.5)
+        ),
+      ),
+      ListTile(
+        title: const Text(
+          'Automatically Send', style: TextStyle(fontSize: AppConfig.mediumText),),
+        trailing: Switch(
+          value: toggleSwitch,
+          onChanged: (value) {
+            setState(() {
+              toggleSwitch = value;
+            });
+          },
+          activeColor: Theme.of(context).colorScheme.primary,
+        ),
+      ),
+      ListTile(
+        title: const Text(
+          'About Diagnostics & Privacy', style: TextStyle(fontSize: AppConfig.mediumText),),
+        onTap: () => print('hello'),
+        shape: Border(
+            bottom: BorderSide(color: Theme.of(context).colorScheme.secondary, width: 0.5)
+        ),
+      ),
+    ];
+  }
+
+  List<Widget> _aboutContent() {
+    return [
+      ListTile(
+        title: Text(
+          'About',
+          style: TextStyle(
+              fontSize: AppConfig.mediumText,
+              fontWeight: FontWeight.bold,
+              color: Theme.of(context).colorScheme.primary),
+        ),
+        shape: Border(
+            top: BorderSide(color: Theme.of(context).colorScheme.secondary, width: 0.5)
+        ),
+        onTap: () => print('hello'),
+      ),
+      ListTile(
+        title: const Text('About Apple Music Clone & Privacy', style: TextStyle(fontSize: AppConfig.mediumText),),
+        onTap: () => print('hello'),
+      ),
+       ListTile(
+          title: const Text('Apple Music Clone Terms & Conditions', style: TextStyle(fontSize: AppConfig.mediumText),),
+        onTap: () => print('hello'),
+      ),
+      ListTile(
+          title: const Text('Acknowledgements', style: TextStyle(fontSize: AppConfig.mediumText),),
+        onTap: () => print('hello'),
+      ),
+      ListTile(
+          title: const Text('Provide Feedback', style: TextStyle(fontSize: AppConfig.mediumText),),
+        onTap: () => print('hello'),
+      ),
+      ListTile(
+          title: const Text('Get Support', style: TextStyle(fontSize: AppConfig.mediumText),),
+          onTap: () => print('hello'),
+      ),
+      ListTile(
+          title: const Text('Version', style: TextStyle(fontSize: AppConfig.mediumText),),
+          subtitle: Text(
+            '1.0.0 (1208)',
+            style: TextStyle(fontSize: AppConfig.smallText, color: Theme.of(context).colorScheme.secondary),
+          ),
+          onTap: () => print('hello'),
+          shape: Border(
+              bottom: BorderSide(color: Theme.of(context).colorScheme.secondary, width: 0.5)
+          ),
+      ),
+    ];
   }
 }
