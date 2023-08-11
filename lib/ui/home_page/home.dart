@@ -56,7 +56,7 @@ class _HomePageState extends State<HomePage> {
     _getSharedPreferences = SharedPreferences.getInstance();
 
     _tabItems.forEach((key, value) {
-      GlobalKey<NavigatorState> tabNavigatorKey = GlobalKey<NavigatorState>();
+      GlobalKey<NavigatorState> tabNavigatorKey = GlobalKey<NavigatorState>(debugLabel: key);
       _navigatorKeys.add(tabNavigatorKey);
       value['tab'] = TabNavigator(currentTab: value['tab']!, navigatorKey: tabNavigatorKey);
     });
@@ -72,12 +72,19 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<bool> _systemBackButtonPressed() async {
+    if (_navigatorKeys[_selectedTab].currentState == null){
+      return true;
+    }
+
     if (_navigatorKeys[_selectedTab].currentState!.canPop()) {
+      if (_selectedTab == 4){
+        return false;
+      }
       _navigatorKeys[_selectedTab].currentState!.pop(_navigatorKeys[_selectedTab].currentContext);
     } else {
       SystemChannels.platform.invokeMethod<void>('SystemNavigator.pop');
     }
-    return true;
+    return false;
   }
 
   @override
