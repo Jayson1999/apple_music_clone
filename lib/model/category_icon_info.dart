@@ -13,4 +13,12 @@ class CategoryIconInfo {
     );
   }
 
+  Map<String, dynamic> toJson() {
+    return {
+      'url': url,
+      'height': height,
+      'width': width,
+    };
+  }
+
 }

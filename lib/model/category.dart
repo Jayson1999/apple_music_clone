@@ -16,4 +16,12 @@ class Category {
     );
   }
 
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'icons': categoryIconsInfo.map((iconInfo) => iconInfo.toJson()).toList(),
+    };
+  }
+
 }
