@@ -6,6 +6,7 @@ class AppConfig{
   static const String clientId = '941e3aa6d6e6469a911d295923431c73';
   // Usually secrets are stored in Secret Manager/Key Vault, not in repo
   static const String clientSecret = 'c2eb8de6ad4849fca4875797a26f75c4';
+  static const String appTitle = 'Apple Music Clone';
   static final String localRegion = window.locale.countryCode ?? '';
   static const double bigText = 24.0;
   static const double mediumText = 15.0;
