@@ -69,23 +69,25 @@ class SearchBarDelegate extends SearchDelegate<String> {
         else if (state.searchStatus.isSuccess) {
           return DefaultTabController(
             length: 5,
-            child: Scaffold(
-              appBar: TabBar(
-                  indicatorColor: Theme.of(context).colorScheme.primary,
-                  unselectedLabelColor: Theme.of(context).colorScheme.secondary,
-                  labelColor: Theme.of(context).colorScheme.primary,
-                  isScrollable: true,
-                  tabs: const [
-                    Tab(text: 'TOP RESULTS'),
-                    Tab(text: 'ARTISTS'),
-                    Tab(text: 'ALBUMS'),
-                    Tab(text: 'SONGS'),
-                    Tab(text: 'PLAYLISTS'),
-                  ],
+            child: SafeArea(
+              child: Scaffold(
+                appBar: TabBar(
+                    indicatorColor: Theme.of(context).colorScheme.primary,
+                    unselectedLabelColor: Theme.of(context).colorScheme.secondary,
+                    labelColor: Theme.of(context).colorScheme.primary,
+                    isScrollable: true,
+                    tabs: const [
+                      Tab(text: 'TOP RESULTS'),
+                      Tab(text: 'ARTISTS'),
+                      Tab(text: 'ALBUMS'),
+                      Tab(text: 'SONGS'),
+                      Tab(text: 'PLAYLISTS'),
+                    ],
+                  ),
+                body: TabBarView(
+                  physics: const NeverScrollableScrollPhysics(),
+                  children: _getResultsTabs(state.searchedResults)
                 ),
-              body: TabBarView(
-                physics: const NeverScrollableScrollPhysics(),
-                children: _getResultsTabs(state.searchedResults)
               ),
             ),
           );

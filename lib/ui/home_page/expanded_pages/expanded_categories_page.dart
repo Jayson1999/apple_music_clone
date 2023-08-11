@@ -14,20 +14,22 @@ class CategoriesExpandedPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Browse by Category', style: TextStyle(fontSize: AppConfig.mediumText),),
-        elevation: 0,
-        shape: Border(
-            bottom: BorderSide(
-                color: Theme.of(context).colorScheme.secondary,
-                width: 0.5
-            )
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Browse by Category', style: TextStyle(fontSize: AppConfig.mediumText),),
+          elevation: 0,
+          shape: Border(
+              bottom: BorderSide(
+                  color: Theme.of(context).colorScheme.secondary,
+                  width: 0.5
+              )
+          ),
         ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 8.0),
-        child: _bodyContents(),
+        body: Padding(
+          padding: const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 8.0),
+          child: _bodyContents(),
+        ),
       ),
     );
   }

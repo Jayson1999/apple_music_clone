@@ -108,19 +108,21 @@ class _HomePageState extends State<HomePage> {
           ],
           child: WillPopScope(
             onWillPop: _systemBackButtonPressed,
-            child: Scaffold(
-              body: PageView(
-                controller: _pageController,
-                physics: const NeverScrollableScrollPhysics(),
-                children: _tabItems.values.map((v) => v['tab']!).toList(),
-              ),
-              bottomNavigationBar: BottomNavigationBar(
-                items: _tabItems.entries
-                    .map((e) =>
-                        BottomNavigationBarItem(icon: e.value['icon']!, label: e.key))
-                    .toList(),
-                currentIndex: _selectedTab,
-                onTap: _onPageSelected,
+            child: SafeArea(
+              child: Scaffold(
+                body: PageView(
+                  controller: _pageController,
+                  physics: const NeverScrollableScrollPhysics(),
+                  children: _tabItems.values.map((v) => v['tab']!).toList(),
+                ),
+                bottomNavigationBar: BottomNavigationBar(
+                  items: _tabItems.entries
+                      .map((e) =>
+                          BottomNavigationBarItem(icon: e.value['icon']!, label: e.key))
+                      .toList(),
+                  currentIndex: _selectedTab,
+                  onTap: _onPageSelected,
+                ),
               ),
             ),
           ),
