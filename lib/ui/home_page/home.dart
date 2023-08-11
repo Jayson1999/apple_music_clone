@@ -26,7 +26,7 @@ class _HomePageState extends State<HomePage> {
   int _selectedTab = 0;
   late PageController _pageController;
   late Future _getSharedPreferences;
-  late List<GlobalKey<NavigatorState>> _navigatorKeys;
+  final List<GlobalKey<NavigatorState>> _navigatorKeys = [];
   final Map<String, Map<String, Widget>> _tabItems = {
     'Listen Now': {
       'icon': const Icon(Icons.play_circle),
