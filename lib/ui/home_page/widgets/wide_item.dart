@@ -31,7 +31,7 @@ class WideItem extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.only(left: 8.0),
-          child: Text(description, style: const TextStyle(fontSize: AppConfig.smallText, color: Colors.grey),),
+          child: Text(description, style: TextStyle(fontSize: AppConfig.smallText, color: Theme.of(context).colorScheme.secondary),),
         ),
         Padding(
           padding: const EdgeInsets.only(left: 8.0),
@@ -42,17 +42,17 @@ class WideItem extends StatelessWidget {
           child: Text(
             subtitle,
             overflow: TextOverflow.ellipsis,
-            style: const TextStyle(fontSize: AppConfig.mediumText, color: Colors.grey),),
+            style: TextStyle(fontSize: AppConfig.mediumText, color: Theme.of(context).colorScheme.secondary),),
         ),
         Card(
             clipBehavior: Clip.hardEdge,
             elevation: 0,
-            shape: const RoundedRectangleBorder(
+            shape: RoundedRectangleBorder(
               side: BorderSide(
                 width: 0.3,
-                color: Colors.grey,
+                color: Theme.of(context).colorScheme.secondary,
               ),
-              borderRadius: BorderRadius.all(Radius.circular(12)),
+              borderRadius: const BorderRadius.all(Radius.circular(12)),
             ),
             child: InkWell(
               onTap: () => Navigator.pushNamed(

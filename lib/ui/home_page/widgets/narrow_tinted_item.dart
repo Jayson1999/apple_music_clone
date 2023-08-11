@@ -26,12 +26,12 @@ class NarrowTintedItem extends StatelessWidget {
         Card(
             clipBehavior: Clip.hardEdge,
             elevation: 0,
-            shape: const RoundedRectangleBorder(
+            shape: RoundedRectangleBorder(
               side: BorderSide(
                 width: 0.3,
-                color: Colors.grey,
+                color: Theme.of(context).colorScheme.secondary,
               ),
-              borderRadius: BorderRadius.all(Radius.circular(12)),
+              borderRadius: const BorderRadius.all(Radius.circular(12)),
             ),
             child: InkWell(
               onTap: () => Navigator.pushNamed(

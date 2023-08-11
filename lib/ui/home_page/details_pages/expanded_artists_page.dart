@@ -16,12 +16,10 @@ class ArtistsExpandedPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(title, style: const TextStyle(fontSize: AppConfig.mediumText),),
-
-        foregroundColor: Theme.of(context).colorScheme.primary,
         elevation: 0,
-        shape: const Border(
+        shape: Border(
             bottom: BorderSide(
-                color: Colors.grey,
+                color: Theme.of(context).colorScheme.secondary,
                 width: 0.5
             )
         ),
@@ -67,7 +65,7 @@ class ArtistsExpandedPage extends StatelessWidget {
             title: Container(
                 decoration: BoxDecoration(
                     border: Border(
-                      bottom: BorderSide(color: index!=dataList.length-1? Colors.grey: Colors.transparent, width: 0.5),
+                      bottom: BorderSide(color: index!=dataList.length-1? Theme.of(context).colorScheme.secondary: Colors.transparent, width: 0.5),
                     )
                 ),
                 child: Text(title, style: const TextStyle(fontSize: AppConfig.mediumText))

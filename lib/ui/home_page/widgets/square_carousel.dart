@@ -27,7 +27,7 @@ class SquareCarousel extends StatelessWidget {
             mainAxisSize: MainAxisSize.max,
             children: [
               Text(headerButtonTitle, style: const TextStyle(fontWeight: FontWeight.bold),),
-              const Icon(Icons.chevron_right, color: Colors.grey,),
+              Icon(Icons.chevron_right, color: Theme.of(context).colorScheme.secondary,),
               Expanded(
                 child: Align(
                   alignment: Alignment.centerRight,

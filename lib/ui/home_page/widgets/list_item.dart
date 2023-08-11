@@ -36,13 +36,13 @@ class ListItem extends StatelessWidget {
           subtitle: Container(
               decoration: BoxDecoration(
                   border: Border(
-                    bottom: BorderSide(color: showBtmBorder? Colors.grey: Colors.white, width: 0.5),
+                    bottom: BorderSide(color: showBtmBorder? Theme.of(context).colorScheme.secondary: Colors.white, width: 0.5),
                   )
               ),
               child: Text(
                   subtitle,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(color: Colors.grey, fontSize: AppConfig.smallText)
+                  style: TextStyle(color: Theme.of(context).colorScheme.secondary, fontSize: AppConfig.smallText)
               )
           ),
           trailing: trailingWidget,

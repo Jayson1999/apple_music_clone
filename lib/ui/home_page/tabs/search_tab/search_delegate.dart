@@ -70,12 +70,12 @@ class SearchBarDelegate extends SearchDelegate<String> {
           return DefaultTabController(
             length: 5,
             child: Scaffold(
-              appBar: const TabBar(
-                  indicatorColor: Colors.red,
-                  unselectedLabelColor: Colors.grey,
-                  labelColor: Colors.red,
+              appBar: TabBar(
+                  indicatorColor: Theme.of(context).colorScheme.primary,
+                  unselectedLabelColor: Theme.of(context).colorScheme.secondary,
+                  labelColor: Theme.of(context).colorScheme.primary,
                   isScrollable: true,
-                  tabs: [
+                  tabs: const [
                     Tab(text: 'TOP RESULTS'),
                     Tab(text: 'ARTISTS'),
                     Tab(text: 'ALBUMS'),
@@ -229,9 +229,9 @@ class SearchBarDelegate extends SearchDelegate<String> {
           showResults(context);
         },
         child: Container(
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
                 border: Border(
-                  bottom: BorderSide(color: Colors.grey, width: 0.5),
+                  bottom: BorderSide(color: Theme.of(context).colorScheme.secondary, width: 0.5),
                 )
             ),
             child: SingleChildScrollView(
@@ -239,7 +239,7 @@ class SearchBarDelegate extends SearchDelegate<String> {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(Icons.search, color: Colors.grey,),
+                  Icon(Icons.search, color: Theme.of(context).colorScheme.secondary,),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text.rich(formattedSuggestionText, overflow: TextOverflow.ellipsis),
@@ -334,7 +334,7 @@ class SearchBarDelegate extends SearchDelegate<String> {
         subtitle: Text(
          artistData.type,
           overflow: TextOverflow.ellipsis,
-          style: const TextStyle(fontSize: AppConfig.smallText, color: Colors.grey),
+          style: TextStyle(fontSize: AppConfig.smallText, color: Theme.of(context).colorScheme.secondary),
         )
       ),
     );
@@ -375,7 +375,7 @@ class SearchBarDelegate extends SearchDelegate<String> {
         subtitle: Text(
           '${playlistData.type} . ${playlistData.tracks.length} tracks',
           overflow: TextOverflow.ellipsis,
-          style: const TextStyle(fontSize: AppConfig.smallText, color: Colors.grey),
+          style: TextStyle(fontSize: AppConfig.smallText, color: Theme.of(context).colorScheme.secondary),
         )
       ),
     );
@@ -414,7 +414,7 @@ class SearchBarDelegate extends SearchDelegate<String> {
           subtitle: Text(
             '${albumData.type} . ${[for (Artist a in albumData.artists) a.name].join(',')}',
             overflow: TextOverflow.ellipsis,
-            style: const TextStyle(fontSize: AppConfig.smallText, color: Colors.grey),
+            style: TextStyle(fontSize: AppConfig.smallText, color: Theme.of(context).colorScheme.secondary),
           )
       ),
     );

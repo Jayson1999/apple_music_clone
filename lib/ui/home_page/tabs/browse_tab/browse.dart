@@ -232,9 +232,9 @@ class _BrowseTabState extends State<BrowseTab> with AutomaticKeepAliveClientMixi
 
   Widget _disappearingAppBar(){
     return Container(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
           border: Border(
-            bottom: BorderSide(color: Colors.grey, width: 1.0),
+            bottom: BorderSide(color: Theme.of(context).colorScheme.secondary, width: 1.0),
           )
       ),
       child: const FlexibleSpaceBar(
@@ -258,6 +258,7 @@ class _BrowseTabState extends State<BrowseTab> with AutomaticKeepAliveClientMixi
         child: ElevatedButton(
             style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.only(bottom: 8, top: 8),
+                foregroundColor: Colors.white,
                 backgroundColor: Colors.transparent,
                 shadowColor: Colors.transparent,
                 shape: RoundedRectangleBorder(
@@ -284,7 +285,7 @@ class _BrowseTabState extends State<BrowseTab> with AutomaticKeepAliveClientMixi
       padding: const EdgeInsets.all(10.0),
       child: Container(
         padding: const EdgeInsets.only(bottom: 10.0),
-        decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey, width: 1.0))),
+        decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Theme.of(context).colorScheme.secondary, width: 1.0))),
         child: const Text('Browse', style: TextStyle(fontSize: AppConfig.bigText, fontWeight: FontWeight.bold)),
       ),
     );
