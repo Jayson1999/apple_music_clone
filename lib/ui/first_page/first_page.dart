@@ -7,8 +7,7 @@ class FirstPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: ElevatedButton(
+    return ElevatedButton(
         child: const Text('I agree'),
         onPressed: () {
           SharedPreferences.getInstance().then((value) {
@@ -18,7 +17,6 @@ class FirstPage extends StatelessWidget {
             log('Get SharedPreferences instance failed: $err', name: 'firstPageOnAgree', error: 'ERROR');
           });
         },
-      ),
-    );
+      );
   }
 }

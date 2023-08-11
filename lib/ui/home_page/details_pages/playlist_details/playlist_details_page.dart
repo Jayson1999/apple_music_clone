@@ -26,8 +26,7 @@ class _PlaylistDetailsState extends State<PlaylistDetails> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: BlocBuilder<PlaylistBloc, PlaylistState>(
+    return BlocBuilder<PlaylistBloc, PlaylistState>(
         builder: (context, state){
           if (state.playlistStatus.isLoading || state.playlistStatus.isInitial) {
             return const Center(
@@ -91,8 +90,7 @@ class _PlaylistDetailsState extends State<PlaylistDetails> {
             return Text('$state');
           }
         },
-      )
-    );
+      );
   }
 
   Widget _expandedAppBarContent(Playlist? playlistDetails){

@@ -23,10 +23,7 @@ class _ListenNowTabState extends State<ListenNowTab> with AutomaticKeepAliveClie
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return MaterialApp(
-      theme: AppConfig.getAppLightTheme(),
-      home: Scaffold(
-        body: BlocBuilder<ListenNowBloc, ListenNowState>(
+    return BlocBuilder<ListenNowBloc, ListenNowState>(
           builder: (context, state) {
             if (state.status.isLoading || state.status.isInitial) {
               return const Center(
@@ -93,9 +90,7 @@ class _ListenNowTabState extends State<ListenNowTab> with AutomaticKeepAliveClie
 
             return Text('$state');
           },
-        ),
-      ),
-    );
+        );
   }
 
   Widget _listennowAppBar() {

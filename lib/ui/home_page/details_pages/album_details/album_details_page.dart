@@ -26,8 +26,7 @@ class _AlbumDetailsState extends State<AlbumDetails> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: BlocBuilder<AlbumBloc, AlbumState>(
+    return BlocBuilder<AlbumBloc, AlbumState>(
           builder: (context, state){
             if (state.albumStatus.isLoading || state.albumStatus.isInitial) {
               return const Center(
@@ -91,8 +90,7 @@ class _AlbumDetailsState extends State<AlbumDetails> {
               return Text('$state');
             }
           },
-        )
-    );
+        );
   }
 
   Widget _expandedAppBarContent(Album? albumDetails){

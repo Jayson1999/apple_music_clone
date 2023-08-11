@@ -23,10 +23,7 @@ class _LibraryTabState extends State<LibraryTab> with AutomaticKeepAliveClientMi
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return MaterialApp(
-      theme: AppConfig.getAppLightTheme(),
-      home: Scaffold(
-        body: BlocBuilder<LibraryBloc, LibraryState>(
+    return BlocBuilder<LibraryBloc, LibraryState>(
           builder: (context, state) {
             if (state.status.isLoading || state.status.isInitial) {
               return const Center(
@@ -93,9 +90,7 @@ class _LibraryTabState extends State<LibraryTab> with AutomaticKeepAliveClientMi
 
             return Text('$state');
           },
-        ),
-      ),
-    );
+        );
   }
 
   Widget _libraryAppBar() {

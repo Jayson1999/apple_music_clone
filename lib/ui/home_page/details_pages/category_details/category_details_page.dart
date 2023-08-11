@@ -43,8 +43,7 @@ class _CategoryDetailsPageState extends State<CategoryDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: BlocBuilder<CategoryBloc, CategoryState>(
+    return BlocBuilder<CategoryBloc, CategoryState>(
           builder: (context, state) {
             if (state.categoryStatus.isLoading || state.categoryStatus.isInitial) {
               return const Center(
@@ -100,8 +99,7 @@ class _CategoryDetailsPageState extends State<CategoryDetailsPage> {
               return Text('$state');
             }
           }
-        ),
-    );
+        );
   }
 
   Widget _globalFeaturedPlaylistsSection(List<Playlist> playlists) {

@@ -55,10 +55,7 @@ class _BrowseTabState extends State<BrowseTab> with AutomaticKeepAliveClientMixi
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return MaterialApp(
-      theme: AppConfig.getAppLightTheme(),
-      home: Scaffold(
-        body: BlocBuilder<BrowseBloc, BrowseState>(
+    return BlocBuilder<BrowseBloc, BrowseState>(
             builder: (context, state) {
               if (state.status.isLoading || state.status.isInitial) {
                 return const Center(
@@ -126,9 +123,7 @@ class _BrowseTabState extends State<BrowseTab> with AutomaticKeepAliveClientMixi
 
               return Text('$state');
             },
-          ),
-      ),
-    );
+          );
   }
 
   Widget _globalFeaturedPlaylistsSection(List<Playlist> featuredPlaylists) {
