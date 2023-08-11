@@ -13,7 +13,7 @@ import 'package:apple_music_clone/ui/home_page/expanded_pages/expanded_pages_arg
 import 'package:apple_music_clone/ui/home_page/expanded_pages/expanded_tracks_page.dart';
 import 'package:apple_music_clone/ui/home_page/details_pages/playlist_details/bloc/playlist_bloc.dart';
 import 'package:apple_music_clone/ui/home_page/details_pages/playlist_details/playlist_details_page.dart';
-import 'package:apple_music_clone/ui/home_page/settings_page.dart';
+import 'package:apple_music_clone/ui/home_page/settings.dart';
 import 'package:apple_music_clone/utils/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
