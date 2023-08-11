@@ -20,13 +20,20 @@ class AppConfig{
           secondary: Colors.grey,
         ),
         appBarTheme: const AppBarTheme(
-            color: Colors.white
+            backgroundColor: Colors.white,
+            foregroundColor: Colors.black,
+            iconTheme: IconThemeData(color: Colors.red)
         ),
         scaffoldBackgroundColor: Colors.white,
         textTheme: const TextTheme(
           bodyLarge: TextStyle(color: Colors.black),
           bodyMedium: TextStyle(color: Colors.black),
           bodySmall: TextStyle(color: Colors.grey),
+        ),
+        textButtonTheme: TextButtonThemeData(
+          style: TextButton.styleFrom(
+            foregroundColor: Colors.black
+          )
         ),
         bottomNavigationBarTheme: const BottomNavigationBarThemeData(
           backgroundColor: Colors.white,
@@ -45,13 +52,20 @@ class AppConfig{
             secondary: Colors.grey,
           ),
         appBarTheme: const AppBarTheme(
-          color: Colors.black
+          backgroundColor: Colors.black,
+          foregroundColor: Colors.white,
+          iconTheme: IconThemeData(color: Colors.red)
         ),
         scaffoldBackgroundColor: Colors.black,
         textTheme: const TextTheme(
           bodyLarge: TextStyle(color: Colors.white),
           bodyMedium: TextStyle(color: Colors.white),
           bodySmall: TextStyle(color: Colors.grey),
+        ),
+        textButtonTheme: TextButtonThemeData(
+            style: TextButton.styleFrom(
+                foregroundColor: Colors.white
+            )
         ),
         bottomNavigationBarTheme: const BottomNavigationBarThemeData(
           backgroundColor: Colors.black,
