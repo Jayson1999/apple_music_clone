@@ -41,7 +41,7 @@ class TracksExpandedPage extends StatelessWidget {
       itemBuilder: (context, index) {
         String title = dataList[index].name;
         String subtitle = [for (Artist a in dataList[index].artists) a.name].join(',');
-        String url = dataList[index].album?.images.first.url ?? '';
+        String url = dataList[index].album?.images.first.url ?? AppConfig.placeholderImgUrl;
 
         return InkWell(
           onTap: ()=> print('hello'),
