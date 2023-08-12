@@ -11,6 +11,10 @@ class ArtistService {
   ArtistService(this._apiHelper);
 
   Future<List<Artist>> getArtistsByIds(List<String> ids) async {
+    // API limit is 50
+    if(ids.length > 50){
+      ids = ids.sublist(0, 50);
+    }
     Map<String, dynamic>? queryParams = {'ids': ids.join(',')};
 
     try {
