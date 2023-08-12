@@ -31,6 +31,10 @@ class AlbumService {
   }
 
   Future<List<Album>> getAlbumsByIds(List<String> ids, {String country = ''}) async {
+    // API limit is 20
+    if(ids.length > 20){
+      ids = ids.sublist(0, 20);
+    }
     Map<String, dynamic>? queryParams = country.isNotEmpty
         ? {'ids': ids.join(','), 'market': country}
         : {'ids': ids};
