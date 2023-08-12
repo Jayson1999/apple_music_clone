@@ -2,6 +2,7 @@ import 'package:apple_music_clone/model/artist.dart';
 import 'package:apple_music_clone/model/playlist.dart';
 import 'package:apple_music_clone/model/track.dart';
 import 'package:apple_music_clone/repository/api_helper.dart';
+import 'package:apple_music_clone/repository/artist_service.dart';
 import 'package:apple_music_clone/repository/playlist_service.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,9 +13,11 @@ part 'category_state.dart';
 class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
   final APIHelper _apiHelper = APIHelper();
   late PlaylistService _playlistService;
+  late ArtistService _artistService;
 
   CategoryBloc(): super(const CategoryState()) {
     _playlistService = PlaylistService(_apiHelper);
+    _artistService =ArtistService(_apiHelper);
 
     on<GetTracksAndArtists>(_mapGetTracksAndArtistsEventToState);
   }
@@ -28,11 +31,15 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
       List<Playlist> playlists = await Future.wait(futures);
 
       List<Track> tracksList = [];
-      List<Artist> artistsList = [];
+      List<Future<List<Artist>>> artistsFutures = [];
       for (Playlist playlist in playlists){
         tracksList = [...tracksList, ...playlist.tracks];
-        artistsList = [...artistsList, ...[for (Track t in playlist.tracks) for (Artist a in t.artists) a]];
+
+        List<String> currentPlaylistArtistIds = [for (Track t in playlist.tracks) if (t.artists.isNotEmpty) t.artists.first.id];
+        artistsFutures.add(_artistService.getArtistsByIds(currentPlaylistArtistIds));
       }
+      List<List<Artist>> artistsListsInList = await Future.wait(artistsFutures);
+      List<Artist> artistsList = [for(List<Artist> aList in artistsListsInList) ...aList];
 
       emit(state.copyWith(
           categoryStatus: CategoryStatus.success,
