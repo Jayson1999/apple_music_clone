@@ -2,6 +2,7 @@ import 'package:apple_music_clone/ui/home_page/details_pages/details_pages_args.
 import 'package:apple_music_clone/ui/home_page/expanded_pages/expanded_pages_args.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/square_item.dart';
 import 'package:apple_music_clone/utils/app_routes.dart';
+import 'package:apple_music_clone/utils/config.dart';
 import 'package:flutter/material.dart';
 
 
@@ -53,7 +54,7 @@ class SquareCarousel extends StatelessWidget {
   Widget _squareItemFromData(var dataItem){
     String title = '';
     String subtitle = '';
-    String imgUrl = '';
+    String imgUrl = AppConfig.placeholderImgUrl;
     String overlayText = '';
     String detailsPageRoute = '';
     dynamic detailsPageArgs;
@@ -62,7 +63,7 @@ class SquareCarousel extends StatelessWidget {
       case 'album':
         title = dataItem.name;
         subtitle = dataItem.genres.join(',');
-        imgUrl = dataItem.images.first.url;
+        imgUrl = dataItem.images.isNotEmpty? dataItem.images.first.url: AppConfig.placeholderImgUrl;
         overlayText = '${dataItem.releaseDate}, ${dataItem.totalTracks}';
         detailsPageRoute = AppRoutes.albumDetailsPage;
         detailsPageArgs = AlbumDetailsArguments(dataItem.id);
@@ -70,7 +71,7 @@ class SquareCarousel extends StatelessWidget {
       case 'playlist':
         title = dataItem.name;
         subtitle = dataItem.description;
-        imgUrl = dataItem.images.first.url;
+        imgUrl = dataItem.images.isNotEmpty? dataItem.images.first.url: AppConfig.placeholderImgUrl;
         detailsPageRoute = AppRoutes.playlistDetailsPage;
         detailsPageArgs = PlaylistDetailsArguments(dataItem.id);
         break;

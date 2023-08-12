@@ -78,7 +78,7 @@ class _CategoryDetailsPageState extends State<CategoryDetailsPage> {
                                 return BottomSheetLayout(
                                     title: widget.title,
                                     subtitle: widget.dataList.first.type,
-                                    imgUrl: widget.dataList.first.images.first.url,
+                                    imgUrl: widget.dataList.first.images.isNotEmpty? widget.dataList.first.images.first.url: AppConfig.placeholderImgUrl,
                                     type: widget.dataList.first.type
                                 );
                               });

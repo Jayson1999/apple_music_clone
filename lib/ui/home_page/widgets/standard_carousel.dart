@@ -3,6 +3,7 @@ import 'package:apple_music_clone/ui/home_page/details_pages/details_pages_args.
 import 'package:apple_music_clone/ui/home_page/expanded_pages/expanded_pages_args.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/standard_item.dart';
 import 'package:apple_music_clone/utils/app_routes.dart';
+import 'package:apple_music_clone/utils/config.dart';
 import 'package:flutter/material.dart';
 
 
@@ -58,7 +59,7 @@ Widget _standardItemFromData(var dataItem) {
   String title = '';
   String subtitle = '';
   String id = '';
-  String imgUrl = '';
+  String imgUrl = AppConfig.placeholderImgUrl;
   String nextPageRoute = '';
   dynamic nextPageArgs;
 
@@ -66,7 +67,7 @@ Widget _standardItemFromData(var dataItem) {
     case 'playlist':
       title = dataItem.name;
       subtitle = dataItem.description;
-      imgUrl = dataItem.images.first.url;
+      imgUrl = dataItem.images.isNotEmpty? dataItem.images.first.url: AppConfig.placeholderImgUrl;
       id = dataItem.id;
       nextPageRoute = AppRoutes.playlistDetailsPage;
       nextPageArgs = PlaylistDetailsArguments(id);

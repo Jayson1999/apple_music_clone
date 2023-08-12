@@ -57,7 +57,7 @@ class AlbumPlaylistExpandedPage extends StatelessWidget {
           case 'album':
             subtitle = [for (Artist a in dataList[index].artists) a.name].join(',');
             title = dataList[index].name;
-            url = dataList[index].images.first.url;
+            url = dataList[index].images.isNotEmpty? dataList[index].images.first.url: AppConfig.placeholderImgUrl;
             detailsPage = BlocProvider<AlbumBloc>(
                 create: (context) => AlbumBloc(),
                 child: AlbumDetails(albumId: dataList[index].id)
@@ -66,7 +66,7 @@ class AlbumPlaylistExpandedPage extends StatelessWidget {
           case 'playlist':
             subtitle = dataList[index].description;
             title = dataList[index].name;
-            url = dataList[index].images.first.url;
+            url = dataList[index].images.isNotEmpty? dataList[index].images.first.url: AppConfig.placeholderImgUrl;
             detailsPage = BlocProvider<PlaylistBloc>(
                 create: (context) => PlaylistBloc(),
                 child: PlaylistDetails(playlistId: dataList[index].id)

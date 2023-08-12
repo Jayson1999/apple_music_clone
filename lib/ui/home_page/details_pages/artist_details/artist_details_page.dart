@@ -83,7 +83,7 @@ class _ArtistDetailsPageState extends State<ArtistDetailsPage> {
                                 return BottomSheetLayout(
                                     title: widget.artist.name,
                                     subtitle: widget.artist.genres.join(','),
-                                    imgUrl: widget.artist.images.first.url,
+                                    imgUrl: widget.artist.images.isNotEmpty? widget.artist.images.first.url: AppConfig.placeholderImgUrl,
                                     type: widget.artist.type
                                 );
                               });
