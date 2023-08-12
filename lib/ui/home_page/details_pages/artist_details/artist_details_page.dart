@@ -73,7 +73,7 @@ class _ArtistDetailsPageState extends State<ArtistDetailsPage> {
                     ),
                     actions: [
                       IconButton(
-                        icon: const Icon(Icons.more_vert),
+                        icon: Icon(Icons.more_vert, color: Theme.of(context).colorScheme.primary,),
                         onPressed: (){
                           showModalBottomSheet(
                               context: context,

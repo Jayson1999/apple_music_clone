@@ -68,7 +68,7 @@ class _CategoryDetailsPageState extends State<CategoryDetailsPage> {
                     ),
                     actions: [
                       IconButton(
-                        icon: const Icon(Icons.more_vert),
+                        icon: Icon(Icons.more_vert, color: Theme.of(context).colorScheme.primary,),
                         onPressed: (){
                           showModalBottomSheet(
                               context: context,
