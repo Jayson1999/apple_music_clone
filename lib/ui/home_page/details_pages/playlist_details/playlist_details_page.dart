@@ -58,7 +58,12 @@ class _PlaylistDetailsState extends State<PlaylistDetails> {
                           visible: showAppBarTitleOnly,
                           child: Text(
                             state.playlistDetails?.name ?? 'playlistDetails is null',
-                            style: const TextStyle(fontSize: AppConfig.bigText),
+                            style: TextStyle(
+                                fontSize: AppConfig.mediumText,
+                                color: Theme.of(context).brightness == Brightness.light
+                                    ? Colors.black
+                                    : Colors.white
+                            ),
                           ),
                         ),
                       );

@@ -65,7 +65,12 @@ class _ArtistDetailsPageState extends State<ArtistDetailsPage> {
                             visible: showAppBarTitleOnly,
                             child: Text(
                               widget.artist.name,
-                              style: const TextStyle(fontSize: AppConfig.bigText),
+                              style: TextStyle(
+                                  fontSize: AppConfig.mediumText,
+                                  color: Theme.of(context).brightness == Brightness.light
+                                      ? Colors.black
+                                      : Colors.white
+                              ),
                             ),
                           ),
                         );
