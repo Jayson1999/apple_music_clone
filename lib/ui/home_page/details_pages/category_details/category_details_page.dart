@@ -166,7 +166,12 @@ class _CategoryDetailsPageState extends State<CategoryDetailsPage> {
       child: FlexibleSpaceBar(
           title: Text(
             title,
-            style: const TextStyle(fontSize: AppConfig.mediumText),
+            style: TextStyle(
+                fontSize: AppConfig.mediumText,
+                color: Theme.of(context).brightness == Brightness.light
+                    ? Colors.black
+                    : Colors.white
+            ),
           )
       ),
     );

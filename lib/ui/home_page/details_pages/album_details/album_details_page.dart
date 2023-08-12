@@ -58,7 +58,12 @@ class _AlbumDetailsState extends State<AlbumDetails> {
                             visible: showAppBarTitleOnly,
                             child: Text(
                               state.albumDetails?.name ?? 'albumDetails is null',
-                              style: const TextStyle(fontSize: AppConfig.bigText),
+                              style: TextStyle(
+                                  fontSize: AppConfig.mediumText,
+                                  color: Theme.of(context).brightness == Brightness.light
+                                      ? Colors.black
+                                      : Colors.white
+                              ),
                             ),
                           ),
                         );

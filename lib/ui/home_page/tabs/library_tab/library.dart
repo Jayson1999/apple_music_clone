@@ -100,11 +100,16 @@ class _LibraryTabState extends State<LibraryTab> with AutomaticKeepAliveClientMi
             bottom: BorderSide(color: Theme.of(context).colorScheme.secondary, width: 1.0),
           )
       ),
-      child: const FlexibleSpaceBar(
-          titlePadding: EdgeInsets.all(8.0),
+      child: FlexibleSpaceBar(
+          titlePadding: const EdgeInsets.all(8.0),
           title: Text(
             'Library',
-            style: TextStyle(fontSize: AppConfig.mediumText),
+            style: TextStyle(
+                fontSize: AppConfig.mediumText,
+                color: Theme.of(context).brightness == Brightness.light
+                    ? Colors.black
+                    : Colors.white
+            ),
           )
       ),
     );
