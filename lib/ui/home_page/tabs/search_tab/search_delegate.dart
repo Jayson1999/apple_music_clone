@@ -10,6 +10,7 @@ import 'package:apple_music_clone/ui/home_page/details_pages/artist_details/bloc
 import 'package:apple_music_clone/ui/home_page/details_pages/playlist_details/bloc/playlist_bloc.dart';
 import 'package:apple_music_clone/ui/home_page/details_pages/playlist_details/playlist_details_page.dart';
 import 'package:apple_music_clone/ui/home_page/tabs/search_tab/bloc/search_bloc.dart';
+import 'package:apple_music_clone/ui/home_page/widgets/bottom_sheet.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/list_item.dart';
 import 'package:apple_music_clone/utils/config.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -423,6 +424,10 @@ class SearchBarDelegate extends SearchDelegate<String> {
   }
 
   Widget _singleTrack(BuildContext context, Track trackData){
+    String title = trackData.name;
+    String subtitle = '${trackData.type} . ${[for (Artist a in trackData.artists) a.name].join(',')}';
+    String imgUrl = trackData.album?.images.first.url ?? AppConfig.placeholderImgUrl;
+
     return InkWell(
       onTap: () => SharedPreferences.getInstance().then((value) {
         String historyToBeAdded = 'track;;;${jsonEncode(trackData)}';
@@ -433,22 +438,28 @@ class SearchBarDelegate extends SearchDelegate<String> {
         value.setStringList('searchHistories', searchHistories);
       }),
       child: ListItem(
-        title: trackData.name,
-        subtitle: '${trackData.type} . ${[for (Artist a in trackData.artists) a.name].join(',')}',
+        title: title,
+        subtitle: subtitle,
         listTileSize: MediaQuery.of(context).size.height * 0.1,
         imgSize: 40,
-        imgUrl: trackData.album?.images.first.url ?? '',
+        imgUrl: imgUrl,
         showBtmBorder: false,
-        trailingWidget: PopupMenuButton<String>(
-            icon: Icon(Icons.more_vert, color: Theme.of(context).colorScheme.primary,),
-            onSelected: (value) => print('hello'),
-            itemBuilder: (BuildContext context) =>
-            <PopupMenuEntry<String>>[
-              const PopupMenuItem<String>(
-                value: 'settings',
-                child: Text('Settings'),
-              ),
-            ]
+        trailingWidget: IconButton(
+          icon: const Icon(Icons.more_vert),
+          onPressed: (){
+            showModalBottomSheet(
+                context: context,
+                isScrollControlled: true,
+                isDismissible: true,
+                builder: (context){
+                  return BottomSheetLayout(
+                      title: title,
+                      subtitle: subtitle,
+                      imgUrl: imgUrl,
+                      type: 'song'
+                  );
+                });
+          },
         ),
       ),
     );
