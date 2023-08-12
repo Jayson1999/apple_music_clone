@@ -3,6 +3,8 @@ import 'package:apple_music_clone/ui/home_page/widgets/list_item.dart';
 import 'package:apple_music_clone/utils/config.dart';
 import 'package:flutter/material.dart';
 
+import '../widgets/bottom_sheet.dart';
+
 
 class TracksExpandedPage extends StatelessWidget {
   const TracksExpandedPage({Key? key, required this.dataList, required this.title}) : super(key: key);
@@ -51,7 +53,24 @@ class TracksExpandedPage extends StatelessWidget {
               listTileSize: MediaQuery.of(context).size.height * 0.1,
               imgSize: 40,
               imgUrl: url,
-              showBtmBorder: index != dataList.length-1
+              showBtmBorder: index != dataList.length-1,
+              trailingWidget: IconButton(
+                icon: Icon(Icons.more_vert, color: Theme.of(context).colorScheme.primary,),
+                onPressed: (){
+                  showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      isDismissible: true,
+                      builder: (context){
+                        return BottomSheetLayout(
+                            title: title,
+                            subtitle: subtitle,
+                            imgUrl: url,
+                            type: 'song'
+                        );
+                      });
+                },
+              )
           ),
         );
       },
