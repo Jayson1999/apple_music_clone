@@ -46,33 +46,31 @@ class ArtistsExpandedPage extends StatelessWidget {
             child: ArtistDetailsPage(artist: dataList[index])
         );
 
-        return InkWell(
-          onTap: ()=> Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => detailsPage),
-          ),
-          child: ListTile(
-            leading: CircleAvatar(
-              radius: 20,
-              child: ClipOval(
-                child: CachedNetworkImage(
-                  height: 40,
-                  width: 40,
-                  imageUrl: url,
-                  placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
-                  errorWidget: (context, url, error) => CachedNetworkImage(imageUrl: AppConfig.placeholderImgUrl),
-                ),
+        return ListTile(
+            onTap: ()=> Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => detailsPage),
+            ),
+          leading: CircleAvatar(
+            radius: 20,
+            child: ClipOval(
+              child: CachedNetworkImage(
+                height: 40,
+                width: 40,
+                imageUrl: url,
+                placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
+                errorWidget: (context, url, error) => CachedNetworkImage(imageUrl: AppConfig.placeholderImgUrl),
               ),
             ),
-            title: Container(
-                decoration: BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(color: index!=dataList.length-1? Theme.of(context).colorScheme.secondary: Colors.transparent, width: 0.5),
-                    )
-                ),
-                child: Text(title, style: const TextStyle(fontSize: AppConfig.mediumText))
-            )
           ),
+          title: Container(
+              decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(color: index!=dataList.length-1? Theme.of(context).colorScheme.secondary: Colors.transparent, width: 0.5),
+                  )
+              ),
+              child: Text(title, style: const TextStyle(fontSize: AppConfig.mediumText))
+          )
         );
       },
     );
