@@ -1,6 +1,7 @@
 import 'package:apple_music_clone/ui/home_page/details_pages/details_pages_args.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/wide_item.dart';
 import 'package:apple_music_clone/utils/app_routes.dart';
+import 'package:apple_music_clone/utils/config.dart';
 import 'package:flutter/material.dart';
 
 
@@ -26,7 +27,7 @@ class WideCarousel extends StatelessWidget {
     String description = '';
     String title = '';
     String subtitle = '';
-    String imgUrl = '';
+    String imgUrl = AppConfig.placeholderImgUrl;
     String overlayText = '';
     String detailsPageRoute = '';
     dynamic detailsPageArgs;
@@ -36,7 +37,7 @@ class WideCarousel extends StatelessWidget {
         description = dataItem.type;
         title = dataItem.name;
         subtitle = dataItem.genres.join(',');
-        imgUrl = dataItem.images.first.url;
+        imgUrl = dataItem.images.isNotEmpty? dataItem.images.first.url: AppConfig.placeholderImgUrl;
         overlayText = '${dataItem.releaseDate}, ${dataItem.totalTracks}';
         detailsPageRoute = AppRoutes.albumDetailsPage;
         detailsPageArgs = AlbumDetailsArguments(dataItem.id);
@@ -45,7 +46,7 @@ class WideCarousel extends StatelessWidget {
         description = dataItem.type;
         title = dataItem.name;
         subtitle = dataItem.description.split(' ').first;
-        imgUrl = dataItem.images.first.url;
+        imgUrl = dataItem.images.isNotEmpty? dataItem.images.first.url: AppConfig.placeholderImgUrl;
         overlayText = dataItem.description;
         detailsPageRoute = AppRoutes.playlistDetailsPage;
         detailsPageArgs = PlaylistDetailsArguments(dataItem.id);

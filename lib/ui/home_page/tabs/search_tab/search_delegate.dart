@@ -362,7 +362,7 @@ class SearchBarDelegate extends SearchDelegate<String> {
             );
           }),
       leading: CachedNetworkImage(
-        imageUrl: playlistData.images.first.url,
+        imageUrl: playlistData.images.isNotEmpty? playlistData.images.first.url: AppConfig.placeholderImgUrl,
         width: 40,
         errorWidget: (context, url, error) =>
         CachedNetworkImage(imageUrl: AppConfig.placeholderImgUrl),
@@ -400,7 +400,7 @@ class SearchBarDelegate extends SearchDelegate<String> {
           );
         }),
         leading: CachedNetworkImage(
-          imageUrl: albumData.images.first.url,
+          imageUrl: albumData.images.isNotEmpty? albumData.images.first.url: AppConfig.placeholderImgUrl,
           width: 40,
           errorWidget: (context, url, error) => CachedNetworkImage(imageUrl: AppConfig.placeholderImgUrl),
         ),

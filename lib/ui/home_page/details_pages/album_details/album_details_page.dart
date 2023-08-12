@@ -107,7 +107,7 @@ class _AlbumDetailsState extends State<AlbumDetails> {
       fit: StackFit.expand,
       children: [
         CachedNetworkImage(
-          imageUrl: albumDetails?.images.first.url ?? 'albumDetails is null',
+          imageUrl: albumDetails?.images.first.url ?? AppConfig.placeholderImgUrl,
           fit: BoxFit.cover,
         ),
         Positioned(
