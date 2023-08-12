@@ -66,7 +66,7 @@ class _AlbumDetailsState extends State<AlbumDetails> {
                     ),
                     actions: [
                       IconButton(
-                        icon: const Icon(Icons.more_vert),
+                        icon: Icon(Icons.more_vert, color: Theme.of(context).colorScheme.primary,),
                         onPressed: (){
                           showModalBottomSheet(
                               context: context,
@@ -195,7 +195,7 @@ class _AlbumDetailsState extends State<AlbumDetails> {
               imgUrl: imgUrl,
               showBtmBorder: false,
               trailingWidget: IconButton(
-                icon: const Icon(Icons.more_vert),
+                icon: Icon(Icons.more_vert, color: Theme.of(context).colorScheme.primary,),
                 onPressed: (){
                   showBottomSheet(context: context, builder: (context){
                     return BottomSheetLayout(title: title, subtitle: subtitle, imgUrl: imgUrl, type: 'song');

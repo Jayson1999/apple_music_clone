@@ -66,7 +66,7 @@ class _PlaylistDetailsState extends State<PlaylistDetails> {
                   ),
                   actions: [
                     IconButton(
-                      icon: const Icon(Icons.more_vert),
+                      icon: Icon(Icons.more_vert, color: Theme.of(context).colorScheme.primary,),
                       onPressed: (){
                         showModalBottomSheet(
                             context: context,
@@ -204,7 +204,7 @@ class _PlaylistDetailsState extends State<PlaylistDetails> {
               imgUrl: imgUrl,
               showBtmBorder: false,
               trailingWidget: IconButton(
-                icon: const Icon(Icons.more_vert),
+                icon: Icon(Icons.more_vert, color: Theme.of(context).colorScheme.primary,),
                 onPressed: (){
                   showModalBottomSheet(
                       context: context,

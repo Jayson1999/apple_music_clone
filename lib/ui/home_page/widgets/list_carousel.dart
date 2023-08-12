@@ -1,7 +1,9 @@
 import 'package:apple_music_clone/model/artist.dart';
 import 'package:apple_music_clone/ui/home_page/expanded_pages/expanded_pages_args.dart';
+import 'package:apple_music_clone/ui/home_page/widgets/bottom_sheet.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/list_item.dart';
 import 'package:apple_music_clone/utils/app_routes.dart';
+import 'package:apple_music_clone/utils/config.dart';
 import 'package:flutter/material.dart';
 
 
@@ -42,17 +44,41 @@ class ListCarousel extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               itemCount: noOfPages,
               itemBuilder: (context, pageIndex) {
-                List<Widget> currentPageCards = [
-                  for (int rowIndex=0; rowIndex<noOfRowsPerPage; rowIndex++)
-                    ListItem(
-                        title: splitDataLists[pageIndex][rowIndex].name,
-                        subtitle: [for (Artist artist in splitDataLists[pageIndex][rowIndex].artists) artist.name].join(', '),
-                        listTileSize: listTileSize,
-                        imgSize: imgSize,
-                        imgUrl: '${splitDataLists[pageIndex][rowIndex].album?.images[0].url}',
-                        showBtmBorder: rowIndex != noOfRowsPerPage-1
-                    )
-                ];
+                List<Widget> currentPageCards = [];
+                for (int rowIndex=0; rowIndex<noOfRowsPerPage; rowIndex++) {
+                  String title = splitDataLists[pageIndex][rowIndex].name;
+                  String subtitle = [for (Artist artist in splitDataLists[pageIndex][rowIndex].artists) artist.name].join(', ');
+                  String imgUrl = splitDataLists[pageIndex][rowIndex].album?.images?.first.url ?? AppConfig.placeholderImgUrl;
+                  currentPageCards.add(ListItem(
+                      title: title,
+                      subtitle: subtitle,
+                      listTileSize: listTileSize,
+                      imgSize: imgSize,
+                      imgUrl: imgUrl,
+                      showBtmBorder: rowIndex != noOfRowsPerPage - 1,
+                      trailingWidget: IconButton(
+                        icon: Icon(Icons.more_vert, color: Theme
+                            .of(context)
+                            .colorScheme
+                            .primary,),
+                        onPressed: () {
+                          showModalBottomSheet(
+                              context: context,
+                              isScrollControlled: true,
+                              isDismissible: true,
+                              builder: (context) {
+                                return BottomSheetLayout(
+                                    title: title,
+                                    subtitle: subtitle,
+                                    imgUrl: imgUrl,
+                                    type: 'song'
+                                );
+                              });
+                        },
+                      )
+                  ));
+                }
+
                 return Column(mainAxisAlignment: MainAxisAlignment.center,children: currentPageCards,);
               }),
         )
