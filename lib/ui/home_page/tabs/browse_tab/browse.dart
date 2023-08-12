@@ -4,6 +4,7 @@ import 'package:apple_music_clone/model/category.dart';
 import 'package:apple_music_clone/model/playlist.dart';
 import 'package:apple_music_clone/model/track.dart';
 import 'package:apple_music_clone/ui/home_page/details_pages/details_pages_args.dart';
+import 'package:apple_music_clone/ui/home_page/expanded_pages/expanded_pages_args.dart';
 import 'package:apple_music_clone/ui/home_page/tabs/browse_tab/bloc/browse_bloc.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/circular_carousel.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/list_carousel.dart';
@@ -223,10 +224,10 @@ class _BrowseTabState extends State<BrowseTab> with AutomaticKeepAliveClientMixi
         shrinkWrap: true,
         physics: const ClampingScrollPhysics(),
         children: [
-            const TextListItem(
+            TextListItem(
               title: 'Browse by Category',
               detailsPageRoute: AppRoutes.categoriesExpandedPage,
-              detailsPageArgs: null,
+              detailsPageArgs: CategoriesExpandedArguments(categories, categoriesPlaylists),
             ),
             ...[
               for (int i = 0; i < topCategories.length; i++)
