@@ -301,7 +301,7 @@ class SearchBarDelegate extends SearchDelegate<String> {
   }
 
   Widget _singleArtist(BuildContext context, Artist artistData){
-    return InkWell(
+    return ListTile(
       onTap: () =>
           SharedPreferences.getInstance().then((value) {
             String historyToBeAdded = 'artist;;;${jsonEncode(artistData)}';
@@ -318,33 +318,31 @@ class SearchBarDelegate extends SearchDelegate<String> {
               )),
             );
           }),
-      child: ListTile(
-        leading: CircleAvatar(
-          radius: 20,
-          child: ClipOval(
-            child: CachedNetworkImage(
-              fit: BoxFit.cover,
-              imageUrl: artistData.images.isNotEmpty ? artistData.images[0].url : '',
-              errorWidget: (context, url, error) => CachedNetworkImage(imageUrl: AppConfig.placeholderImgUrl),
-            ),
+      leading: CircleAvatar(
+        radius: 20,
+        child: ClipOval(
+          child: CachedNetworkImage(
+            fit: BoxFit.cover,
+            imageUrl: artistData.images.isNotEmpty ? artistData.images[0].url : '',
+            errorWidget: (context, url, error) => CachedNetworkImage(imageUrl: AppConfig.placeholderImgUrl),
           ),
         ),
-        title: Text(
-          artistData.name,
-          overflow: TextOverflow.ellipsis,
-          style: const TextStyle(fontSize: AppConfig.mediumText),
-        ),
-        subtitle: Text(
-         artistData.type,
-          overflow: TextOverflow.ellipsis,
-          style: TextStyle(fontSize: AppConfig.smallText, color: Theme.of(context).colorScheme.secondary),
-        )
       ),
+      title: Text(
+        artistData.name,
+        overflow: TextOverflow.ellipsis,
+        style: const TextStyle(fontSize: AppConfig.mediumText),
+      ),
+      subtitle: Text(
+       artistData.type,
+        overflow: TextOverflow.ellipsis,
+        style: TextStyle(fontSize: AppConfig.smallText, color: Theme.of(context).colorScheme.secondary),
+      )
     );
   }
 
   Widget _singlePlaylist(BuildContext context, Playlist playlistData){
-    return InkWell(
+    return ListTile(
       onTap: () =>
           SharedPreferences.getInstance().then((value) {
             String historyToBeAdded = 'playlist;;;${jsonEncode(playlistData)}';
@@ -357,69 +355,65 @@ class SearchBarDelegate extends SearchDelegate<String> {
               context,
               MaterialPageRoute(builder: (context) =>
                   BlocProvider<PlaylistBloc>(
-                    create: (context) => PlaylistBloc(),
-                    child: PlaylistDetails(playlistId: playlistData.id)
+                      create: (context) => PlaylistBloc(),
+                      child: PlaylistDetails(playlistId: playlistData.id)
                   )
               ),
             );
           }),
-      child: ListTile(
-        leading: CachedNetworkImage(
-          imageUrl: playlistData.images.first.url,
-          width: 40,
-          errorWidget: (context, url, error) =>
-          CachedNetworkImage(imageUrl: AppConfig.placeholderImgUrl),
-        ),
-        title: Text(
-          playlistData.name,
-          overflow: TextOverflow.ellipsis,
-          style: const TextStyle(fontSize: AppConfig.mediumText),
-        ),
-        subtitle: Text(
-          '${playlistData.type} . ${playlistData.tracks.length} tracks',
-          overflow: TextOverflow.ellipsis,
-          style: TextStyle(fontSize: AppConfig.smallText, color: Theme.of(context).colorScheme.secondary),
-        )
+      leading: CachedNetworkImage(
+        imageUrl: playlistData.images.first.url,
+        width: 40,
+        errorWidget: (context, url, error) =>
+        CachedNetworkImage(imageUrl: AppConfig.placeholderImgUrl),
       ),
+      title: Text(
+        playlistData.name,
+        overflow: TextOverflow.ellipsis,
+        style: const TextStyle(fontSize: AppConfig.mediumText),
+      ),
+      subtitle: Text(
+        '${playlistData.type} . ${playlistData.tracks.length} tracks',
+        overflow: TextOverflow.ellipsis,
+        style: TextStyle(fontSize: AppConfig.smallText, color: Theme.of(context).colorScheme.secondary),
+      )
     );
   }
 
   Widget _singleAlbum(BuildContext context, Album albumData){
-    return InkWell(
-      onTap: () => SharedPreferences.getInstance().then((value) {
-        String historyToBeAdded = 'album;;;${jsonEncode(albumData)}';
-        if (searchHistories.contains(historyToBeAdded)){
-          searchHistories.remove(historyToBeAdded);
-        }
-        searchHistories.add(historyToBeAdded);
-        value.setStringList('searchHistories', searchHistories);
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => BlocProvider<AlbumBloc>(
-                  create: (context) => AlbumBloc(),
-                  child: AlbumDetails(
-                    albumId: albumData.id,
-              ))),
-        );
-      }),
-      child: ListTile(
-          leading: CachedNetworkImage(
-            imageUrl: albumData.images.first.url,
-            width: 40,
-            errorWidget: (context, url, error) => CachedNetworkImage(imageUrl: AppConfig.placeholderImgUrl),
-          ),
-          title: Text(
-            albumData.name,
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(fontSize: AppConfig.mediumText),
-          ),
-          subtitle: Text(
-            '${albumData.type} . ${[for (Artist a in albumData.artists) a.name].join(',')}',
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(fontSize: AppConfig.smallText, color: Theme.of(context).colorScheme.secondary),
-          )
-      ),
+    return ListTile(
+        onTap: () => SharedPreferences.getInstance().then((value) {
+          String historyToBeAdded = 'album;;;${jsonEncode(albumData)}';
+          if (searchHistories.contains(historyToBeAdded)){
+            searchHistories.remove(historyToBeAdded);
+          }
+          searchHistories.add(historyToBeAdded);
+          value.setStringList('searchHistories', searchHistories);
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => BlocProvider<AlbumBloc>(
+                    create: (context) => AlbumBloc(),
+                    child: AlbumDetails(
+                      albumId: albumData.id,
+                    ))),
+          );
+        }),
+        leading: CachedNetworkImage(
+          imageUrl: albumData.images.first.url,
+          width: 40,
+          errorWidget: (context, url, error) => CachedNetworkImage(imageUrl: AppConfig.placeholderImgUrl),
+        ),
+        title: Text(
+          albumData.name,
+          overflow: TextOverflow.ellipsis,
+          style: const TextStyle(fontSize: AppConfig.mediumText),
+        ),
+        subtitle: Text(
+          '${albumData.type} . ${[for (Artist a in albumData.artists) a.name].join(',')}',
+          overflow: TextOverflow.ellipsis,
+          style: TextStyle(fontSize: AppConfig.smallText, color: Theme.of(context).colorScheme.secondary),
+        )
     );
   }
 
