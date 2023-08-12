@@ -6,4 +6,6 @@ Jayson's Apple Music Clone with Spotify data
 [Apple Music Clone.apk (Google Drive link)](https://drive.google.com/file/d/1KyPJb5w0ziNdex-MG_JzUhuMXN-SHpxW/view?usp=sharing)
 
 ## Quick Overview
-![](https://github.com/Jayson1999/apple_music_clone/blob/readme_update/overview.gif)
+<div style="width: 60%; height: 60%">
+  ![](https://github.com/Jayson1999/apple_music_clone/blob/readme_update/overview.gif)
+</div>
