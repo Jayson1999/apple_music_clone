@@ -207,9 +207,18 @@ class _AlbumDetailsState extends State<AlbumDetails> {
               trailingWidget: IconButton(
                 icon: Icon(Icons.more_vert, color: Theme.of(context).colorScheme.primary,),
                 onPressed: (){
-                  showBottomSheet(context: context, builder: (context){
-                    return BottomSheetLayout(title: title, subtitle: subtitle, imgUrl: imgUrl, type: 'song');
-                  });
+                  showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      isDismissible: true,
+                      builder: (context){
+                        return BottomSheetLayout(
+                            title: title,
+                            subtitle: subtitle,
+                            imgUrl: imgUrl,
+                            type: 'song'
+                        );
+                      });
                 },
               )
           );

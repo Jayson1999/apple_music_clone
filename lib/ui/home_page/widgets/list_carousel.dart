@@ -57,10 +57,7 @@ class ListCarousel extends StatelessWidget {
                       imgUrl: imgUrl,
                       showBtmBorder: rowIndex != noOfRowsPerPage - 1,
                       trailingWidget: IconButton(
-                        icon: Icon(Icons.more_vert, color: Theme
-                            .of(context)
-                            .colorScheme
-                            .primary,),
+                        icon: Icon(Icons.more_vert, color: Theme.of(context).colorScheme.primary,),
                         onPressed: () {
                           showModalBottomSheet(
                               context: context,
