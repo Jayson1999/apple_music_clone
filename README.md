@@ -7,7 +7,7 @@ Jayson's Apple Music Clone with Spotify data
 
 ## Quick Overview
 <p float="left">
-  <img src="https://github.com/Jayson1999/apple_music_clone/blob/readme_update/overview.gif" width="50%" height="50%">
-  <img src="https://github.com/Jayson1999/apple_music_clone/blob/readme_update/theme_resize.gif" width="50%" height="50%">
+  <img src="https://github.com/Jayson1999/apple_music_clone/blob/readme_update/overview.gif" width="50%" height="50%" />
+  <img src="https://github.com/Jayson1999/apple_music_clone/blob/readme_update/theme_resize.gif" width="50%" height="50%" />
 </p>
 
