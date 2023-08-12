@@ -40,7 +40,7 @@ class ArtistsExpandedPage extends StatelessWidget {
       itemCount: dataList.length,
       itemBuilder: (context, index) {
         String title = dataList[index].name;
-        String url = dataList[index].images.first.url;
+        String url = dataList[index].images.isNotEmpty? dataList[index].images.first.url: AppConfig.placeholderImgUrl;
         var detailsPage = BlocProvider<ArtistBloc>(
             create: (context) => ArtistBloc(),
             child: ArtistDetailsPage(artist: dataList[index])
