@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.jaysons.apple_music_clone">
    <application
-        android:label="apple_music_clone"
+        android:label="Apple Music Clone"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
