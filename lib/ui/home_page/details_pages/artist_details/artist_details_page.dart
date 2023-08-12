@@ -2,6 +2,7 @@ import 'package:apple_music_clone/model/album.dart';
 import 'package:apple_music_clone/model/artist.dart';
 import 'package:apple_music_clone/model/track.dart';
 import 'package:apple_music_clone/ui/home_page/details_pages/artist_details/bloc/artist_bloc.dart';
+import 'package:apple_music_clone/ui/home_page/widgets/bottom_sheet.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/circular_carousel.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/list_carousel.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/standard_carousel.dart';
@@ -71,15 +72,22 @@ class _ArtistDetailsPageState extends State<ArtistDetailsPage> {
                       },
                     ),
                     actions: [
-                      PopupMenuButton<String>(
-                          icon: const Icon(Icons.more_vert),
-                          onSelected: (value) => Navigator.pushNamed(context, '/$value'),
-                          itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-                            const PopupMenuItem<String>(
-                              value: 'settings',
-                              child: Text('Settings'),
-                            ),
-                          ]
+                      IconButton(
+                        icon: const Icon(Icons.more_vert),
+                        onPressed: (){
+                          showModalBottomSheet(
+                              context: context,
+                              isScrollControlled: true,
+                              isDismissible: true,
+                              builder: (context){
+                                return BottomSheetLayout(
+                                    title: widget.artist.name,
+                                    subtitle: widget.artist.genres.join(','),
+                                    imgUrl: widget.artist.images.first.url,
+                                    type: widget.artist.type
+                                );
+                              });
+                        },
                       )
                     ],
                   ),

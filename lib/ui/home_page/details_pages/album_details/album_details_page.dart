@@ -1,6 +1,7 @@
 import 'package:apple_music_clone/model/album.dart';
 import 'package:apple_music_clone/model/artist.dart';
 import 'package:apple_music_clone/ui/home_page/details_pages/album_details/bloc/album_bloc.dart';
+import 'package:apple_music_clone/ui/home_page/widgets/bottom_sheet.dart';
 import 'package:apple_music_clone/ui/home_page/widgets/list_item.dart';
 import 'package:apple_music_clone/utils/config.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -64,15 +65,23 @@ class _AlbumDetailsState extends State<AlbumDetails> {
                       },
                     ),
                     actions: [
-                      PopupMenuButton<String>(
-                          icon: const Icon(Icons.more_vert),
-                          onSelected: (value) => Navigator.pushNamed(context, '/$value'),
-                          itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-                            const PopupMenuItem<String>(
-                              value: 'settings',
-                              child: Text('Settings'),
-                            ),
-                          ]
+                      IconButton(
+                        icon: const Icon(Icons.more_vert),
+                        onPressed: (){
+                          showModalBottomSheet(
+                              context: context,
+                              isScrollControlled: true,
+                              isDismissible: true,
+                              builder: (context){
+                            return BottomSheetLayout(
+                                title: state.albumDetails?.name ??
+                                    'albumDetails is null',
+                                subtitle: state.albumDetails?.releaseDate ?? '',
+                                imgUrl: state.albumDetails?.images.first.url ?? AppConfig.placeholderImgUrl,
+                                type: 'album'
+                            );
+                          });
+                        },
                       )
                     ],
                   ),
@@ -175,24 +184,24 @@ class _AlbumDetailsState extends State<AlbumDetails> {
               subtitle: const Text('currentItem is null'),
             );
           }
+          String title = currentItem.name;
+          String subtitle = '${currentItem.type} . ${[for (Artist a in currentItem.artists) a.name].join(',')}';
+          String imgUrl = currentItem.album?.images.first.url ?? AppConfig.placeholderImgUrl;
           return ListItem(
-              title: currentItem.name,
-              subtitle: '${currentItem.type} . ${[for (Artist a in currentItem.artists) a.name].join(',')}',
+              title: title,
+              subtitle: subtitle,
               listTileSize: MediaQuery.of(context).size.height * 0.1,
               imgSize: 40,
-              imgUrl: currentItem.album?.images.first.url ?? '',
+              imgUrl: imgUrl,
               showBtmBorder: false,
-              trailingWidget: PopupMenuButton<String>(
-                  icon: Icon(Icons.more_vert, color: Theme.of(context).colorScheme.primary,),
-                  onSelected: (value) => print('hello'),
-                  itemBuilder: (BuildContext context) =>
-                  <PopupMenuEntry<String>>[
-                    const PopupMenuItem<String>(
-                      value: 'settings',
-                      child: Text('Settings'),
-                    ),
-                  ]
-              ),
+              trailingWidget: IconButton(
+                icon: const Icon(Icons.more_vert),
+                onPressed: (){
+                  showBottomSheet(context: context, builder: (context){
+                    return BottomSheetLayout(title: title, subtitle: subtitle, imgUrl: imgUrl, type: 'song');
+                  });
+                },
+              )
           );
         }
     );

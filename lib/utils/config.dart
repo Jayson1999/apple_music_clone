@@ -20,6 +20,14 @@ class AppConfig{
           primary: Colors.red,
           secondary: Colors.grey,
         ),
+        iconTheme: const IconThemeData(
+          color: Colors.red
+        ),
+        iconButtonTheme: IconButtonThemeData(
+          style: IconButton.styleFrom(
+            foregroundColor: Colors.red
+          )
+        ),
         appBarTheme: const AppBarTheme(
             backgroundColor: Colors.white,
             foregroundColor: Colors.black,
@@ -51,6 +59,14 @@ class AppConfig{
           colorScheme: const ColorScheme.dark().copyWith(
             primary: Colors.red,
             secondary: Colors.grey,
+          ),
+          iconTheme: const IconThemeData(
+              color: Colors.red
+          ),
+          iconButtonTheme: IconButtonThemeData(
+              style: IconButton.styleFrom(
+                  foregroundColor: Colors.red
+              )
           ),
         appBarTheme: const AppBarTheme(
           backgroundColor: Colors.black,
